@@ -308,7 +308,7 @@ const PaymentScreen = ({ navigation, route }) => {
                 <View style={styles.cardBody}>
                     <View style={styles.cardRow} >
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }} >
-                            <Image source={require('../../assests/extras/arafahlogo.png')} style={{ height: 20, width: 20 }} />
+                            <Image source={require('../../assests/extras/ala_logo.png')} style={{ height: 20, width: 20 }} />
                             <Text style={{ fontSize: 12, left: 20 }} >{companyName}   <FontAwesome name="rupee" size={12} color="black" style={{ marginLeft: 10 }} />  {userData.walletBalance} </Text>
                         </View>
                         <EvilIcons name="chevron-right" size={25} />

@@ -5,6 +5,8 @@ import { COLORS, SIZES } from '../../constants'
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -182,7 +184,8 @@ function TeamBusinessScreen({ navigation, route }) {
                             <Text style={{ flex: 1, alignSelf: 'flex-start' }} >Name</Text>
                             <Text style={{ flex: 1, alignSelf: 'flex-start' }} >Level</Text>
                             <Text style={{ flex: 1, alignSelf: 'flex-start' }} >A Team</Text>
-                            <Text style={{ flex: 1, alignSelf: 'flex-start' }} >B Team</Text>
+                            <MaterialCommunityIcons name="beta" size={20} />
+                            {/* <Text style={{ flex: 1, alignSelf: 'flex-start' }} >B Team</Text> */}
                         </View>
                         {tableData.length !== 0 ?
                             tableData.map((item, index) => 

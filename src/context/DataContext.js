@@ -42,11 +42,12 @@ export const AuthContext = ({children, navigation}) => {
     PaymentInfoLog: 'PaymentInfoLog',
   };
 
-  const [companyName, setCompanyName] = useState('Apex Market');
+  const [companyName, setCompanyName] = useState('Ala Market');
   const [isNetworkAvailable, setIsNetworkAvailable] = useState(false);
   const [productStatus, setProductStatus] = useState(null);
   const [user, setUser] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  console.log(cartItems);
   const [refresh, setRefresh] = useState(false);
   const [Err, setErr] = useState('');
   // test
@@ -56,24 +57,24 @@ export const AuthContext = ({children, navigation}) => {
   // live
   // const [TokenIDN, setTokenIDN] = useState("DljMjJcWhXHMgGdTJqKDqcUE5yyBFvJwVGeKTfc2FmfjRCCH5hd36LnlPQ3g5kkx");
 
-//   useEffect(() => {
-//     const unsubscribe = NetInfo.addEventListener(state => {
-//       if (state.isConnected && state.isInternetReachable) {
-//         if (state.isConnected) {
-//           console.log('connected');
-//           //   setIsNetworkConnected(state.isConnected);
-//         }
-//       } else {
-//         console.log('not connected');
-//         // setIsNetworkConnected(false);
-//       }
-//     });
-//     // if (isNetworkConnected) {
-//     // } else {
-//     //   unsubscribe();
-//     // }
-//     unsubscribe();
-//   });
+  //   useEffect(() => {
+  //     const unsubscribe = NetInfo.addEventListener(state => {
+  //       if (state.isConnected && state.isInternetReachable) {
+  //         if (state.isConnected) {
+  //           console.log('connected');
+  //           //   setIsNetworkConnected(state.isConnected);
+  //         }
+  //       } else {
+  //         console.log('not connected');
+  //         // setIsNetworkConnected(false);
+  //       }
+  //     });
+  //     // if (isNetworkConnected) {
+  //     // } else {
+  //     //   unsubscribe();
+  //     // }
+  //     unsubscribe();
+  //   });
 
   const authUser = data => {
     setUser(data);
@@ -177,23 +178,113 @@ export const AuthContext = ({children, navigation}) => {
   };
 
   const addToCart = item => {
-    setCartItems([...cartItems, item]);
+    item = {...item, inCart: item.inCart + 1};
+    if (cartItems.length === 0) {
+      setCartItems([...cartItems, item]);
+    } else {
+      let flag = 0;
+      for (let i = 0; i < cartItems.length; i++) {
+        if (cartItems[i].id === item.id) {
+          flag = 'found';
+          console.log('product already added' + item.id);
+        } else {
+          flag = 'notfound';
+        }
+      
+      }
+      if (flag === 'notfound') {
+        setCartItems([...cartItems, item]);
+      }
+      // cartItems.map(product => {
+      //   if (product.id !== item.id) {
+
+      //     setCartItems([...cartItems, item]);
+      //     console.log(product.id);
+      //   } else {
+      //     console.log('product already added');
+      //   }
+      // });
+      // for (let i = 0; i < cartItems.length; i++) {
+      //   if (cartItems[i].id === item.id) {
+      //     setCartItems([...cartItems, item]);
+      //   } else {
+      //     console.log('item add already');
+      //   }
+      // }
+    }
   };
 
   const increaseProducts = index => {
-    cartItems[index].quantity = cartItems[index].quantity + 1;
+    cartItems[index].inCart = cartItems[index].inCart + 1;
     setRefresh(!refresh);
   };
   const decreaseProducts = index => {
     if (cartItems[index].quantity == 0) {
     }
-    cartItems[index].quantity = cartItems[index].quantity - 1;
+    cartItems[index].inCart = cartItems[index].inCart - 1;
     setRefresh(!refresh);
   };
   const removeProduct = index => {
     cartItems.splice(index, 1);
     setRefresh(!refresh);
   };
+
+  const [products, setProducts] = useState([
+    {
+      id: 12345,
+      title: 'Alpite',
+      productBy: 'Ala Market',
+      description:
+        'Useful to stimulate pancreas, to generate amount of insulting ...',
+      bv: 1,
+      drc: 10,
+      mrp: 200,
+      img: require('../../assests/images/apex/HEALTH/alpiste.png'),
+      weight: '200g',
+      inCart: 0,
+    },
+    {
+      id: 12346,
+      title: 'Herbo Flax',
+      productBy: 'Amazon',
+      description:
+        'Useful to stimulate pancreas, to generate amount of insulting ...',
+      bv: 1,
+      drc: 20,
+      mrp: 200,
+      img: require('../../assests/images/apex/HEALTH/herboflax.png'),
+      weight: '200g',
+      inCart: 0,
+    },
+    {
+      id: 12347,
+      title: 'Kickbags',
+      productBy: 'Amazon',
+      description:
+        'Useful to stimulate pancreas, to generate amount of insulting ...',
+      bv: 1,
+      drc: 30,
+      mrp: 200,
+      img: require('../../assests/images/apex/HEALTH/kickgas.png'),
+      weight: '200g',
+      inCart: 0,
+    },
+    {
+      id: 12348,
+      title: 'Muscle Oil',
+      productBy: 'Amazon',
+      description:
+        'Useful to stimulate pancreas, to generate amount of insulting ...',
+      bv: 1,
+      drc: 20,
+      mrp: 200,
+      img: require('../../assests/images/apex/HEALTH/muscleoil.png'),
+      weight: '200g',
+      inCart: 0,
+    },
+  ]);
+
+  // console.log(cartItems);
 
   return (
     <DataContext.Provider
@@ -222,6 +313,7 @@ export const AuthContext = ({children, navigation}) => {
         addCard,
         userUpis,
         addUpi,
+        products,
       }}>
       {children}
     </DataContext.Provider>

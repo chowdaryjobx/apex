@@ -11,6 +11,7 @@ import {
   FlatList,
   Animated,
   StyleSheet,
+  Share,
 } from 'react-native';
 import {COLORS, SIZES} from '../../constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -20,6 +21,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import LinearGradient from 'react-native-linear-gradient';
 import NetInfo from '@react-native-community/netinfo';
@@ -45,6 +47,8 @@ function HomeScreen({navigation}) {
     companyName,
     url,
     api,
+    products,
+    addToCart,
   } = React.useContext(DataContext);
   const [wallet, setWallet] = useState(null);
   const [business, setBusiness] = useState(null);
@@ -91,56 +95,7 @@ function HomeScreen({navigation}) {
     },
   ]);
 
-  const [latestOffers, setLatestOffers] = useState([
-    {
-      id: 1,
-      title: 'Alpite',
-      productBy: 'Apex Market',
-      description:
-        'Useful to stimulate pancreas, to generate amount of insulting ...',
-      bv: 1,
-      drc: 10,
-      mrp: 200,
-      img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-      weight: '200g',
-    },
-    {
-      id: 2,
-      title: 'Herbo Flax',
-      productBy: 'Amazon',
-      description:
-        'Useful to stimulate pancreas, to generate amount of insulting ...',
-      bv: 1,
-      drc: 20,
-      mrp: 200,
-      img: require('../../../assests/images/apex/HEALTH/herboflax.png'),
-      weight: '200g',
-    },
-    {
-      id: 3,
-      title: 'Kickbags',
-      productBy: 'Amazon',
-      description:
-        'Useful to stimulate pancreas, to generate amount of insulting ...',
-      bv: 1,
-      drc: 30,
-      mrp: 200,
-      img: require('../../../assests/images/apex/HEALTH/kickgas.png'),
-      weight: '200g',
-    },
-    {
-      id: 4,
-      title: 'Muscle Oil',
-      productBy: 'Amazon',
-      description:
-        'Useful to stimulate pancreas, to generate amount of insulting ...',
-      bv: 1,
-      drc: 20,
-      mrp: 200,
-      img: require('../../../assests/images/apex/HEALTH/muscleoil.png'),
-      weight: '200g',
-    },
-  ]);
+  const [latestOffers, setLatestOffers] = useState(products);
 
   useEffect(() => {
     if (user !== null) {
@@ -218,6 +173,25 @@ function HomeScreen({navigation}) {
   if (isNetworkConnected === false) {
     navigation.navigate('NetworkError');
   }
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: 'https://jobxrobot.com',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   // 1F5DAB
 
   const BackgroundCarousals = props => {
@@ -293,7 +267,7 @@ function HomeScreen({navigation}) {
                 width: 70,
                 backgroundColor: '#fff',
                 borderRadius: 10,
-                marginLeft: 15,
+                marginLeft: 0,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
@@ -361,7 +335,7 @@ function HomeScreen({navigation}) {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text style={{fontSize: 30, color: '#000'}}>A</Text>
+                  <MaterialCommunityIcons name="alpha" size={40} color="#000" />
                 </View>
                 <View style={{width: '60%', height: '100%'}}>
                   <View style={{flex: 1, marginRight: 5}}>
@@ -372,12 +346,12 @@ function HomeScreen({navigation}) {
                         justifyContent: 'flex-end',
                       }}>
                       <Text style={{fontSize: 12}}>
-                        {business ? business.ATeamCount : null}
+                        {business ? business.ATeamCount : null}F
                       </Text>
                     </View>
                     <View style={{flex: 1}}>
                       <Text style={{fontSize: 12}}>
-                        {business ? business.ATeamBusiness : null} BV
+                        {business ? business.ATeamBusiness : null} SC
                       </Text>
                     </View>
                   </View>
@@ -403,7 +377,7 @@ function HomeScreen({navigation}) {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text style={{fontSize: 30, color: '#000'}}>B</Text>
+                  <MaterialCommunityIcons name="beta" size={40} color="#000" />
                 </View>
                 <View style={{width: '60%', height: '100%'}}>
                   <View style={{flex: 1, marginRight: 5}}>
@@ -421,7 +395,7 @@ function HomeScreen({navigation}) {
                     <View style={{flex: 1}}>
                       <Text style={{fontSize: 12}}>
                         {' '}
-                        {business ? business.ATeamBusiness : null} BV
+                        {business ? business.ATeamBusiness : null} SC
                       </Text>
                     </View>
                   </View>
@@ -438,17 +412,22 @@ function HomeScreen({navigation}) {
                 width: 70,
                 backgroundColor: '#fff',
                 borderRadius: 10,
-                marginLeft: 15,
+                // marginLeft: 15,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Image
-                style={{height: '80%', width: '80%'}}
-                resizeMode="stretch"
-                source={require('../../assests/tabscreenimages/withdraw.png')}
-              />
+              <FontAwesome5 name="hand-holding-usd" size={30} color="#000" />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome name="rupee" size={12} />
+                <Text> {wallet ? wallet.MyBank : null}</Text>
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 alert('Coordinate');
               }}
@@ -469,7 +448,7 @@ function HomeScreen({navigation}) {
                 resizeMode="stretch"
                 source={require('../../assests/tabscreenimages/bulb.png')}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </ScrollView>
         </View>
         <View
@@ -482,6 +461,8 @@ function HomeScreen({navigation}) {
             backgroundColor: '#fff',
             opacity: 0.9,
             alignSelf: 'flex-end',
+            // marginLeft: 15,
+            marginRight: 100,
           }}>
           <TouchableOpacity
             onPress={() => {
@@ -497,7 +478,6 @@ function HomeScreen({navigation}) {
   };
 
   function onchange(nativeEvent) {
-    console.log(nativeEvent);
     if (nativeEvent) {
       const slide = Math.ceil(
         nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
@@ -537,7 +517,7 @@ function HomeScreen({navigation}) {
                 ? navigation.navigate('Profile')
                 : navigation.navigate('MenuScreen');
             }}>
-            <MaterialCommunityIcons name="menu" size={30} color="#000" />
+            <MaterialCommunityIcons name="menu" size={30} color="#fff" />
           </TouchableOpacity>
 
           <View
@@ -635,117 +615,121 @@ function HomeScreen({navigation}) {
           <Ionicons name="search" size={20} />
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          justifyContent: 'center',
-          // alignItems: 'center',
-          // elevation: 10,
-          height: '10%',
-          width: '100%',
-          backgroundColor: '#fff',
-          borderBottomWidth: 1,
-          borderColor: '#ccc',
-          paddingLeft: 0,
-        }}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            justifyContent: 'center',
-          }}>
-          {categories.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => {
-                  navigation.navigate('Product', {type: 'health'});
-                }}
-                style={{
-                  width: 70,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginLeft: 10,
-                }}>
-                <View
-                  style={{
-                    height: 40,
-                    width: 40,
-                    borderRadius: 20,
-                    backgroundColor: '#fff',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    // borderWidth: 1,
-                    borderColor: '#ccc',
-                    backgroundColor: '#35CBC4',
-                  }}>
-                  <MaterialCommunityIcons
-                    name="tshirt-v"
-                    size={25}
-                    color="#fff"
-                  />
-                </View>
-                <Text style={{fontSize: 12, color: '#000'}}>{item.name}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
+
       {/*================End Of Header  ================= */}
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ScrollView
-          onScroll={({nativeEvent}) => onchange(nativeEvent)}
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          pagingEnabled
-          contentContainerStyle={{
-            height: 300,
-            // width: '100%',
+        <View
+          style={{
+            justifyContent: 'center',
+            height: '5%',
+            width: '100%',
             backgroundColor: '#fff',
-            alignItems: 'center',
+            borderBottomWidth: 1,
+            borderColor: '#ccc',
+            paddingLeft: 0,
           }}>
-          {latestOffers.map((item, index) => {
-            return (
-              <View
-                key={index}
-                style={{
-                  // left: 10,
-                  height: '90%',
-                  width: WIDTH,
-                  backgroundColor: 'blue',
-                  // padding: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={require('../../assests/banners/banner_background.jpg')}
-                  style={{height: '100%', width: '100%'}}
-                />
-                <View
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              justifyContent: 'center',
+            }}>
+            {categories.map((item, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => {
+                    navigation.navigate('Product', {type: 'health'});
+                  }}
                   style={{
-                    height: '90%',
-                    width: '95%',
-                    padding: 10,
-                    borderRadius: 10,
-                    // paddingVertical:10,
-                    // paddingHorizontal:10,
-                    backgroundColor: '#fff',
-
-                    position: 'absolute',
+                    width: 70,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 10,
                   }}>
                   <View
                     style={{
-                      height: '10%',
-                      width: '100%',
-                      justifyContent: 'flex-end',
-                      flexDirection: 'row',
+                      height: 40,
+                      width: 40,
+                      borderRadius: 20,
+                      backgroundColor: '#fff',
+                      justifyContent: 'center',
                       alignItems: 'center',
+                      // borderWidth: 1,
+                      borderColor: '#ccc',
+                      backgroundColor: '#35CBC4',
                     }}>
-                    <View style={{}}>
-                      {/* <Text
-                        style={{fontSize: 11, fontFamily: 'Poppins-Medium'}}>
-                        Sponsored by
-                      </Text> */}
+                    <MaterialCommunityIcons
+                      name="tshirt-v"
+                      size={25}
+                      color="#fff"
+                    />
+                  </View>
+                  <Text style={{fontSize: 12, color: '#000'}}>{item.name}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
+        <View style={{height: 300, width: '100%'}}>
+          <ScrollView
+            onScroll={({nativeEvent}) => onchange(nativeEvent)}
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            pagingEnabled
+            contentContainerStyle={{
+              height: 300,
+              backgroundColor: '#fff',
+              alignItems: 'center',
+            }}>
+            {latestOffers.map((item, index) => {
+              return (
+                <View
+                  key={index}
+                  style={{
+                    // left: 10,
+                    height: '90%',
+                    width: WIDTH,
+                    backgroundColor: 'blue',
+                    // padding: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    source={require('../../assests/banners/banner_background.jpg')}
+                    style={{height: '100%', width: '100%'}}
+                  />
+                  <View
+                    style={{
+                      height: '90%',
+                      width: '95%',
+                      padding: 10,
+                      borderRadius: 10,
+                      // paddingVertical:10,
+                      // paddingHorizontal:10,
+                      backgroundColor: '#fff',
+
+                      position: 'absolute',
+                    }}>
+                    <View
+                      style={{
+                        height: '10%',
+                        width: '100%',
+                        justifyContent: 'space-between',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily: 'Poppins-SemiBold',
+                          color: '#000',
+                          fontSize: 16,
+                          top: -5,
+                        }}>
+                        Latest Product
+                      </Text>
+
                       <Text
                         style={{
                           fontSize: 14,
@@ -755,178 +739,187 @@ function HomeScreen({navigation}) {
                         {item.productBy}
                       </Text>
                     </View>
-                  </View>
-                  <View
-                    style={{
-                      height: '70%',
-                      width: '100%',
-                      flexDirection: 'row',
-                    }}>
                     <View
                       style={{
-                        height: '100%',
-                        width: '30%',
-                        // backgroundColor: 'green',
-                        // justifyContent: 'center',
-                        // alignItems: 'center',
+                        height: '70%',
+                        width: '100%',
+                        flexDirection: 'row',
                       }}>
-                      <Image
-                        resizeMode="cover"
-                        source={item.img}
-                        style={{height: '100%', width: '90%'}}
-                      />
-                    </View>
-                    <View
-                      style={{
-                        height: '100%',
-                        width: '70%',
-                        // backgroundColor: 'yellow',
-                      }}>
-                      <Text
+                      <View
                         style={{
-                          fontSize: 18,
-                          fontFamily: 'Poppins-SemiBold',
-                          top: 5,
-                          color: '#4e4e4e',
+                          height: '100%',
+                          width: '30%',
+                          // backgroundColor: 'green',
+                          // justifyContent: 'center',
+                          // alignItems: 'center',
                         }}>
-                        {item.title}
-                      </Text>
-                      <Text
+                        <Image
+                          resizeMode="cover"
+                          source={item.img}
+                          style={{height: '100%', width: '100%'}}
+                        />
+                      </View>
+                      <View
                         style={{
-                          fontFamily: 'Poppins-Medium',
-                          top: 10,
-                          fontSize: 13,
+                          height: '100%',
+                          width: '70%',
+                          // backgroundColor: 'yellow',
                         }}>
-                        {item.description}
-                      </Text>
-                      <View style={{flexDirection: 'row', top: 20}}>
-                        <View style={{}}>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              // justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text
-                              style={{
-                                fontFamily: 'Poppins-Medium',
-                                fontSize: 18,
-                              }}>
-                              DRC :
-                            </Text>
-                            <FontAwesome
-                              name="rupee"
-                              size={18}
-                              style={{left: 5}}
-                              color="#000"
-                            />
-                            <Text
-                              style={{
-                                fontSize: 18,
-                                left: 10,
-                                fontFamily: 'Poppins-Medium',
-                                color: '#000',
-                              }}>
-                              {item.drc}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
+                        <Text
                           style={{
-                            left: 40,
-                            flexDirection: 'row',
-                            alignItems: 'center',
+                            fontSize: 18,
+                            fontFamily: 'Poppins-SemiBold',
+                            top: 5,
+                            color: '#4e4e4e',
                           }}>
-                          <Text
-                            style={{
-                              fontFamily: 'Poppins-Medium',
-                              fontSize: 18,
-                            }}>
-                            M.R.P :
-                          </Text>
+                          {item.title}
+                        </Text>
+                        <Text
+                          style={{
+                            fontFamily: 'Poppins-Medium',
+                            top: 10,
+                            fontSize: 13,
+                          }}>
+                          {item.description}
+                        </Text>
+                        <View style={{flexDirection: 'row', top: 20}}>
+                          <View style={{}}>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                // justifyContent: 'center',
+                                alignItems: 'center',
+                              }}>
+                              <Text
+                                style={{
+                                  fontFamily: 'Poppins-Medium',
+                                  fontSize: 18,
+                                }}>
+                                DRC :
+                              </Text>
+                              <FontAwesome
+                                name="rupee"
+                                size={18}
+                                style={{left: 5}}
+                                color="#000"
+                              />
+                              <Text
+                                style={{
+                                  fontSize: 18,
+                                  left: 10,
+                                  fontFamily: 'Poppins-Medium',
+                                  color: '#000',
+                                }}>
+                                {item.drc}
+                              </Text>
+                            </View>
+                          </View>
                           <View
                             style={{
+                              left: 40,
                               flexDirection: 'row',
-                              // justifyContent: 'center',
                               alignItems: 'center',
                             }}>
-                            <FontAwesome
-                              name="rupee"
-                              size={18}
-                              style={{left: 5}}
-                              color="#000"
-                            />
                             <Text
                               style={{
-                                fontSize: 18,
-                                left: 10,
                                 fontFamily: 'Poppins-Medium',
-                                color: '#000',
+                                fontSize: 18,
                               }}>
-                              {item.mrp}
+                              M.R.P :
                             </Text>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                // justifyContent: 'center',
+                                alignItems: 'center',
+                              }}>
+                              <FontAwesome
+                                name="rupee"
+                                size={18}
+                                style={{left: 5}}
+                                color="#000"
+                              />
+                              <Text
+                                style={{
+                                  fontSize: 18,
+                                  left: 10,
+                                  fontFamily: 'Poppins-Medium',
+                                  color: '#000',
+                                }}>
+                                {item.mrp}
+                              </Text>
+                            </View>
                           </View>
                         </View>
                       </View>
                     </View>
-                  </View>
-                  <View
-                    style={{
-                      height: '20%',
-                      width: '100%',
-                      flexDirection: 'row',
-                      // backgroundColor: 'blue',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        navigation.navigate('ProductDescription', {
-                          img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-                        });
-                      }}
+                    <View
                       style={{
-                        paddingHorizontal: 30,
-                        borderWidth: 1,
-                        paddingVertical: 5,
-                        borderColor: '#35CBC4',
-                        borderRadius: 5,
-                        backgroundColor: '#35CBC4',
+                        height: '20%',
+                        width: '100%',
+                        flexDirection: 'row',
+                        // backgroundColor: 'blue',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
                       }}>
-                      <Text style={{color: '#fff'}}>View</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={{
-                        paddingHorizontal: 20,
-                        borderWidth: 1,
-                        paddingVertical: 5,
-                        borderColor: '#35CBC4',
-                        borderRadius: 5,
-                        backgroundColor: '#35CBC4',
-                      }}>
-                      <Text style={{color: '#fff'}}>Add to Cart</Text>
-                    </TouchableOpacity>
-                    <MaterialIcons
-                      size={30}
-                      name="favorite-border"
-                      onPress={() => {
-                        alert('adding into favourite');
-                      }}
-                    />
-                    <AntDesign
-                      size={30}
-                      name="sharealt"
-                      onPress={() => {
-                        alert('sharing');
-                      }}
-                    />
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate('ProductDescription', {
+                            img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
+                          });
+                        }}
+                        style={{
+                          paddingHorizontal: 30,
+                          borderWidth: 1,
+                          paddingVertical: 5,
+                          borderColor: '#35CBC4',
+                          borderRadius: 5,
+                          backgroundColor: '#35CBC4',
+                        }}>
+                        <Text style={{color: '#fff'}}>View</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {
+                          addToCart(item);
+                        }}
+                        style={{
+                          paddingHorizontal: 20,
+                          borderWidth: 1,
+                          paddingVertical: 5,
+                          borderColor: '#35CBC4',
+                          borderRadius: 5,
+                          backgroundColor: '#35CBC4',
+                        }}>
+                        <Text style={{color: '#fff'}}>Add to Cart</Text>
+                      </TouchableOpacity>
+                      <MaterialIcons
+                        size={30}
+                        name="favorite-border"
+                        onPress={() => {
+                          alert('adding into favourite');
+                        }}
+                      />
+                      <AntDesign
+                        size={30}
+                        name="sharealt"
+                        onPress={() => {
+                          onShare();
+                        }}
+                      />
+                    </View>
                   </View>
                 </View>
-              </View>
-            );
-          })}
-        </ScrollView>
-        <View style={styles.wrapDot}>
+              );
+            })}
+          </ScrollView>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            backgroundColor: '#fff',
+            bottom: 10,
+            justifyContent: 'center',
+          }}>
           {latestOffers.map((e, index) => {
             return (
               <View
@@ -1314,6 +1307,106 @@ function HomeScreen({navigation}) {
               size={20}
               color="orange"
             /> */}
+          </TouchableOpacity>
+        </View>
+        <View
+          // key={index}
+          style={{
+            // left: 10,
+            height: 200,
+            width: WIDTH,
+            backgroundColor: 'blue',
+            // padding: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            source={require('../../assests/banners/banner_background.jpg')}
+            style={{height: '100%', width: '100%'}}
+          />
+          <View
+            style={{
+              height: '90%',
+              width: '95%',
+              padding: 10,
+              borderRadius: 10,
+              backgroundColor: '#fff',
+              position: 'absolute',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontFamily: 'Poppins-Italic',
+                fontSize: 20,
+              }}>
+              Banner Comes Here
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            marginTop: 5,
+            paddingLeft: 10,
+            backgroundColor: '#fff',
+            borderTopWidth: 1,
+            borderColor: '#ccc',
+          }}>
+          <Text
+            style={{
+              fontFamily: 'Poppins-SemiBold',
+              color: '#000',
+              fontSize: 18,
+            }}>
+            Health
+          </Text>
+          <View style={{height: 220}}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{}}>
+              {latestOffers.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => {
+                      navigation.navigate('ProductDescription', {
+                        img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
+                      });
+                    }}
+                    style={{
+                      padding: 5,
+                      elevation: 0,
+                      margin: 5,
+                      flex: 1,
+                      backgroundColor: 'white',
+                      borderRadius: 15,
+                      // borderWidth: 1,
+                      borderColor: '#e5e5e5',
+                      height: '90%',
+                      width: 150,
+                    }}>
+                    <Image
+                      style={{borderRadius: 5, height: '80%', width: '100%'}}
+                      source={item.img}
+                      resizeMode="contain"
+                    />
+                    <Text style={{fontFamily: 'Poppins-Medium', color: '#000'}}>
+                      {item.title} | {item.productBy} | {item.weight}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+          <TouchableOpacity
+            style={{flexDirection: 'row', alignSelf: 'flex-end', top: -5}}
+            onPress={() => {
+              navigation.navigate('Product', {type: 'health'});
+            }}>
+            <Text style={{fontFamily: 'Poppins-Medium', right: 20}}>
+              More ...
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

@@ -628,7 +628,12 @@ export default function ProductDescription({navigation, route}) {
           </View>
         </View>
 
-        <View style={{flexDirection: 'row', paddingTop: 10}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingTop: 0,
+            backgroundColor: 'blue',
+          }}>
           <View style={{width: '100%'}}>
             <View>
               <View style={styles.wrapDot}>
@@ -650,20 +655,14 @@ export default function ProductDescription({navigation, route}) {
 
         <View
           style={{
+            marginTop: 10,
             width: '100%',
-            paddingVertical: 2,
+            paddingVertical: 0.5,
             backgroundColor: '#ccc',
           }}></View>
         <View style={{paddingBottom: 100}}>
           <View style={{paddingHorizontal: 20}}>
-            <View
-              style={
-                {
-                  // flexDirection: 'row',
-                  // backgroundColor: 'lightblue',
-                  // justifyContent: 'space-between',
-                }
-              }>
+            <View style={{}}>
               <View style={{flexDirection: 'row'}}>
                 <View
                   style={{flexDirection: 'row', alignItems: 'center', top: 10}}>
@@ -677,7 +676,7 @@ export default function ProductDescription({navigation, route}) {
                     color="#000"
                   />
                   <Text
-                    style={{ 
+                    style={{
                       fontFamily: 'Poppins-Medium',
                       fontSize: 18,
                       left: 10,
@@ -887,7 +886,7 @@ export default function ProductDescription({navigation, route}) {
             <View>
               <TouchableOpacity
                 onPressIn={() => {
-                  alert('adding into cart');
+                  navigation.navigate('Cart');
                 }}
                 style={{
                   backgroundColor: '#35CBC4',

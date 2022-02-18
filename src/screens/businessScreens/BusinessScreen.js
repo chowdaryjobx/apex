@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { View, Text, ScrollView, Image, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
 import { COLORS, SIZES } from '../../constants'
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -133,7 +134,8 @@ function BusinessScreen({ navigation }) {
                                 onPress={() => { navigation.navigate('AtAGlance', { type: 'B' }) }}
                                 style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#ccc' }} >
                                 <View style={{ borderRadius: 10, paddingHorizontal: 20, paddingVertical: 15 }} >
-                                    <Text style={{ color: '#7c7c7c' }} >B Team</Text>
+                                    {/* <Text style={{ color: '#7c7c7c' }} >B Team</Text> */}
+                                    <MaterialCommunityIcons name="beta" size={40} color="#000" />
                                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: -5, }} >
                                         <Text style={{ color: 'black', fontSize: 25, fontWeight: 'bold', alignSelf: 'center' }} >{business ? business.BTeamBusiness + '/' + business.BTeamCount : null}</Text>
                                     </View>

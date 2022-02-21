@@ -13,16 +13,21 @@ import {
 } from 'react-native';
 import {COLORS, SIZES} from '../../constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+
 import LinearGradient from 'react-native-linear-gradient';
 import NetInfo from '@react-native-community/netinfo';
 import DataContext from '../../context/DataContext';
 import {Avatar, Badge, Icon, withBadge} from 'react-native-elements';
 import axios from 'axios';
 import Entypo from 'react-native-vector-icons/Entypo';
+
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
+
 function ProductScreen({navigation, route}) {
-  const type = route.params.type;
+  const brand = route.params.brand;
 
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const {width, height} = Dimensions.get('screen');
@@ -35,128 +40,25 @@ function ProductScreen({navigation, route}) {
     companyName,
     api,
     url,
+    brands,
   } = React.useContext(DataContext);
   const [wallet, setWallet] = useState(null);
   const [business, setBusiness] = useState(null);
   const [name, setName] = useState('Products');
-  useEffect(() => {
-    if (type === 'health') {
-      setName('Health');
-    } else if (type === 'fmcg') {
-      setName('FMCG');
-    } else if (type === 'products') {
-      setName('Products');
-    }
-  }, []);
 
-  const healtharray = [
-    {
-      id: 1,
-      image: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-      description:
-        'Useful to stimulate pancreas, to generate amount of insulin',
-    },
-    {
-      id: 2,
-      image: require('../../../assests/images/apex/HEALTH/ashwagandha.png'),
-      description: 'Ashwagandha is a ancient medical herb with multiple herbs',
-    },
-    {
-      id: 3,
-      image: require('../../../assests/images/apex/HEALTH/herboflax.png'),
-      description:
-        'Contains laxative and carminative actions *Helps in the treatment of constipation and indigestion',
-    },
-    {
-      id: 4,
-      image: require('../../../assests/images/apex/HEALTH/kickgas.png'),
-      description: 'Removes all types of piles',
-    },
-    {
-      id: 5,
-      image: require('../../../assests/images/apex/HEALTH/kickpiles.png'),
-      description: 'Removes all types of piles',
-    },
-    {
-      id: 6,
-      image: require('../../../assests/images/apex/HEALTH/morole.png'),
-      description: 'Removes all types of piles',
-    },
-  ];
+  let description =
+    'Contains laxative and carminative actions *Helps in the treatment of constipation and indigestion';
 
-  const fmcgarray = [
-    {
-      id: 1,
-      image: require('../../../assests/images/apex/FMCG/hairoil.png'),
-      description:
-        'HP 15-inch Laptop, 11th Generation Intel Core i5-1135G7, Intel Iris Xe Graphics, 8 GB RAM, 256 GB SSD, Windows 11 Home (15-dy2024nr, Natural silver) 4.5 out of 5 stars 1,858',
-    },
-    {
-      id: 2,
-      image: require('../../../assests/images/apex/FMCG/panchagavya.png'),
-      description:
-        'HP 15-inch Laptop, 11th Generation Intel Core i5-1135G7, Intel Iris Xe Graphics, 8 GB RAM, 256 GB SSD, Windows 11 Home (15-dy2024nr, Natural silver) 4.5 out of 5 stars 1,858',
-    },
-    {
-      id: 3,
-      image: require('../../../assests/images/apex/FMCG/panchagavyapack.png'),
-      description:
-        'Cleanse, Moisturize and soothe your skin with all natural handmad soap',
-    },
-    {
-      id: 4,
-      image: require('../../../assests/images/apex/FMCG/teapowder.png'),
-      description:
-        'Tea has a stimula sting effect in humans primarly due to its caffeine content',
-    },
-    {
-      id: 5,
-      image: require('../../../assests/images/apex/FMCG/hairoil.png'),
-      description:
-        'HP 15-inch Laptop, 11th Generation Intel Core i5-1135G7, Intel Iris Xe Graphics, 8 GB RAM, 256 GB SSD, Windows 11 Home (15-dy2024nr, Natural silver) 4.5 out of 5 stars 1,858',
-    },
-    {
-      id: 6,
-      image: require('../../../assests/images/apex/FMCG/hairoil.png'),
-      description:
-        'HP 15-inch Laptop, 11th Generation Intel Core i5-1135G7, Intel Iris Xe Graphics, 8 GB RAM, 256 GB SSD, Windows 11 Home (15-dy2024nr, Natural silver) 4.5 out of 5 stars 1,858',
-    },
-  ];
-
-  const productsarray = [
-    {
-      id: 1,
-      image: require('../../../assests/images/apex/PRODUCTS/book.png'),
-      description:
-        'HP 15-inch Laptop, 11th Generation Intel Core i5-1135G7, Intel Iris Xe Graphics, 8 GB RAM, 256 GB SSD, Windows 11 Home (15-dy2024nr, Natural silver) 4.5 out of 5 stars 1,858',
-    },
-    {
-      id: 2,
-      image: require('../../../assests/images/apex/PRODUCTS/cooling.png'),
-      description:
-        'HP 15-inch Laptop, 11th Generation Intel Core i5-1135G7, Intel Iris Xe Graphics, 8 GB RAM, 256 GB SSD, Windows 11 Home (15-dy2024nr, Natural silver) 4.5 out of 5 stars 1,858',
-    },
-    {
-      id: 3,
-      image: require('../../../assests/images/apex/PRODUCTS/earphone.png'),
-      description:
-        'HP 15-inch Laptop, 11th Generation Intel Core i5-1135G7, Intel Iris Xe Graphics, 8 GB RAM, 256 GB SSD, Windows 11 Home (15-dy2024nr, Natural silver) 4.5 out of 5 stars 1,858',
-    },
-    {
-      id: 4,
-      image: require('../../../assests/images/apex/PRODUCTS/tshirt.png'),
-      description:
-        'HP 15-inch Laptop, 11th Generation Intel Core i5-1135G7, Intel Iris Xe Graphics, 8 GB RAM, 256 GB SSD, Windows 11 Home (15-dy2024nr, Natural silver) 4.5 out of 5 stars 1,858',
-    },
-  ];
   let arraydata;
 
-  if (type === 'health') {
-    arraydata = healtharray;
-  } else if (type === 'fmcg') {
-    arraydata = fmcgarray;
-  } else if (type === 'products') {
-    arraydata = productsarray;
+  if (brand === 'ala') {
+    arraydata = brands[0].products;
+  } else if (brand === 'panchyagavya') {
+    arraydata = brands[1].products;
+  } else if (brand === 'tanza') {
+    arraydata = brands[2].products;
+  } else if (brand === 'john&frankie') {
+    arraydata = brands[3].products;
   }
 
   const [data, setData] = useState(arraydata);
@@ -263,15 +165,15 @@ function ProductScreen({navigation, route}) {
                 width: 70,
                 backgroundColor: '#fff',
                 borderRadius: 10,
-                marginLeft: 15,
+                marginLeft: 0,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               {/* <Image
-              style={{height: 20, width: 30}}
-              resizeMode="stretch"
-              source={require('../../assests/tabscreenimages/wallet.png')}
-            /> */}
+                style={{height: 20, width: 30}}
+                resizeMode="stretch"
+                source={require('../../assests/tabscreenimages/wallet.png')}
+              /> */}
               <Entypo name="wallet" size={25} color="#000" />
               <View
                 style={{
@@ -279,7 +181,7 @@ function ProductScreen({navigation, route}) {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <FontAwesome name="rupee" size={12} />
+                <FontAwesome5 name="rupee-sign" size={12} />
                 <Text>{wallet ? wallet.Commission : null}</Text>
               </View>
             </TouchableOpacity>
@@ -297,12 +199,46 @@ function ProductScreen({navigation, route}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Image
+              <MaterialCommunityIcons name="bank" size={25} color="#000" />
+              {/* <Image
                 style={{height: 20, width: 30}}
                 resizeMode="stretch"
                 source={require('../../assests/tabscreenimages/mybank1.png')}
-              />
+              /> */}
               <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome5 name="rupee-sign" size={12} />
+                <Text> {wallet ? wallet.MyBank : null}</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('WalletReport', {type: 'MYBANK'});
+              }}
+              style={{
+                paddingLeft: 10,
+                height: '80%',
+                width: 70,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                marginLeft: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <MaterialCommunityIcons name="alpha" size={30} color="#000" />
+              <Text style={{fontSize: 12}}>
+                S : {business ? business.ATeamBusiness : null}
+              </Text>
+              {/* <Image
+                style={{height: 20, width: 30}}
+                resizeMode="stretch"
+                source={require('../../assests/tabscreenimages/mybank1.png')}
+              /> */}
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',
@@ -310,9 +246,9 @@ function ProductScreen({navigation, route}) {
                 }}>
                 <FontAwesome name="rupee" size={12} />
                 <Text> {wallet ? wallet.MyBank : null}</Text>
-              </View>
+              </View> */}
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 navigation.navigate('AtAGlance', {type: 'A'});
               }}
@@ -331,7 +267,7 @@ function ProductScreen({navigation, route}) {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text style={{fontSize: 30, color: '#000'}}>A</Text>
+                  <MaterialCommunityIcons name="alpha" size={40} color="#000" />
                 </View>
                 <View style={{width: '60%', height: '100%'}}>
                   <View style={{flex: 1, marginRight: 5}}>
@@ -342,19 +278,52 @@ function ProductScreen({navigation, route}) {
                         justifyContent: 'flex-end',
                       }}>
                       <Text style={{fontSize: 12}}>
-                        {business ? business.ATeamCount : null}
+                        {business ? business.ATeamCount : null}F
                       </Text>
                     </View>
                     <View style={{flex: 1}}>
                       <Text style={{fontSize: 12}}>
-                        {business ? business.ATeamBusiness : null} BV
+                        {business ? business.ATeamBusiness : null} SC
                       </Text>
                     </View>
                   </View>
                 </View>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('WalletReport', {type: 'MYBANK'});
+              }}
+              style={{
+                paddingLeft: 10,
+                height: '80%',
+                width: 70,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                marginLeft: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <MaterialCommunityIcons name="beta" size={30} color="#000" />
+              <Text style={{fontSize: 12}}>
+                S : {business ? business.BTeamBusiness : null}
+              </Text>
+              {/* <Image
+                style={{height: 20, width: 30}}
+                resizeMode="stretch"
+                source={require('../../assests/tabscreenimages/mybank1.png')}
+              /> */}
+              {/* <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome name="rupee" size={12} />
+                <Text> {wallet ? wallet.MyBank : null}</Text>
+              </View> */}
+            </TouchableOpacity>
+            {/* <TouchableOpacity
               onPress={() => {
                 navigation.navigate('AtAGlance', {type: 'B'});
               }}
@@ -373,7 +342,7 @@ function ProductScreen({navigation, route}) {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text style={{fontSize: 30, color: '#000'}}>B</Text>
+                  <MaterialCommunityIcons name="beta" size={40} color="#000" />
                 </View>
                 <View style={{width: '60%', height: '100%'}}>
                   <View style={{flex: 1, marginRight: 5}}>
@@ -391,16 +360,16 @@ function ProductScreen({navigation, route}) {
                     <View style={{flex: 1}}>
                       <Text style={{fontSize: 12}}>
                         {' '}
-                        {business ? business.ATeamBusiness : null} BV
+                        {business ? business.ATeamBusiness : null} SC
                       </Text>
                     </View>
                   </View>
                 </View>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Payout');
+                alert('Your Earnings');
               }}
               style={{
                 paddingLeft: 10,
@@ -408,37 +377,20 @@ function ProductScreen({navigation, route}) {
                 width: 70,
                 backgroundColor: '#fff',
                 borderRadius: 10,
-                marginLeft: 15,
+                marginRight: (WIDTH * 15) / 100,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Image
-                style={{height: '80%', width: '80%'}}
-                resizeMode="stretch"
-                source={require('../../assests/tabscreenimages/withdraw.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                alert('Coordinate');
-              }}
-              style={{
-                paddingLeft: 10,
-                height: '85%',
-                width: 70,
-                backgroundColor: '#fff',
-                borderRadius: 10,
-                marginLeft: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 10,
-                marginRight: 50,
-              }}>
-              <Image
-                style={{height: '80%', width: '80%'}}
-                resizeMode="stretch"
-                source={require('../../assests/tabscreenimages/bulb.png')}
-              />
+              <FontAwesome5 name="hand-holding-usd" size={30} color="#000" />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome5 name="rupee-sign" size={12} />
+                <Text> {wallet ? wallet.MyBank : null}</Text>
+              </View>
             </TouchableOpacity>
           </ScrollView>
         </View>
@@ -452,6 +404,7 @@ function ProductScreen({navigation, route}) {
             backgroundColor: '#fff',
             opacity: 0.9,
             alignSelf: 'flex-end',
+            // marginLeft: 15,
           }}>
           <TouchableOpacity
             onPress={() => {
@@ -484,83 +437,108 @@ function ProductScreen({navigation, route}) {
         }}>
         <View
           style={{
-            height: '100%',
-            width: '70%',
+            flex: 1,
+            justifyContent: 'space-between',
             flexDirection: 'row',
-            alignItems: 'center',
           }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-              // user
-              //   ? navigation.navigate('Profile')
-              //   : navigation.navigate('MenuScreen');
-            }}>
-            <MaterialCommunityIcons name="arrow-left" size={30} color="white" />
-          </TouchableOpacity>
           <View
             style={{
-              height: 0.065 * SIZES.height,
-              width: 0.065 * SIZES.height,
-              borderRadius: (0.065 * SIZES.height) / 2,
-              backgroundColor: COLORS.white,
-              justifyContent: 'center',
+              height: '100%',
+              // width: '70%',
+              flexDirection: 'row',
               alignItems: 'center',
-              marginLeft: 10,
             }}>
-            <Image
-              source={require('../../assests/extras/ala_logo.png')}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+                // user
+                //   ? navigation.navigate('Profile')
+                //   : navigation.navigate('MenuScreen');
+              }}>
+              <MaterialCommunityIcons
+                name="arrow-left"
+                size={30}
+                color="#fff"
+              />
+            </TouchableOpacity>
+
+            <View
               style={{
                 height: 0.065 * SIZES.height,
                 width: 0.065 * SIZES.height,
-                borderRadius: 0.065 * SIZES.height,
-              }}
-            />
-          </View>
-          {user ? (
-            <View>
-              <Text style={{marginLeft: 10, color: '#fff', fontSize: 10}}>
-                Welcome
-              </Text>
-              <Text style={{marginLeft: 10, color: '#fff', fontSize: 16}}>
-                Ramesh
-              </Text>
-            </View>
-          ) : null}
-        </View>
-        {user ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              height: '100%',
-              width: '30%',
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                alert('hello');
-              }}
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <MaterialCommunityIcons
-                name="account-group"
-                size={20}
-                color="#fff"
+                borderRadius: (0.065 * SIZES.height) / 2,
+                backgroundColor: COLORS.white,
+                justifyContent: 'center',
+                alignItems: 'center',
+                // marginLeft: 10,
+                // flexDirection: 'row',
+              }}>
+              <Image
+                source={require('../../assests/extras/ala_logo.png')}
+                style={{
+                  height: 0.065 * SIZES.height,
+                  width: 0.065 * SIZES.height,
+                  borderRadius: 0.065 * SIZES.height,
+                }}
               />
-              <Text style={{fontSize: 12, color: '#fff'}}>My Group</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                alert('notification');
-              }}
-              style={{flexDirection: 'row'}}>
-              <EvilIcons name="bell" size={35} color="#fff" />
-              <View style={{position: 'absolute', left: 20, top: -10}}>
-                <Badge value="3" status="success" />
+            </View>
+
+            {user ? (
+              <View>
+                <Text style={{marginLeft: 10, color: '#fff', fontSize: 12}}>
+                  Welcome
+                </Text>
+                <Text style={{marginLeft: 10, color: '#fff', fontSize: 18}}>
+                  Ramesh
+                </Text>
               </View>
-            </TouchableOpacity>
+            ) : null}
           </View>
-        ) : null}
+          <View>
+            {user ? (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  height: '100%',
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Cart');
+                  }}
+                  style={{flexDirection: 'row', left: -20}}>
+                  <EvilIcons name="cart" size={35} color="#fff" />
+                  <View style={{position: 'absolute', left: 20, top: -10}}>
+                    <Badge value={cartItems.length} status="success" />
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    alert('hello');
+                  }}
+                  style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <MaterialCommunityIcons
+                    name="account-group"
+                    size={30}
+                    color="#fff"
+                  />
+                  <Text style={{fontSize: 13, color: '#fff'}}>My Group</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    alert('notification');
+                  }}
+                  style={{flexDirection: 'row'}}>
+                  <EvilIcons name="bell" size={35} color="#fff" />
+                  <View style={{position: 'absolute', left: 20, top: -10}}>
+                    <Badge value="3" status="success" />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ) : null}
+          </View>
+        </View>
       </LinearGradient>
       <View
         style={{
@@ -599,7 +577,7 @@ function ProductScreen({navigation, route}) {
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('ProductDescription', {
-                    img: item.image,
+                    data,
                   });
                 }}
                 style={{
@@ -620,14 +598,14 @@ function ProductScreen({navigation, route}) {
                     <Image
                       style={{borderRadius: 5, height: '100%', width: '100%'}}
                       resizeMode="stretch"
-                      source={item.image}
+                      source={item.img}
                     />
                   </View>
 
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate('ProductDescription', {
-                        img: item.image,
+                        data,
                       });
                     }}>
                     <LinearGradient
@@ -649,16 +627,30 @@ function ProductScreen({navigation, route}) {
                   </TouchableOpacity>
                 </View>
                 <View style={{width: '70%', height: 100, padding: 10}}>
-                  <Text>{truncate(item.description)}</Text>
+                  <Text>{description}</Text>
                   <View
                     style={{
                       padding: 10,
                       flexDirection: 'row',
-                      alignItems: 'center',
+                      // alignItems: 'center',
+
                       marginTop: 20,
                     }}>
-                    <FontAwesome name="rupee" size={16} />
-                    <Text style={{fontSize: 16}}> 1000 </Text>
+                    <FontAwesome5
+                      name="rupee-sign"
+                      size={13}
+                      color="#F05935"
+                      style={{marginTop: 5}}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: '#F05935',
+                        fontFamily: 'Poppins-Medium',
+                      }}>
+                      {' '}
+                      1000{' '}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>

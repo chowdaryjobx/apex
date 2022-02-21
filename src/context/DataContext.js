@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
-
+import {data} from '../../assests/data/Data';
 var pkg = require('../../package.json');
 
 const DataContext = React.createContext();
@@ -10,7 +10,6 @@ const DataContext = React.createContext();
 export const AuthContext = ({children, navigation}) => {
   const liveapi = '';
   const api = 'http://testapi.arafahmarket.in/api/';
-  // const api = 'http://liveapi.arafahmarket.in/api/';
 
   let appVersion = pkg.version;
   const url = {
@@ -190,7 +189,6 @@ export const AuthContext = ({children, navigation}) => {
         } else {
           flag = 'notfound';
         }
-      
       }
       if (flag === 'notfound') {
         setCartItems([...cartItems, item]);
@@ -284,6 +282,8 @@ export const AuthContext = ({children, navigation}) => {
     },
   ]);
 
+  const [brands, setBrands] = useState(data);
+
   // console.log(cartItems);
 
   return (
@@ -314,6 +314,7 @@ export const AuthContext = ({children, navigation}) => {
         userUpis,
         addUpi,
         products,
+        brands,
       }}>
       {children}
     </DataContext.Provider>

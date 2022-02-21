@@ -17,7 +17,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import DataContext from '../../context/DataContext';
 import {Avatar, Badge, Icon, withBadge} from 'react-native-elements';
@@ -26,6 +26,9 @@ const {width} = Dimensions.get('window');
 import axios from 'axios';
 const WIDTH = Dimensions.get('window').width;
 export default function ProductDescription({navigation, route}) {
+  const latestData = route.params.data;
+  const img = route.params.img;
+
   const {
     user,
     cartItems,
@@ -70,52 +73,53 @@ export default function ProductDescription({navigation, route}) {
       a: 'Useful to stimulate pancreas, to genereate amount of insulting',
     },
   ]);
-  const [latestOffers, setLatestOffers] = useState([
-    {
-      id: 1,
-      title: 'Alpite',
-      productBy: 'Apex Market',
-      description:
-        'Useful to stimulate pancreas, to generate amount of insulting ...',
-      bv: 1,
-      drc: '10%',
-      mrp: 200,
-      img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-    },
-    {
-      id: 2,
-      title: 'Herbo Flax',
-      productBy: 'Amazon',
-      description:
-        'Useful to stimulate pancreas, to generate amount of insulting ...',
-      bv: 1,
-      drc: '10%',
-      mrp: 200,
-      img: require('../../../assests/images/apex/HEALTH/herboflax.png'),
-    },
-    {
-      id: 3,
-      title: 'Kickbags',
-      productBy: 'Amazon',
-      description:
-        'Useful to stimulate pancreas, to generate amount of insulting ...',
-      bv: 1,
-      drc: '10%',
-      mrp: 200,
-      img: require('../../../assests/images/apex/HEALTH/kickgas.png'),
-    },
-    {
-      id: 4,
-      title: 'Muscle Oil',
-      productBy: 'Amazon',
-      description:
-        'Useful to stimulate pancreas, to generate amount of insulting ...',
-      bv: 1,
-      drc: '10%',
-      mrp: 200,
-      img: require('../../../assests/images/apex/HEALTH/muscleoil.png'),
-    },
-  ]);
+  const [latestOffers, setLatestOffers] = useState(latestData);
+  //   [
+  //   {
+  //     id: 1,
+  //     title: 'Alpite',
+  //     productBy: 'Apex Market',
+  //     description:
+  //       'Useful to stimulate pancreas, to generate amount of insulting ...',
+  //     bv: 1,
+  //     drc: '10%',
+  //     mrp: 200,
+  //     img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Herbo Flax',
+  //     productBy: 'Amazon',
+  //     description:
+  //       'Useful to stimulate pancreas, to generate amount of insulting ...',
+  //     bv: 1,
+  //     drc: '10%',
+  //     mrp: 200,
+  //     img: require('../../../assests/images/apex/HEALTH/herboflax.png'),
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Kickbags',
+  //     productBy: 'Amazon',
+  //     description:
+  //       'Useful to stimulate pancreas, to generate amount of insulting ...',
+  //     bv: 1,
+  //     drc: '10%',
+  //     mrp: 200,
+  //     img: require('../../../assests/images/apex/HEALTH/kickgas.png'),
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Muscle Oil',
+  //     productBy: 'Amazon',
+  //     description:
+  //       'Useful to stimulate pancreas, to generate amount of insulting ...',
+  //     bv: 1,
+  //     drc: '10%',
+  //     mrp: 200,
+  //     img: require('../../../assests/images/apex/HEALTH/muscleoil.png'),
+  //   },
+  // ]);
   function onchange(nativeEvent) {
     if (nativeEvent) {
       const slide = Math.ceil(
@@ -196,15 +200,15 @@ export default function ProductDescription({navigation, route}) {
                 width: 70,
                 backgroundColor: '#fff',
                 borderRadius: 10,
-                marginLeft: 15,
+                marginLeft: 0,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               {/* <Image
-              style={{height: 20, width: 30}}
-              resizeMode="stretch"
-              source={require('../../assests/tabscreenimages/wallet.png')}
-            /> */}
+                style={{height: 20, width: 30}}
+                resizeMode="stretch"
+                source={require('../../assests/tabscreenimages/wallet.png')}
+              /> */}
               <Entypo name="wallet" size={25} color="#000" />
               <View
                 style={{
@@ -212,7 +216,7 @@ export default function ProductDescription({navigation, route}) {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <FontAwesome name="rupee" size={12} />
+                <FontAwesome5 name="rupee-sign" size={12} />
                 <Text>{wallet ? wallet.Commission : null}</Text>
               </View>
             </TouchableOpacity>
@@ -230,12 +234,46 @@ export default function ProductDescription({navigation, route}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Image
+              <MaterialCommunityIcons name="bank" size={25} color="#000" />
+              {/* <Image
                 style={{height: 20, width: 30}}
                 resizeMode="stretch"
                 source={require('../../assests/tabscreenimages/mybank1.png')}
-              />
+              /> */}
               <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome5 name="rupee-sign" size={12} />
+                <Text> {wallet ? wallet.MyBank : null}</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('WalletReport', {type: 'MYBANK'});
+              }}
+              style={{
+                paddingLeft: 10,
+                height: '80%',
+                width: 70,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                marginLeft: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <MaterialCommunityIcons name="alpha" size={30} color="#000" />
+              <Text style={{fontSize: 12}}>
+                S : {business ? business.ATeamBusiness : null}
+              </Text>
+              {/* <Image
+                style={{height: 20, width: 30}}
+                resizeMode="stretch"
+                source={require('../../assests/tabscreenimages/mybank1.png')}
+              /> */}
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',
@@ -243,9 +281,9 @@ export default function ProductDescription({navigation, route}) {
                 }}>
                 <FontAwesome name="rupee" size={12} />
                 <Text> {wallet ? wallet.MyBank : null}</Text>
-              </View>
+              </View> */}
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 navigation.navigate('AtAGlance', {type: 'A'});
               }}
@@ -264,7 +302,7 @@ export default function ProductDescription({navigation, route}) {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text style={{fontSize: 30, color: '#000'}}>A</Text>
+                  <MaterialCommunityIcons name="alpha" size={40} color="#000" />
                 </View>
                 <View style={{width: '60%', height: '100%'}}>
                   <View style={{flex: 1, marginRight: 5}}>
@@ -275,19 +313,52 @@ export default function ProductDescription({navigation, route}) {
                         justifyContent: 'flex-end',
                       }}>
                       <Text style={{fontSize: 12}}>
-                        {business ? business.ATeamCount : null}
+                        {business ? business.ATeamCount : null}F
                       </Text>
                     </View>
                     <View style={{flex: 1}}>
                       <Text style={{fontSize: 12}}>
-                        {business ? business.ATeamBusiness : null} BV
+                        {business ? business.ATeamBusiness : null} SC
                       </Text>
                     </View>
                   </View>
                 </View>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('WalletReport', {type: 'MYBANK'});
+              }}
+              style={{
+                paddingLeft: 10,
+                height: '80%',
+                width: 70,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                marginLeft: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <MaterialCommunityIcons name="beta" size={30} color="#000" />
+              <Text style={{fontSize: 12}}>
+                S : {business ? business.BTeamBusiness : null}
+              </Text>
+              {/* <Image
+                style={{height: 20, width: 30}}
+                resizeMode="stretch"
+                source={require('../../assests/tabscreenimages/mybank1.png')}
+              /> */}
+              {/* <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome name="rupee" size={12} />
+                <Text> {wallet ? wallet.MyBank : null}</Text>
+              </View> */}
+            </TouchableOpacity>
+            {/* <TouchableOpacity
               onPress={() => {
                 navigation.navigate('AtAGlance', {type: 'B'});
               }}
@@ -306,7 +377,7 @@ export default function ProductDescription({navigation, route}) {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <Text style={{fontSize: 30, color: '#000'}}>B</Text>
+                  <MaterialCommunityIcons name="beta" size={40} color="#000" />
                 </View>
                 <View style={{width: '60%', height: '100%'}}>
                   <View style={{flex: 1, marginRight: 5}}>
@@ -324,16 +395,16 @@ export default function ProductDescription({navigation, route}) {
                     <View style={{flex: 1}}>
                       <Text style={{fontSize: 12}}>
                         {' '}
-                        {business ? business.ATeamBusiness : null} BV
+                        {business ? business.ATeamBusiness : null} SC
                       </Text>
                     </View>
                   </View>
                 </View>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Payout');
+                alert('Your Earnings');
               }}
               style={{
                 paddingLeft: 10,
@@ -341,37 +412,20 @@ export default function ProductDescription({navigation, route}) {
                 width: 70,
                 backgroundColor: '#fff',
                 borderRadius: 10,
-                marginLeft: 15,
+                marginRight: (WIDTH * 15) / 100,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Image
-                style={{height: '80%', width: '80%'}}
-                resizeMode="stretch"
-                source={require('../../assests/tabscreenimages/withdraw.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                alert('Coordinate');
-              }}
-              style={{
-                paddingLeft: 10,
-                height: '85%',
-                width: 70,
-                backgroundColor: '#fff',
-                borderRadius: 10,
-                marginLeft: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 10,
-                marginRight: 50,
-              }}>
-              <Image
-                style={{height: '80%', width: '80%'}}
-                resizeMode="stretch"
-                source={require('../../assests/tabscreenimages/bulb.png')}
-              />
+              <FontAwesome5 name="hand-holding-usd" size={30} color="#000" />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome5 name="rupee-sign" size={12} />
+                <Text> {wallet ? wallet.MyBank : null}</Text>
+              </View>
             </TouchableOpacity>
           </ScrollView>
         </View>
@@ -385,6 +439,7 @@ export default function ProductDescription({navigation, route}) {
             backgroundColor: '#fff',
             opacity: 0.9,
             alignSelf: 'flex-end',
+            // marginLeft: 15,
           }}>
           <TouchableOpacity
             onPress={() => {
@@ -417,83 +472,108 @@ export default function ProductDescription({navigation, route}) {
         }}>
         <View
           style={{
-            height: '100%',
-            width: '70%',
+            flex: 1,
+            justifyContent: 'space-between',
             flexDirection: 'row',
-            alignItems: 'center',
           }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-              // user
-              //   ? navigation.navigate('Profile')
-              //   : navigation.navigate('MenuScreen');
-            }}>
-            <MaterialCommunityIcons name="arrow-left" size={30} color="white" />
-          </TouchableOpacity>
           <View
             style={{
-              height: 0.065 * SIZES.height,
-              width: 0.065 * SIZES.height,
-              borderRadius: (0.065 * SIZES.height) / 2,
-              backgroundColor: COLORS.white,
-              justifyContent: 'center',
+              height: '100%',
+              // width: '70%',
+              flexDirection: 'row',
               alignItems: 'center',
-              marginLeft: 10,
             }}>
-            <Image
-              source={require('../../assests/extras/ala_logo.png')}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+                // user
+                //   ? navigation.navigate('Profile')
+                //   : navigation.navigate('MenuScreen');
+              }}>
+              <MaterialCommunityIcons
+                name="arrow-left"
+                size={30}
+                color="#fff"
+              />
+            </TouchableOpacity>
+
+            <View
               style={{
                 height: 0.065 * SIZES.height,
                 width: 0.065 * SIZES.height,
-                borderRadius: 0.065 * SIZES.height,
-              }}
-            />
-          </View>
-          {user ? (
-            <View>
-              <Text style={{marginLeft: 10, color: '#fff', fontSize: 10}}>
-                Welcome
-              </Text>
-              <Text style={{marginLeft: 10, color: '#fff', fontSize: 16}}>
-                Ramesh
-              </Text>
-            </View>
-          ) : null}
-        </View>
-        {user ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              height: '100%',
-              width: '30%',
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                alert('hello');
-              }}
-              style={{justifyContent: 'center', alignItems: 'center'}}>
-              <MaterialCommunityIcons
-                name="account-group"
-                size={20}
-                color="#fff"
+                borderRadius: (0.065 * SIZES.height) / 2,
+                backgroundColor: COLORS.white,
+                justifyContent: 'center',
+                alignItems: 'center',
+                // marginLeft: 10,
+                // flexDirection: 'row',
+              }}>
+              <Image
+                source={require('../../assests/extras/ala_logo.png')}
+                style={{
+                  height: 0.065 * SIZES.height,
+                  width: 0.065 * SIZES.height,
+                  borderRadius: 0.065 * SIZES.height,
+                }}
               />
-              <Text style={{fontSize: 12, color: '#fff'}}>My Group</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                alert('notification');
-              }}
-              style={{flexDirection: 'row'}}>
-              <EvilIcons name="bell" size={35} color="#fff" />
-              <View style={{position: 'absolute', left: 20, top: -10}}>
-                <Badge value="3" status="success" />
+            </View>
+
+            {user ? (
+              <View>
+                <Text style={{marginLeft: 10, color: '#fff', fontSize: 12}}>
+                  Welcome
+                </Text>
+                <Text style={{marginLeft: 10, color: '#fff', fontSize: 18}}>
+                  Ramesh
+                </Text>
               </View>
-            </TouchableOpacity>
+            ) : null}
           </View>
-        ) : null}
+          <View>
+            {user ? (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  height: '100%',
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Cart');
+                  }}
+                  style={{flexDirection: 'row', left: -20}}>
+                  <EvilIcons name="cart" size={35} color="#fff" />
+                  <View style={{position: 'absolute', left: 20, top: -10}}>
+                    <Badge value={cartItems.length} status="success" />
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    alert('hello');
+                  }}
+                  style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <MaterialCommunityIcons
+                    name="account-group"
+                    size={30}
+                    color="#fff"
+                  />
+                  <Text style={{fontSize: 13, color: '#fff'}}>My Group</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    alert('notification');
+                  }}
+                  style={{flexDirection: 'row'}}>
+                  <EvilIcons name="bell" size={35} color="#fff" />
+                  <View style={{position: 'absolute', left: 20, top: -10}}>
+                    <Badge value="3" status="success" />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ) : null}
+          </View>
+        </View>
       </LinearGradient>
       <View
         style={{
@@ -570,34 +650,63 @@ export default function ProductDescription({navigation, route}) {
               backgroundColor: '#fff',
               alignItems: 'center',
             }}>
-            {latestOffers.map((item, index) => {
-              return (
+            {img ? (
+              <View
+                // key={index}
+                style={{
+                  height: '90%',
+                  width: WIDTH,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
                 <View
-                  key={index}
                   style={{
                     height: '90%',
-                    width: WIDTH,
-                    justifyContent: 'center',
+                    width: '95%',
+                    padding: 10,
+                    borderRadius: 10,
                     alignItems: 'center',
+                    // position: 'absolute',
                   }}>
-                  <View
-                    style={{
-                      height: '90%',
-                      width: '95%',
-                      padding: 10,
-                      borderRadius: 10,
-                      alignItems: 'center',
-                      // position: 'absolute',
-                    }}>
-                    <Image
-                      resizeMode="contain"
-                      source={item.img}
-                      style={{height: '100%', width: '90%'}}
-                    />
-                  </View>
+                  <Image
+                    resizeMode="contain"
+                    source={img}
+                    style={{height: '100%', width: '90%'}}
+                  />
                 </View>
-              );
-            })}
+              </View>
+            ) : null}
+
+            {latestOffers !== undefined
+              ? latestOffers.map((item, index) => {
+                  return (
+                    <View
+                      key={index}
+                      style={{
+                        height: '90%',
+                        width: WIDTH,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <View
+                        style={{
+                          height: '90%',
+                          width: '95%',
+                          padding: 10,
+                          borderRadius: 10,
+                          alignItems: 'center',
+                          // position: 'absolute',
+                        }}>
+                        <Image
+                          resizeMode="contain"
+                          source={item.img}
+                          style={{height: '100%', width: '90%'}}
+                        />
+                      </View>
+                    </View>
+                  );
+                })
+              : null}
           </ScrollView>
           <View
             style={{
@@ -637,17 +746,20 @@ export default function ProductDescription({navigation, route}) {
           <View style={{width: '100%'}}>
             <View>
               <View style={styles.wrapDot}>
-                {latestOffers.map((e, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      height: 10,
-                      width: 10,
-                      borderRadius: 5,
-                      backgroundColor: activeImage === index ? '#000' : '#ccc',
-                      margin: 2,
-                    }}></View>
-                ))}
+                {latestOffers
+                  ? latestOffers.map((e, index) => (
+                      <View
+                        key={index}
+                        style={{
+                          height: 10,
+                          width: 10,
+                          borderRadius: 5,
+                          backgroundColor:
+                            activeImage === index ? '#000' : '#ccc',
+                          margin: 2,
+                        }}></View>
+                    ))
+                  : null}
               </View>
             </View>
           </View>
@@ -662,48 +774,48 @@ export default function ProductDescription({navigation, route}) {
           }}></View>
         <View style={{paddingBottom: 100}}>
           <View style={{paddingHorizontal: 20}}>
-            <View style={{}}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <View style={{flexDirection: 'row'}}>
-                <View
-                  style={{flexDirection: 'row', alignItems: 'center', top: 10}}>
+                <View style={{flexDirection: 'row', top: 10}}>
                   <Text style={{fontFamily: 'Poppins-Medium', fontSize: 18}}>
                     M.R.P :
                   </Text>
-                  <FontAwesome
-                    name="rupee"
-                    size={18}
-                    style={{left: 5}}
-                    color="#000"
+                  <FontAwesome5
+                    name="rupee-sign"
+                    size={13}
+                    style={{left: 5, top: 7}}
+                    color="#F05935"
                   />
                   <Text
                     style={{
                       fontFamily: 'Poppins-Medium',
                       fontSize: 18,
                       left: 10,
-                      color: '#000',
+                      color: '#F05935',
                     }}>
                     {mrp}
                   </Text>
                   {/* <Text style={{left: 10}}>(inclusive of all taxes)</Text> */}
                 </View>
               </View>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{flexDirection: 'row', paddingRight: 10, top: 10}}>
+                <View style={{flexDirection: 'row'}}>
                   <Text style={{fontFamily: 'Poppins-Medium', fontSize: 18}}>
                     DRC :
                   </Text>
-                  <FontAwesome
-                    name="rupee"
-                    size={18}
-                    style={{left: 5}}
-                    color="#000"
+                  <FontAwesome5
+                    name="rupee-sign"
+                    size={13}
+                    style={{left: 5, top: 7}}
+                    color="#F05935"
                   />
                   <Text
                     style={{
                       fontFamily: 'Poppins-Medium',
                       fontSize: 18,
                       left: 10,
-                      color: '#000',
+                      color: '#F05935',
                     }}>
                     {drc}
                   </Text>
@@ -843,7 +955,8 @@ export default function ProductDescription({navigation, route}) {
               height: 50,
               width: '100%',
               paddingHorizontal: 20,
-              // backgroundColor: 'lightblue',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
             }}>
             <View
               style={{
@@ -852,52 +965,10 @@ export default function ProductDescription({navigation, route}) {
                 justifyContent: 'flex-end',
               }}>
               <Text>Checkout Price : </Text>
-              <FontAwesome name="rupee" size={16} color="#000" />
-              <Text style={{fontSize: 18, color: '#000', left: 5}}>
+              <FontAwesome5 name="rupee-sign" size={13} color="#F05935" />
+              <Text style={{fontSize: 18, color: '#F05935', left: 5}}>
                 {(mrp + drc) * qty}
               </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              paddingHorizontal: 20,
-              top: 40,
-              flexDirection: 'row',
-              // alignItems: 'flex-end',
-              justifyContent: 'space-between',
-            }}>
-            <View
-              style={
-                {
-                  // paddingHorizontal: 20,
-                  // top: 40,
-                }
-              }>
-              <Text
-                style={{
-                  color: '#60B245',
-                  fontFamily: 'Poppins-Medium',
-                  fontSize: 16,
-                }}>
-                In Stock
-              </Text>
-            </View>
-            <View>
-              <TouchableOpacity
-                onPressIn={() => {
-                  navigation.navigate('Cart');
-                }}
-                style={{
-                  backgroundColor: '#35CBC4',
-                  padding: 10,
-                  borderRadius: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => {}}>
-                <Text style={{color: '#fff'}}>Add to cart</Text>
-              </TouchableOpacity>
             </View>
             <View
               style={{
@@ -913,7 +984,7 @@ export default function ProductDescription({navigation, route}) {
                   }
                 }}
                 style={{
-                  paddingHorizontal: 15,
+                  paddingHorizontal: 10,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -927,7 +998,7 @@ export default function ProductDescription({navigation, route}) {
               </TouchableOpacity>
               <View
                 style={{
-                  paddingHorizontal: 15,
+                  paddingHorizontal: 10,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -946,7 +1017,51 @@ export default function ProductDescription({navigation, route}) {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{paddingHorizontal: 20, top: 60}}>
+
+          <View
+            style={{
+              paddingHorizontal: 20,
+              top: 60,
+              flexDirection: 'row',
+              // alignItems: 'flex-end',
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <TouchableOpacity
+                onPressIn={() => {
+                  navigation.navigate('Cart');
+                }}
+                style={{
+                  backgroundColor: '#35CBC4',
+                  paddingVertical: 10,
+                  paddingHorizontal: 30,
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                onPress={() => {}}>
+                <Text style={{color: '#fff'}}>Add to cart</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                onPressIn={() => {
+                  navigation.navigate('Cart');
+                }}
+                style={{
+                  backgroundColor: '#35CBC4',
+                  paddingVertical: 10,
+                  paddingHorizontal: 40,
+                  borderRadius: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                onPress={() => {}}>
+                <Text style={{color: 'orange'}}>Buy Now</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/* <View style={{paddingHorizontal: 20, top: 60}}>
             <TouchableOpacity
               onPressIn={() => {
                 alert('adding into cart');
@@ -961,7 +1076,7 @@ export default function ProductDescription({navigation, route}) {
               onPress={() => {}}>
               <Text style={{color: '#fff'}}>Buy Now</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           {/* <View style={{paddingHorizontal: 20, top: 80}}>
          
           </View> */}
@@ -986,38 +1101,46 @@ export default function ProductDescription({navigation, route}) {
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{}}>
-              {latestOffers.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => {
-                      navigation.navigate('ProductDescription', {
-                        img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-                      });
-                    }}
-                    style={{
-                      padding: 5,
-                      elevation: 0,
-                      margin: 5,
-                      flex: 1,
-                      backgroundColor: 'white',
-                      borderRadius: 15,
-                      // borderWidth: 1,
-                      borderColor: '#e5e5e5',
-                      height: '90%',
-                      width: 150,
-                    }}>
-                    <Image
-                      style={{borderRadius: 5, height: '80%', width: '100%'}}
-                      source={item.img}
-                      resizeMode="contain"
-                    />
-                    <Text style={{fontFamily: 'Poppins-Medium', color: '#000'}}>
-                      {item.title} | {item.productBy} | {item.weight}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+              {latestOffers
+                ? latestOffers.map((item, index) => {
+                    return (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => {
+                          navigation.navigate('ProductDescription', {
+                            data,
+                            // img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
+                          });
+                        }}
+                        style={{
+                          padding: 5,
+                          elevation: 0,
+                          margin: 5,
+                          flex: 1,
+                          backgroundColor: 'white',
+                          borderRadius: 15,
+                          // borderWidth: 1,
+                          borderColor: '#e5e5e5',
+                          height: '90%',
+                          width: 150,
+                        }}>
+                        <Image
+                          style={{
+                            borderRadius: 5,
+                            height: '80%',
+                            width: '100%',
+                          }}
+                          source={item.img}
+                          resizeMode="contain"
+                        />
+                        <Text
+                          style={{fontFamily: 'Poppins-Medium', color: '#000'}}>
+                          {item.title} | {item.productBy} | {item.weight}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })
+                : null}
             </ScrollView>
           </View>
           <TouchableOpacity

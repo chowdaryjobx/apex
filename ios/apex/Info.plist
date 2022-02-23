@@ -123,6 +123,20 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>ShowcaseOrn.otf</string>
+		<string>ShowcaseSans-ita.otf</string>
+		<string>ShowcaseSans.otf</string>
+		<string>ShowcaseSansMini-ita.otf</string>
+		<string>ShowcaseSansMini.otf</string>
+		<string>ShowcaseScript.otf</string>
+		<string>ShowcaseSlab-ita.otf</string>
+		<string>ShowcaseSlab.otf</string>
+		<string>Quicksand-VariableFont_wght.ttf</string>
+		<string>Quicksand-Bold.ttf</string>
+		<string>Quicksand-Light.ttf</string>
+		<string>Quicksand-Medium.ttf</string>
+		<string>Quicksand-Regular.ttf</string>
+		<string>Quicksand-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>

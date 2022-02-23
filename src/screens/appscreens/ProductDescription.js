@@ -18,7 +18,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+
 import DataContext from '../../context/DataContext';
 import {Avatar, Badge, Icon, withBadge} from 'react-native-elements';
 import {Rating, RatingProps} from 'react-native-elements';
@@ -216,7 +219,7 @@ export default function ProductDescription({navigation, route}) {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <FontAwesome5 name="rupee-sign" size={12} />
+                <FontAwesome name="rupee" size={12} />
                 <Text>{wallet ? wallet.Commission : null}</Text>
               </View>
             </TouchableOpacity>
@@ -246,7 +249,7 @@ export default function ProductDescription({navigation, route}) {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <FontAwesome5 name="rupee-sign" size={12} />
+                <FontAwesome name="rupee" size={12} />
                 <Text> {wallet ? wallet.MyBank : null}</Text>
               </View>
             </TouchableOpacity>
@@ -264,24 +267,14 @@ export default function ProductDescription({navigation, route}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <MaterialCommunityIcons name="alpha" size={30} color="#000" />
-              <Text style={{fontSize: 12}}>
-                S : {business ? business.ATeamBusiness : null}
-              </Text>
-              {/* <Image
-                style={{height: 20, width: 30}}
-                resizeMode="stretch"
-                source={require('../../assests/tabscreenimages/mybank1.png')}
-              /> */}
-              {/* <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <FontAwesome name="rupee" size={12} />
-                <Text> {wallet ? wallet.MyBank : null}</Text>
-              </View> */}
+              <SimpleLineIcons name="graph" size={30} color="#000" />
+
+              <View style={{flexDirection: 'row'}}>
+                <MaterialCommunityIcons name="alpha" size={20} color="#000" />
+                <Text style={{fontSize: 12}}>
+                  : {business ? business.ATeamBusiness : null}
+                </Text>
+              </View>
             </TouchableOpacity>
             {/* <TouchableOpacity
               onPress={() => {
@@ -325,7 +318,7 @@ export default function ProductDescription({navigation, route}) {
                 </View>
               </View>
             </TouchableOpacity> */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 navigation.navigate('WalletReport', {type: 'MYBANK'});
               }}
@@ -343,20 +336,29 @@ export default function ProductDescription({navigation, route}) {
               <Text style={{fontSize: 12}}>
                 S : {business ? business.BTeamBusiness : null}
               </Text>
-              {/* <Image
-                style={{height: 20, width: 30}}
-                resizeMode="stretch"
-                source={require('../../assests/tabscreenimages/mybank1.png')}
-              /> */}
-              {/* <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <FontAwesome name="rupee" size={12} />
-                <Text> {wallet ? wallet.MyBank : null}</Text>
-              </View> */}
+      
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('WalletReport', {type: 'MYBANK'});
+              }}
+              style={{
+                paddingLeft: 10,
+                height: '80%',
+                width: 70,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                marginLeft: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <SimpleLineIcons name="graph" size={30} color="#000" />
+              <View style={{flexDirection: 'row'}}>
+                <MaterialCommunityIcons name="beta" size={20} color="#000" />
+                <Text style={{fontSize: 12}}>
+                  : {business ? business.BTeamBusiness : null}
+                </Text>
+              </View>
             </TouchableOpacity>
             {/* <TouchableOpacity
               onPress={() => {
@@ -423,7 +425,7 @@ export default function ProductDescription({navigation, route}) {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <FontAwesome5 name="rupee-sign" size={12} />
+                <FontAwesome name="rupee" size={12} />
                 <Text> {wallet ? wallet.MyBank : null}</Text>
               </View>
             </TouchableOpacity>
@@ -437,7 +439,7 @@ export default function ProductDescription({navigation, route}) {
             alignItems: 'center',
             position: 'absolute',
             backgroundColor: '#fff',
-            opacity: 0.9,
+            // opacity: 1,
             alignSelf: 'flex-end',
             // marginLeft: 15,
           }}>

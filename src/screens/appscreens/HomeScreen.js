@@ -12,6 +12,7 @@ import {
   Animated,
   StyleSheet,
   Share,
+  ToastAndroid,
 } from 'react-native';
 import {COLORS, SIZES} from '../../constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -22,6 +23,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 import LinearGradient from 'react-native-linear-gradient';
 import NetInfo from '@react-native-community/netinfo';
@@ -49,10 +51,13 @@ function HomeScreen({navigation}) {
     api,
     products,
     addToCart,
+    brands,
+    fontfamily,
   } = React.useContext(DataContext);
   const [wallet, setWallet] = useState(null);
   const [business, setBusiness] = useState(null);
   const [activeImage, setActiveImage] = useState(0);
+  console.log(products);
   const images1 = [
     ' https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_Deals_1x._SY304_CB430401028_.jpg',
     'https://images-na.ssl-images-amazon.com/images/G/01/AmazonExports/Fuji/2020/May/Dashboard/Fuji_Dash_Beauty_1x._SY304_CB432774351_.jpg',
@@ -185,7 +190,10 @@ function HomeScreen({navigation}) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: 'https://jobxrobot.com',
+        message:
+          'Nice product and I recommend you buy on (www.ala.com). You will also find several products useful on ala market. (referral link from business users and registered users will register the new user in My group and from guest users, registration with 0 sponsor)',
+        url: 'www.ala.com',
+        title: 'Alpiste',
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -339,24 +347,14 @@ function HomeScreen({navigation}) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <MaterialCommunityIcons name="alpha" size={30} color="#000" />
-              <Text style={{fontSize: 12}}>
-                S : {business ? business.ATeamBusiness : null}
-              </Text>
-              {/* <Image
-                style={{height: 20, width: 30}}
-                resizeMode="stretch"
-                source={require('../../assests/tabscreenimages/mybank1.png')}
-              /> */}
-              {/* <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <FontAwesome name="rupee" size={12} />
-                <Text> {wallet ? wallet.MyBank : null}</Text>
-              </View> */}
+              <SimpleLineIcons name="graph" size={30} color="#000" />
+
+              <View style={{flexDirection: 'row'}}>
+                <MaterialCommunityIcons name="alpha" size={20} color="#000" />
+                <Text style={{fontSize: 12}}>
+                  : {business ? business.ATeamBusiness : null}
+                </Text>
+              </View>
             </TouchableOpacity>
             {/* <TouchableOpacity
               onPress={() => {
@@ -400,7 +398,7 @@ function HomeScreen({navigation}) {
                 </View>
               </View>
             </TouchableOpacity> */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 navigation.navigate('WalletReport', {type: 'MYBANK'});
               }}
@@ -418,20 +416,29 @@ function HomeScreen({navigation}) {
               <Text style={{fontSize: 12}}>
                 S : {business ? business.BTeamBusiness : null}
               </Text>
-              {/* <Image
-                style={{height: 20, width: 30}}
-                resizeMode="stretch"
-                source={require('../../assests/tabscreenimages/mybank1.png')}
-              /> */}
-              {/* <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <FontAwesome name="rupee" size={12} />
-                <Text> {wallet ? wallet.MyBank : null}</Text>
-              </View> */}
+      
+            </TouchableOpacity> */}
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('WalletReport', {type: 'MYBANK'});
+              }}
+              style={{
+                paddingLeft: 10,
+                height: '80%',
+                width: 70,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                marginLeft: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <SimpleLineIcons name="graph" size={30} color="#000" />
+              <View style={{flexDirection: 'row'}}>
+                <MaterialCommunityIcons name="beta" size={20} color="#000" />
+                <Text style={{fontSize: 12}}>
+                  : {business ? business.BTeamBusiness : null}
+                </Text>
+              </View>
             </TouchableOpacity>
             {/* <TouchableOpacity
               onPress={() => {
@@ -487,7 +494,7 @@ function HomeScreen({navigation}) {
                 width: 70,
                 backgroundColor: '#fff',
                 borderRadius: 10,
-                marginRight: (WIDTH * 15) / 100,
+                // marginRight: (WIDTH * 15) / 100,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
@@ -504,7 +511,7 @@ function HomeScreen({navigation}) {
             </TouchableOpacity>
           </ScrollView>
         </View>
-        <View
+        {/* <View
           style={{
             height: '100%',
             width: '15%',
@@ -519,12 +526,12 @@ function HomeScreen({navigation}) {
           <TouchableOpacity
             onPress={() => {
               user
-                ? navigation.navigate('Profile')
+                ? navigation.navigate('BusinessMenu')
                 : navigation.navigate('MenuScreen');
             }}>
             <MaterialCommunityIcons name="menu" size={30} color="#000" />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     );
   };
@@ -601,11 +608,23 @@ function HomeScreen({navigation}) {
 
             {user ? (
               <View>
-                <Text style={{marginLeft: 10, color: '#fff', fontSize: 12}}>
-                  Welcome
-                </Text>
-                <Text style={{marginLeft: 10, color: '#fff', fontSize: 18}}>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    color: '#fff',
+                    fontSize: 14,
+                    fontFamily: fontfamily,
+                  }}>
                   Ramesh
+                </Text>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    color: '#fff',
+                    fontSize: 12,
+                    fontFamily: fontfamily,
+                  }}>
+                  Designation
                 </Text>
               </View>
             ) : null}
@@ -639,7 +658,14 @@ function HomeScreen({navigation}) {
                     size={30}
                     color="#fff"
                   />
-                  <Text style={{fontSize: 13, color: '#fff'}}>My Group</Text>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      color: '#fff',
+                      fontFamily: fontfamily,
+                    }}>
+                    My Group
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
@@ -736,13 +762,15 @@ function HomeScreen({navigation}) {
                       style={{height: 30, width: 30}}
                       resizeMode="contain"
                     />
-                    {/* <MaterialCommunityIcons
-                      name="tshirt-v"
-                      size={25}
-                      color="#fff"
-                    /> */}
                   </View>
-                  <Text style={{fontSize: 12, color: '#000'}}>{item.name}</Text>
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      color: '#000',
+                      fontFamily: fontfamily,
+                    }}>
+                    {item.name}
+                  </Text>
                 </TouchableOpacity>
               );
             })}
@@ -767,7 +795,7 @@ function HomeScreen({navigation}) {
                     // left: 10,
                     height: '90%',
                     width: WIDTH,
-                    backgroundColor: 'blue',
+                    backgroundColor: '#fff',
                     // padding: 10,
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -798,7 +826,7 @@ function HomeScreen({navigation}) {
                       }}>
                       <Text
                         style={{
-                          fontFamily: 'Poppins-SemiBold',
+                          fontFamily: fontfamily,
                           color: '#000',
                           fontSize: 16,
                           top: -5,
@@ -809,7 +837,7 @@ function HomeScreen({navigation}) {
                       <Text
                         style={{
                           fontSize: 14,
-                          fontFamily: 'Poppins-Medium',
+                          fontFamily: fontfamily,
                           top: -5,
                         }}>
                         {item.productBy}
@@ -828,15 +856,17 @@ function HomeScreen({navigation}) {
                           // backgroundColor: 'green',
                           // justifyContent: 'center',
                           // alignItems: 'center',
+                          justifyContent: 'center',
                         }}>
                         <Image
                           resizeMode="cover"
                           source={item.img}
-                          style={{height: '100%', width: '100%'}}
+                          style={{height: '80%', width: '90%'}}
                         />
                       </View>
                       <View
                         style={{
+                          top: 15,
                           height: '100%',
                           width: '70%',
                           // backgroundColor: 'yellow',
@@ -844,7 +874,7 @@ function HomeScreen({navigation}) {
                         <Text
                           style={{
                             fontSize: 18,
-                            fontFamily: 'Poppins-SemiBold',
+                            fontFamily: fontfamily,
                             top: 5,
                             color: '#4e4e4e',
                           }}>
@@ -852,7 +882,7 @@ function HomeScreen({navigation}) {
                         </Text>
                         <Text
                           style={{
-                            fontFamily: 'Poppins-Medium',
+                            fontFamily: fontfamily,
                             top: 10,
                             fontSize: 13,
                           }}>
@@ -868,8 +898,8 @@ function HomeScreen({navigation}) {
                               }}>
                               <Text
                                 style={{
-                                  fontFamily: 'Poppins-Medium',
-                                  fontSize: 18,
+                                  fontFamily: fontfamily,
+                                  fontSize: 16,
                                 }}>
                                 DRC :
                               </Text>
@@ -883,7 +913,7 @@ function HomeScreen({navigation}) {
                                 style={{
                                   fontSize: 18,
                                   left: 10,
-                                  fontFamily: 'Poppins-Medium',
+                                  fontFamily: fontfamily,
                                   color: '#F05935',
                                 }}>
                                 {item.drc}
@@ -898,8 +928,8 @@ function HomeScreen({navigation}) {
                             }}>
                             <Text
                               style={{
-                                fontFamily: 'Poppins-Medium',
-                                fontSize: 18,
+                                fontFamily: fontfamily,
+                                fontSize: 16,
                               }}>
                               M.R.P :
                             </Text>
@@ -919,7 +949,7 @@ function HomeScreen({navigation}) {
                                 style={{
                                   fontSize: 18,
                                   left: 10,
-                                  fontFamily: 'Poppins-Medium',
+                                  fontFamily: fontfamily,
                                   color: '#F05935',
                                 }}>
                                 {item.mrp}
@@ -952,7 +982,9 @@ function HomeScreen({navigation}) {
                           borderRadius: 5,
                           backgroundColor: '#35CBC4',
                         }}>
-                        <Text style={{color: '#fff'}}>View</Text>
+                        <Text style={{color: '#fff', fontFamily: fontfamily}}>
+                          View
+                        </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => {
@@ -966,7 +998,9 @@ function HomeScreen({navigation}) {
                           borderRadius: 5,
                           backgroundColor: '#35CBC4',
                         }}>
-                        <Text style={{color: '#fff'}}>Add to Cart</Text>
+                        <Text style={{color: '#fff', fontFamily: fontfamily}}>
+                          Add to Cart
+                        </Text>
                       </TouchableOpacity>
                       <MaterialIcons
                         size={30}
@@ -988,51 +1022,53 @@ function HomeScreen({navigation}) {
               );
             })}
           </ScrollView>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            backgroundColor: '#fff',
-            bottom: 10,
-            justifyContent: 'center',
-          }}>
-          {latestOffers.map((e, index) => {
-            return (
-              <View
-                key={index}
-                style={{
-                  height: 10,
-                  width: 10,
-                  borderRadius: 5,
-                  backgroundColor: activeImage === index ? '#000' : '#ccc',
-                  marginHorizontal: 4,
-                }}></View>
-            );
-          })}
+          <View
+            style={{
+              flexDirection: 'row',
+              // backgroundColor: '#fff',
+              bottom: 15,
+              position: 'absolute',
+              justifyContent: 'center',
+              alignSelf: 'center',
+            }}>
+            {latestOffers.map((e, index) => {
+              return (
+                <View
+                  key={index}
+                  style={{
+                    height: 10,
+                    width: 10,
+                    borderRadius: 5,
+                    backgroundColor: activeImage === index ? '#000' : '#ccc',
+                    marginHorizontal: 4,
+                  }}></View>
+              );
+            })}
+          </View>
         </View>
 
         <View
           style={{
             marginTop: 5,
-            paddingLeft: 10,
+            paddingHorizontal: 15,
             backgroundColor: '#fff',
             borderTopWidth: 1,
             borderColor: '#ccc',
           }}>
           <Text
             style={{
-              fontFamily: 'Poppins-SemiBold',
-              color: '#000',
+              fontFamily: fontfamily,
+              color: '#35CBC4',
               fontSize: 18,
             }}>
-            Health
+            Products
           </Text>
           <View style={{height: 220}}>
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{}}>
-              {latestOffers.map((item, index) => {
+              {brands[0].products.map((item, index) => {
                 return (
                   <TouchableOpacity
                     key={index}
@@ -1058,8 +1094,22 @@ function HomeScreen({navigation}) {
                       source={item.img}
                       resizeMode="contain"
                     />
-                    <Text style={{fontFamily: 'Poppins-Medium', color: '#000'}}>
-                      {item.title} | {item.productBy} | {item.weight}
+                    <Text
+                      style={{
+                        fontFamily: fontfamily,
+                        color: '#4e4e4e',
+                        alignSelf: 'center',
+                      }}>
+                      {item.title}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: fontfamily,
+                        color: '#4e4e4e',
+                        alignSelf: 'center',
+                        fontSize: 12,
+                      }}>
+                      {item.productBy} | {item.weight}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -1103,40 +1153,303 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                   flexDirection: 'row',
                 }}>
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Medium',
-                    color: '#000',
-                    fontSize: 16,
-                    left: -5,
-                  }}>
-                  View All
-                </Text>
                 <View
                   style={{
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: 60,
-                    width: 60,
-                    borderRadius: 30,
+                    height: 130,
+                    width: 130,
+                    borderRadius: 130 / 2,
                     // paddingHorizontal: 20,
                     backgroundColor: '#fff',
                     // borderRadius: 5,
-                    // flexDirection: 'row',
-                    backgroundColor: 'orange',
+                    flexDirection: 'row',
+                    backgroundColor: 'lightblue',
                   }}>
-                  <AntDesign
-                    name="arrowright"
-                    size={30}
-                    color="#fff"
-                    // style={{left: 5}}
-                  />
+                  <Text
+                    style={{
+                      fontFamily: fontfamily,
+                      color: '#fff',
+                      fontSize: 14,
+                      left: -5,
+                    }}>
+                    View All
+                  </Text>
+                  <AntDesign name="arrowright" size={20} color="#fff" />
                 </View>
               </TouchableOpacity>
             </ScrollView>
           </View>
         </View>
         <View
+          style={{
+            marginTop: 5,
+            paddingHorizontal: 15,
+            backgroundColor: '#fff',
+            borderTopWidth: 1,
+            borderColor: '#ccc',
+          }}>
+          <Text
+            style={{
+              fontFamily: fontfamily,
+              color: '#35CBC4',
+              fontSize: 18,
+            }}>
+            FMCG
+          </Text>
+          <View style={{height: 220}}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{}}>
+              {brands[2].products.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => {
+                      navigation.navigate('ProductDescription', {
+                        img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
+                      });
+                    }}
+                    style={{
+                      padding: 5,
+                      elevation: 0,
+                      margin: 5,
+                      flex: 1,
+                      backgroundColor: 'white',
+                      borderRadius: 15,
+                      // borderWidth: 1,
+                      borderColor: '#e5e5e5',
+                      height: '90%',
+                      width: 150,
+                    }}>
+                    <Image
+                      style={{borderRadius: 5, height: '80%', width: '100%'}}
+                      source={item.img}
+                      resizeMode="contain"
+                    />
+                    <Text
+                      style={{
+                        fontFamily: fontfamily,
+                        color: '#4e4e4e',
+                        alignSelf: 'center',
+                      }}>
+                      {item.title}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: fontfamily,
+                        color: '#4e4e4e',
+                        alignSelf: 'center',
+                        fontSize: 12,
+                      }}>
+                      {item.productBy} | {item.weight}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+              {/* <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Product', {brand: 'ala'});
+                }}
+                style={{
+                  padding: 5,
+                  elevation: 0,
+                  margin: 5,
+                  flex: 1,
+                  backgroundColor: 'white',
+                  borderRadius: 15,
+                  borderColor: '#e5e5e5',
+                  height: '90%',
+                  width: 150,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontFamily: 'Poppins-Medium', right: 20}}>
+                  More ...
+                </Text>
+              </TouchableOpacity>
+               */}
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Product', {brand: 'tanza'});
+                }}
+                style={{
+                  padding: 5,
+                  elevation: 0,
+                  margin: 5,
+                  flex: 1,
+                  borderRadius: 15,
+                  borderColor: '#e5e5e5',
+                  height: '90%',
+                  width: 150,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: 130,
+                    width: 130,
+                    borderRadius: 130 / 2,
+                    // paddingHorizontal: 20,
+                    backgroundColor: '#fff',
+                    // borderRadius: 5,
+                    flexDirection: 'row',
+                    backgroundColor: 'lightblue',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: fontfamily,
+                      color: '#fff',
+                      fontSize: 14,
+                      left: -5,
+                    }}>
+                    View All
+                  </Text>
+                  <AntDesign name="arrowright" size={20} color="#fff" />
+                </View>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+        <View
+          style={{
+            marginTop: 5,
+            paddingHorizontal: 15,
+            backgroundColor: '#fff',
+            borderTopWidth: 1,
+            borderColor: '#ccc',
+          }}>
+          <Text
+            style={{
+              fontFamily: fontfamily,
+              color: '#35CBC4',
+              fontSize: 18,
+            }}>
+            Health
+          </Text>
+          <View style={{height: 220}}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{}}>
+              {latestOffers.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => {
+                      navigation.navigate('ProductDescription', {
+                        img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
+                      });
+                    }}
+                    style={{
+                      padding: 5,
+                      elevation: 0,
+                      margin: 5,
+                      flex: 1,
+                      backgroundColor: 'white',
+                      borderRadius: 15,
+                      // borderWidth: 1,
+                      borderColor: '#e5e5e5',
+                      height: '90%',
+                      width: 150,
+                    }}>
+                    <Image
+                      style={{borderRadius: 5, height: '80%', width: '100%'}}
+                      source={item.img}
+                      resizeMode="contain"
+                    />
+                    <Text
+                      style={{
+                        fontFamily: fontfamily,
+                        color: '#4e4e4e',
+                        alignSelf: 'center',
+                      }}>
+                      {item.title}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: fontfamily,
+                        color: '#4e4e4e',
+                        alignSelf: 'center',
+                        fontSize: 12,
+                      }}>
+                      {item.productBy} | {item.weight}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+              {/* <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Product', {brand: 'ala'});
+                }}
+                style={{
+                  padding: 5,
+                  elevation: 0,
+                  margin: 5,
+                  flex: 1,
+                  backgroundColor: 'white',
+                  borderRadius: 15,
+                  borderColor: '#e5e5e5',
+                  height: '90%',
+                  width: 150,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontFamily: 'Poppins-Medium', right: 20}}>
+                  More ...
+                </Text>
+              </TouchableOpacity>
+               */}
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Product', {brand: 'tanza'});
+                }}
+                style={{
+                  padding: 5,
+                  elevation: 0,
+                  margin: 5,
+                  flex: 1,
+                  borderRadius: 15,
+                  borderColor: '#e5e5e5',
+                  height: '90%',
+                  width: 150,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: 130,
+                    width: 130,
+                    borderRadius: 130 / 2,
+                    // paddingHorizontal: 20,
+                    backgroundColor: '#fff',
+                    // borderRadius: 5,
+                    flexDirection: 'row',
+                    backgroundColor: 'lightblue',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: fontfamily,
+                      color: '#fff',
+                      fontSize: 14,
+                      left: -5,
+                    }}>
+                    View All
+                  </Text>
+                  <AntDesign name="arrowright" size={20} color="#fff" />
+                </View>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+        {/* <View
           style={{
             marginTop: 5,
             paddingVertical: 10,
@@ -1148,7 +1461,7 @@ function HomeScreen({navigation}) {
           }}>
           <Text
             style={{
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: fontfamily,
               color: '#000',
               fontSize: 18,
               left: 10,
@@ -1207,8 +1520,22 @@ function HomeScreen({navigation}) {
                   resizeMode="center"
                   source={require('../../../assests/images/apex/FMCG/panchagavya.png')}
                 />
-                <Text style={{fontFamily: 'Poppins-Medium', color: '#000'}}>
-                  Ayurvedic hair oil | amazon | 250g
+                <Text
+                  style={{
+                    fontFamily: 'Quicksand-Bold',
+                    color: '#4e4e4e',
+                    alignSelf: 'center',
+                  }}>
+                  Ayurvedic hair oil
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: 'Quicksand-Bold',
+                    color: '#4e4e4e',
+                    alignSelf: 'center',
+                    fontSize: 12,
+                  }}>
+                  amazon | 250g
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -1264,7 +1591,7 @@ function HomeScreen({navigation}) {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('Product', {brand: 'tanza'});
+                  navigation.navigate('Product', {brand: 'fmcg'});
                 }}
                 style={{
                   padding: 5,
@@ -1279,75 +1606,37 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                   flexDirection: 'row',
                 }}>
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Medium',
-                    color: '#000',
-                    fontSize: 16,
-                    left: -5,
-                  }}>
-                  View All
-                </Text>
                 <View
                   style={{
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: 60,
-                    width: 60,
-                    borderRadius: 30,
+                    height: 130,
+                    width: 130,
+                    borderRadius: 130 / 2,
                     // paddingHorizontal: 20,
                     backgroundColor: '#fff',
                     // borderRadius: 5,
-                    // flexDirection: 'row',
+                    flexDirection: 'row',
                     backgroundColor: 'orange',
                   }}>
-                  <AntDesign
-                    name="arrowright"
-                    size={30}
-                    color="#fff"
-                    // style={{left: 5}}
-                  />
+                  <Text
+                    style={{
+                      fontFamily: 'Poppins-Medium',
+                      color: '#fff',
+                      fontSize: 14,
+                      left: -5,
+                    }}>
+                    View All
+                  </Text>
+                  <AntDesign name="arrowright" size={20} color="#fff" />
                 </View>
               </TouchableOpacity>
-              {/* <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Product', {brand: 'ayurvivek'});
-                }}
-                style={{
-                  padding: 5,
-                  elevation: 0,
-                  margin: 5,
-                  flex: 1,
-                  // backgroundColor: 'white',
-                  borderRadius: 15,
-                  borderColor: '#e5e5e5',
-                  height: '90%',
-                  width: 150,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{fontFamily: 'Poppins-Medium', right: 20}}>
-                  More ...
-                </Text>
-              </TouchableOpacity> */}
+ 
             </ScrollView>
           </View>
-          {/* <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignSelf: 'flex-end',
-              top: 0,
-              right: 10,
-            }}
-            onPress={() => {
-              navigation.navigate('Product', {type: 'fmcg'});
-            }}>
-            <Text style={{fontFamily: 'Poppins-Medium', right: 10}}>
-              More ...
-            </Text>
-          </TouchableOpacity> */}
-        </View>
-        <View
+ 
+        </View> */}
+        {/* <View
           style={{
             marginTop: 5,
             paddingVertical: 10,
@@ -1374,15 +1663,12 @@ function HomeScreen({navigation}) {
                 }}
                 style={{
                   padding: 5,
-                  // elevation: 5,
                   margin: 5,
                   marginLeft: 15,
                   height: 200,
                   width: 150,
                   backgroundColor: 'white',
                   borderRadius: 15,
-                  // borderWidth: 1,
-                  // borderColor: '#ccc',
                 }}>
                 <Image
                   style={{borderRadius: 5, height: '70%', width: '100%'}}
@@ -1508,54 +1794,35 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                   flexDirection: 'row',
                 }}>
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Medium',
-                    color: '#000',
-                    fontSize: 16,
-                    left: -5,
-                  }}>
-                  View All
-                </Text>
                 <View
                   style={{
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: 60,
-                    width: 60,
-                    borderRadius: 30,
+                    height: 130,
+                    width: 130,
+                    borderRadius: 130 / 2,
                     // paddingHorizontal: 20,
                     backgroundColor: '#fff',
                     // borderRadius: 5,
-                    // flexDirection: 'row',
+                    flexDirection: 'row',
                     backgroundColor: 'orange',
                   }}>
-                  <AntDesign
-                    name="arrowright"
-                    size={30}
-                    color="#fff"
-                    // style={{left: 5}}
-                  />
+                  <Text
+                    style={{
+                      fontFamily: 'Poppins-Medium',
+                      color: '#fff',
+                      fontSize: 14,
+                      left: -5,
+                    }}>
+                    View All
+                  </Text>
+                  <AntDesign name="arrowright" size={20} color="#fff" />
                 </View>
               </TouchableOpacity>
             </ScrollView>
           </View>
-          {/* <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignSelf: 'flex-end',
-              top: 0,
-              right: 10,
-            }}
-            onPress={() => {
-              navigation.navigate('Product', {type: 'products'});
-            }}>
-            <Text style={{fontFamily: 'Poppins-Medium', right: 10}}>
-              More ...
-            </Text>
-       
-          </TouchableOpacity> */}
-        </View>
+
+        </View> */}
         <View
           // key={index}
           style={{
@@ -1587,7 +1854,7 @@ function HomeScreen({navigation}) {
             <View style={{height: '20%', paddingLeft: 10}}>
               <Text
                 style={{
-                  fontFamily: 'Poppins-SemiBold',
+                  fontFamily: fontfamily,
                   color: '#fff',
                   fontSize: 18,
                 }}>
@@ -1772,7 +2039,7 @@ function HomeScreen({navigation}) {
             {/* </ScrollView> */}
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             marginTop: 5,
             paddingLeft: 10,
@@ -1784,6 +2051,111 @@ function HomeScreen({navigation}) {
             style={{
               fontFamily: 'Poppins-SemiBold',
               color: '#000',
+              fontSize: 18,
+            }}>
+            Health
+          </Text>
+          <View style={{height: 220}}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{}}>
+              {brands[3].products.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => {
+                      navigation.navigate('ProductDescription', {
+                        img: item.images,
+                      });
+                    }}
+                    style={{
+                      padding: 5,
+                      elevation: 0,
+                      margin: 5,
+                      flex: 1,
+                      backgroundColor: 'white',
+                      borderRadius: 15,
+                      // borderWidth: 1,
+                      borderColor: '#e5e5e5',
+                      height: '90%',
+                      width: 150,
+                    }}>
+                    <Image
+                      style={{borderRadius: 5, height: '80%', width: '100%'}}
+                      source={item.img}
+                      resizeMode="contain"
+                    />
+                    <Text style={{fontFamily: 'Poppins-Medium', color: '#000'}}>
+                      {item.title} | {item.productBy} | {item.weight}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+         
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Product', {brand: 'tanza'});
+                }}
+                style={{
+                  padding: 5,
+                  elevation: 0,
+                  margin: 5,
+                  flex: 1,
+                  borderRadius: 15,
+                  borderColor: '#e5e5e5',
+                  height: '90%',
+                  width: 150,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Medium',
+                    color: '#000',
+                    fontSize: 16,
+                    left: -5,
+                  }}>
+                  View All
+                </Text>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: 60,
+                    width: 60,
+                    borderRadius: 30,
+                    // paddingHorizontal: 20,
+                    backgroundColor: '#fff',
+                    // borderRadius: 5,
+                    // flexDirection: 'row',
+                    backgroundColor: 'lightblue',
+                  }}>
+                  <AntDesign
+                    name="arrowright"
+                    size={30}
+                    color="#fff"
+                    // style={{left: 5}}
+                  />
+                </View>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View> */}
+        <View
+          style={{
+            marginTop: 5,
+            paddingHorizontal: 15,
+            backgroundColor: '#fff',
+            borderTopWidth: 1,
+            borderColor: '#ccc',
+            marginBottom: 20,
+          }}>
+          <Text
+            style={{
+              fontFamily: fontfamily,
+              color: '#35CBC4',
               fontSize: 18,
             }}>
             Health
@@ -1819,8 +2191,22 @@ function HomeScreen({navigation}) {
                       source={item.img}
                       resizeMode="contain"
                     />
-                    <Text style={{fontFamily: 'Poppins-Medium', color: '#000'}}>
-                      {item.title} | {item.productBy} | {item.weight}
+                    <Text
+                      style={{
+                        fontFamily: fontfamily,
+                        color: '#4e4e4e',
+                        alignSelf: 'center',
+                      }}>
+                      {item.title}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: fontfamily,
+                        color: '#4e4e4e',
+                        alignSelf: 'center',
+                        fontSize: 12,
+                      }}>
+                      {item.productBy} | {item.weight}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -1864,34 +2250,29 @@ function HomeScreen({navigation}) {
                   alignItems: 'center',
                   flexDirection: 'row',
                 }}>
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Medium',
-                    color: '#000',
-                    fontSize: 16,
-                    left: -5,
-                  }}>
-                  View All
-                </Text>
                 <View
                   style={{
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: 60,
-                    width: 60,
-                    borderRadius: 30,
+                    height: 130,
+                    width: 130,
+                    borderRadius: 130 / 2,
                     // paddingHorizontal: 20,
                     backgroundColor: '#fff',
                     // borderRadius: 5,
-                    // flexDirection: 'row',
-                    backgroundColor: 'orange',
+                    flexDirection: 'row',
+                    backgroundColor: 'lightblue',
                   }}>
-                  <AntDesign
-                    name="arrowright"
-                    size={30}
-                    color="#fff"
-                    // style={{left: 5}}
-                  />
+                  <Text
+                    style={{
+                      fontFamily: fontfamily,
+                      color: '#fff',
+                      fontSize: 14,
+                      left: -5,
+                    }}>
+                    View All
+                  </Text>
+                  <AntDesign name="arrowright" size={20} color="#fff" />
                 </View>
               </TouchableOpacity>
             </ScrollView>

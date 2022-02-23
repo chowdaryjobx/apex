@@ -20,6 +20,7 @@ import ProfileEditingScreen from './appscreens/ProfileEditingScreen';
 import PaymentSuccessfulScreen from './appscreens/PaymentSuccessfulScreen';
 import OrderSummaryScreen from './appscreens/OrderSummaryScreen';
 import MenuScreen from './appscreens/MenuScreen';
+
 import SettingsScreen from './appscreens/SettingsScreen';
 import PasswordsScreen from './appscreens/PasswordsScreen';
 import ProductDescription from './appscreens/ProductDescription';
@@ -34,6 +35,7 @@ import WalletsScreen from './businessScreens/WalletsScreen';
 import BankDetailsScreen from './businessScreens/BankDetailsScreen';
 import PanCardScreen from './businessScreens/PanCardScreen';
 import BusinessScreen from './businessScreens/BusinessScreen';
+import BusinessMenu from './businessScreens/BusinessMenu';
 import DailySalesScreen from './businessScreens/DailySalesScreen';
 import TeamAtAGlanceScreen from './businessScreens/TeamAtAGlanceScreen';
 import TeamBusinessScreen from './businessScreens/TeamBusinessScreen';
@@ -81,14 +83,14 @@ export {
     ProductDescription,
     Carousal,
 
-
+    BusinessMenu,
+    BusinessScreen,
     IdConfirmationScreen,
     IdActivationPage,
     WalletReportScreen,
     WalletsScreen,
     BankDetailsScreen,
     PanCardScreen,
-    BusinessScreen,
     DailySalesScreen,
     TeamAtAGlanceScreen,
     TeamBusinessScreen,

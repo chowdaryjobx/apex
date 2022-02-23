@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {ToastAndroid} from 'react-native';
 import {Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
@@ -53,6 +54,11 @@ export const AuthContext = ({children, navigation}) => {
   const [TokenIDN, setTokenIDN] = useState(
     '5kkxMgGdTJqKDljMjJcWhXHDqcBFvJwVGeKTfc2FmfjRCCH5hd36LnlUE5yyPQ3g',
   );
+
+
+  const fontfamily = "Quicksand-Bold";
+
+
   // live
   // const [TokenIDN, setTokenIDN] = useState("DljMjJcWhXHMgGdTJqKDqcUE5yyBFvJwVGeKTfc2FmfjRCCH5hd36LnlPQ3g5kkx");
 
@@ -127,7 +133,7 @@ export const AuthContext = ({children, navigation}) => {
     name: 'Prakesh',
     email: 'prakesh@gmail.com',
     phoneNumber: 9360736095,
-    profilePic: 'https://www.w3schools.com/howto/img_avatar.png',
+    profilePic: require('../assests/extras/user.png'),
     // profilePic: 'https://m.media-amazon.com/images/I/81-80FPGX0L._AC_SY200_.jpg',
     token: 123456789,
     address: '4-256/8-1, Vadapalani,Tamilnadu',
@@ -172,6 +178,16 @@ export const AuthContext = ({children, navigation}) => {
     setUserUpis([...userUpis, upiData]);
   };
 
+  const showToastWithGravity = msg => {
+    ToastAndroid.showWithGravityAndOffset(
+      msg,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
   const emptyCart = () => {
     setCartItems([]);
   };
@@ -185,13 +201,14 @@ export const AuthContext = ({children, navigation}) => {
       for (let i = 0; i < cartItems.length; i++) {
         if (cartItems[i].id === item.id) {
           flag = 'found';
-          console.log('product already added' + item.id);
+          showToastWithGravity('Product already added to cart');
         } else {
           flag = 'notfound';
         }
       }
       if (flag === 'notfound') {
         setCartItems([...cartItems, item]);
+        showToastWithGravity('Product added to cart');
       }
       // cartItems.map(product => {
       //   if (product.id !== item.id) {
@@ -315,6 +332,7 @@ export const AuthContext = ({children, navigation}) => {
         addUpi,
         products,
         brands,
+        fontfamily
       }}>
       {children}
     </DataContext.Provider>

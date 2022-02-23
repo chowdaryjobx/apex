@@ -9,6 +9,18 @@ const data = [
         title: 'Ayurvivek',
         productBy: 'Ayurvivek',
         weight: '400gms',
+        images:[{
+          img: require('../../assests/images/apex/PRODUCTS/book.png'),
+        },
+        {
+          img: require('../../assests/images/apex/PRODUCTS/book.png'),
+        },
+        {
+          img: require('../../assests/images/apex/PRODUCTS/book.png'),
+        },
+        {
+          img: require('../../assests/images/apex/PRODUCTS/book.png'),
+        },]
       },
       {
         id: 2,

@@ -32,15 +32,7 @@ export default function ProductDescription({navigation, route}) {
   const latestData = route.params.data;
   const img = route.params.img;
 
-  const {
-    user,
-    cartItems,
-    userData,
-    productStatus,
-    companyName,
-    api,
-    url,
-  } = React.useContext(DataContext);
+  const {user, cartItems, api, url, fonts} = React.useContext(DataContext);
   const scrollValue = useRef(new Animated.Value(0)).current;
   const translateX = scrollValue.interpolate({
     inputRange: [0, width],
@@ -77,52 +69,7 @@ export default function ProductDescription({navigation, route}) {
     },
   ]);
   const [latestOffers, setLatestOffers] = useState(latestData);
-  //   [
-  //   {
-  //     id: 1,
-  //     title: 'Alpite',
-  //     productBy: 'Apex Market',
-  //     description:
-  //       'Useful to stimulate pancreas, to generate amount of insulting ...',
-  //     bv: 1,
-  //     drc: '10%',
-  //     mrp: 200,
-  //     img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'Herbo Flax',
-  //     productBy: 'Amazon',
-  //     description:
-  //       'Useful to stimulate pancreas, to generate amount of insulting ...',
-  //     bv: 1,
-  //     drc: '10%',
-  //     mrp: 200,
-  //     img: require('../../../assests/images/apex/HEALTH/herboflax.png'),
-  //   },
-  //   {
-  //     id: 3,
-  //     title: 'Kickbags',
-  //     productBy: 'Amazon',
-  //     description:
-  //       'Useful to stimulate pancreas, to generate amount of insulting ...',
-  //     bv: 1,
-  //     drc: '10%',
-  //     mrp: 200,
-  //     img: require('../../../assests/images/apex/HEALTH/kickgas.png'),
-  //   },
-  //   {
-  //     id: 4,
-  //     title: 'Muscle Oil',
-  //     productBy: 'Amazon',
-  //     description:
-  //       'Useful to stimulate pancreas, to generate amount of insulting ...',
-  //     bv: 1,
-  //     drc: '10%',
-  //     mrp: 200,
-  //     img: require('../../../assests/images/apex/HEALTH/muscleoil.png'),
-  //   },
-  // ]);
+
   function onchange(nativeEvent) {
     if (nativeEvent) {
       const slide = Math.ceil(
@@ -198,7 +145,7 @@ export default function ProductDescription({navigation, route}) {
                 navigation.navigate('WalletReport', {type: 'COMMISSION'});
               }}
               style={{
-                paddingLeft: 10,
+                paddingLeft: 5,
                 height: '80%',
                 width: 70,
                 backgroundColor: '#fff',
@@ -220,7 +167,9 @@ export default function ProductDescription({navigation, route}) {
                   alignItems: 'center',
                 }}>
                 <FontAwesome name="rupee" size={12} />
-                <Text>{wallet ? wallet.Commission : null}</Text>
+                <Text style={{fontSize: 12}}>
+                  {wallet ? wallet.Commission : null}
+                </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
@@ -228,7 +177,7 @@ export default function ProductDescription({navigation, route}) {
                 navigation.navigate('WalletReport', {type: 'MYBANK'});
               }}
               style={{
-                paddingLeft: 10,
+                paddingLeft: 5,
                 height: '80%',
                 width: 70,
                 backgroundColor: '#fff',
@@ -250,7 +199,10 @@ export default function ProductDescription({navigation, route}) {
                   alignItems: 'center',
                 }}>
                 <FontAwesome name="rupee" size={12} />
-                <Text> {wallet ? wallet.MyBank : null}</Text>
+                <Text style={{fontSize: 12}}>
+                  {' '}
+                  {wallet ? wallet.MyBank : null}
+                </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
@@ -258,7 +210,7 @@ export default function ProductDescription({navigation, route}) {
                 navigation.navigate('WalletReport', {type: 'MYBANK'});
               }}
               style={{
-                paddingLeft: 10,
+                paddingLeft: 5,
                 height: '80%',
                 width: 70,
                 backgroundColor: '#fff',
@@ -343,7 +295,7 @@ export default function ProductDescription({navigation, route}) {
                 navigation.navigate('WalletReport', {type: 'MYBANK'});
               }}
               style={{
-                paddingLeft: 10,
+                paddingLeft: 5,
                 height: '80%',
                 width: 70,
                 backgroundColor: '#fff',
@@ -357,6 +309,34 @@ export default function ProductDescription({navigation, route}) {
                 <MaterialCommunityIcons name="beta" size={20} color="#000" />
                 <Text style={{fontSize: 12}}>
                   : {business ? business.BTeamBusiness : null}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                alert('Your Earnings');
+              }}
+              style={{
+                paddingLeft: 5,
+                height: '80%',
+                width: 70,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                marginLeft: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <FontAwesome5 name="hand-holding-usd" size={30} color="#000" />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <FontAwesome name="rupee" size={12} />
+                <Text style={{fontSize: 12}}>
+                  {' '}
+                  {wallet ? wallet.MyBank : null}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -404,34 +384,9 @@ export default function ProductDescription({navigation, route}) {
                 </View>
               </View>
             </TouchableOpacity> */}
-            <TouchableOpacity
-              onPress={() => {
-                alert('Your Earnings');
-              }}
-              style={{
-                paddingLeft: 10,
-                height: '80%',
-                width: 70,
-                backgroundColor: '#fff',
-                borderRadius: 10,
-                marginRight: (WIDTH * 15) / 100,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <FontAwesome5 name="hand-holding-usd" size={30} color="#000" />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <FontAwesome name="rupee" size={12} />
-                <Text> {wallet ? wallet.MyBank : null}</Text>
-              </View>
-            </TouchableOpacity>
           </ScrollView>
         </View>
-        <View
+        {/* <View
           style={{
             height: '100%',
             width: '15%',
@@ -446,12 +401,12 @@ export default function ProductDescription({navigation, route}) {
           <TouchableOpacity
             onPress={() => {
               user
-                ? navigation.navigate('Profile')
+                ? navigation.navigate('BusinessMenu')
                 : navigation.navigate('MenuScreen');
             }}>
             <MaterialCommunityIcons name="menu" size={30} color="#000" />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     );
   };
@@ -488,9 +443,6 @@ export default function ProductDescription({navigation, route}) {
             <TouchableOpacity
               onPress={() => {
                 navigation.goBack();
-                // user
-                //   ? navigation.navigate('Profile')
-                //   : navigation.navigate('MenuScreen');
               }}>
               <MaterialCommunityIcons
                 name="arrow-left"
@@ -522,11 +474,23 @@ export default function ProductDescription({navigation, route}) {
 
             {user ? (
               <View>
-                <Text style={{marginLeft: 10, color: '#fff', fontSize: 12}}>
-                  Welcome
-                </Text>
-                <Text style={{marginLeft: 10, color: '#fff', fontSize: 18}}>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    color: '#fff',
+                    fontSize: 14,
+                    fontFamily: fonts.BOLD,
+                  }}>
                   Ramesh
+                </Text>
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    color: '#fff',
+                    fontSize: 12,
+                    fontFamily: fonts.BOLD,
+                  }}>
+                  Designation
                 </Text>
               </View>
             ) : null}
@@ -544,7 +508,7 @@ export default function ProductDescription({navigation, route}) {
                   onPress={() => {
                     navigation.navigate('Cart');
                   }}
-                  style={{flexDirection: 'row', left: -20}}>
+                  style={{flexDirection: 'row', left: -10}}>
                   <EvilIcons name="cart" size={35} color="#fff" />
                   <View style={{position: 'absolute', left: 20, top: -10}}>
                     <Badge value={cartItems.length} status="success" />
@@ -554,13 +518,24 @@ export default function ProductDescription({navigation, route}) {
                   onPress={() => {
                     alert('hello');
                   }}
-                  style={{justifyContent: 'center', alignItems: 'center'}}>
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    right: 3,
+                  }}>
                   <MaterialCommunityIcons
                     name="account-group"
                     size={30}
                     color="#fff"
                   />
-                  <Text style={{fontSize: 13, color: '#fff'}}>My Group</Text>
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      color: '#fff',
+                      fontFamily: fonts.BOLD,
+                    }}>
+                    My Group
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
@@ -577,28 +552,6 @@ export default function ProductDescription({navigation, route}) {
           </View>
         </View>
       </LinearGradient>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          elevation: 10,
-          height: '8%',
-          width: '100%',
-          backgroundColor: '#fff',
-        }}>
-        <TouchableOpacity
-          style={{
-            height: '75%',
-            width: '90%',
-            backgroundColor: '#fff',
-            padding: 10,
-            borderRadius: 50,
-            elevation: 5,
-            justifyContent: 'center',
-          }}>
-          <Text style={{fontSize: 12}}>Search here</Text>
-        </TouchableOpacity>
-      </View>
 
       <ScrollView contentContainerStyle={{}}>
         <View
@@ -608,7 +561,8 @@ export default function ProductDescription({navigation, route}) {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <Text style={{fontFamily: 'Poppins-Medium', color: '#000'}}>
+          <Text
+            style={{fontFamily: fonts.BOLD, color: '#4e4e4e', fontSize: 15}}>
             Alpiste
           </Text>
           <View
@@ -624,17 +578,17 @@ export default function ProductDescription({navigation, route}) {
               readonly={true}
               style={{alignSelf: 'center'}}
             />
-            <Text> (105)</Text>
+            <Text style={{fontFamily: fonts.MEDIUM, top: -2}}> (105)</Text>
           </View>
         </View>
 
         <View
           style={{
             paddingLeft: 20,
-            top: 10,
+            marginTop: 15,
             paddingBottom: 10,
           }}>
-          <Text>
+          <Text style={{fontFamily: fonts.MEDIUM, fontSize: 13}}>
             Useful to stimulate pancreas, to generate amount of insuling Useful
             to stimulate pancreas, to generate amount of insuling, to stimulate
             pancreas, to generate amount of insuling
@@ -780,7 +734,11 @@ export default function ProductDescription({navigation, route}) {
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flexDirection: 'row', top: 10}}>
-                  <Text style={{fontFamily: 'Poppins-Medium', fontSize: 18}}>
+                  <Text
+                    style={{
+                      fontFamily: fonts.SEMIBOLD,
+                      fontSize: 18,
+                    }}>
                     M.R.P :
                   </Text>
                   <FontAwesome5
@@ -791,7 +749,7 @@ export default function ProductDescription({navigation, route}) {
                   />
                   <Text
                     style={{
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: fonts.BOLD,
                       fontSize: 18,
                       left: 10,
                       color: '#F05935',
@@ -803,7 +761,11 @@ export default function ProductDescription({navigation, route}) {
               </View>
               <View style={{flexDirection: 'row', paddingRight: 10, top: 10}}>
                 <View style={{flexDirection: 'row'}}>
-                  <Text style={{fontFamily: 'Poppins-Medium', fontSize: 18}}>
+                  <Text
+                    style={{
+                      fontFamily: fonts.SEMIBOLD,
+                      fontSize: 18,
+                    }}>
                     DRC :
                   </Text>
                   <FontAwesome5
@@ -814,7 +776,7 @@ export default function ProductDescription({navigation, route}) {
                   />
                   <Text
                     style={{
-                      fontFamily: 'Poppins-Medium',
+                      fontFamily: fonts.BOLD,
                       fontSize: 18,
                       left: 10,
                       color: '#F05935',
@@ -897,33 +859,53 @@ export default function ProductDescription({navigation, route}) {
             <View
               style={{
                 borderWidth: 1,
-                borderColor: '#ccc',
                 top: 20,
                 padding: 10,
-                borderBottomWidth: 1,
-                borderColor: '#ccc',
+                // borderBottomWidth: 1,
+                borderColor: '#e4e4e4',
                 borderTopRightRadius: 5,
                 borderTopLeftRadius: 5,
               }}>
-              <Text style={{color: '#DC0000', fontSize: 16}}>
+              <Text
+                style={{
+                  color: '#DC0000',
+                  fontSize: 16,
+                  fontFamily: fonts.SEMIBOLD,
+                }}>
                 Save Extra{' '}
-                <Text style={{color: '#000', fontSize: 12}}>with 2 offers</Text>{' '}
+                <Text
+                  style={{
+                    color: 'green',
+                    fontSize: 14,
+                    fontFamily: fonts.SEMIBOLD,
+                  }}>
+                  with 2 offers
+                </Text>{' '}
               </Text>
             </View>
             <View
               style={{
                 borderWidth: 1,
-                borderColor: '#ccc',
                 top: 20,
                 padding: 10,
-                borderBottomWidth: 1,
-                borderColor: '#ccc',
+                // borderBottomWidth: 1,
+                borderColor: '#e4e4e4',
                 flexDirection: 'row',
                 paddingRight: 10,
               }}>
-              <Text style={{color: '#DC0000', fontSize: 16}}>
+              <Text
+                style={{
+                  color: '#DC0000',
+                  fontSize: 16,
+                  fontFamily: fonts.SEMIBOLD,
+                }}>
                 Bank Offer :
-                <Text style={{color: '#000', fontSize: 14}}>
+                <Text
+                  style={{
+                    color: '#000',
+                    fontSize: 14,
+                    fontFamily: fonts.SEMIBOLD,
+                  }}>
                   {' '}
                   5% Instant discount on SBI Cashback Card Transcations
                 </Text>
@@ -935,16 +917,26 @@ export default function ProductDescription({navigation, route}) {
                 borderColor: '#ccc',
                 top: 20,
                 padding: 10,
-                borderBottomWidth: 1,
-                borderColor: '#ccc',
+                // borderBottomWidth: 1,
+                borderColor: '#e4e4e4',
                 flexDirection: 'row',
                 paddingRight: 10,
                 borderBottomLeftRadius: 5,
                 borderBottomRightRadius: 5,
               }}>
-              <Text style={{color: '#DC0000', fontSize: 16}}>
+              <Text
+                style={{
+                  color: '#DC0000',
+                  fontSize: 16,
+                  fontFamily: fonts.SEMIBOLD,
+                }}>
                 Bank Offer :
-                <Text style={{color: '#000', fontSize: 14}}>
+                <Text
+                  style={{
+                    color: '#000',
+                    fontSize: 14,
+                    fontFamily: fonts.SEMIBOLD,
+                  }}>
                   {' '}
                   5% Instant discount on SBI Cashback Card Transcations
                 </Text>
@@ -954,7 +946,6 @@ export default function ProductDescription({navigation, route}) {
           <View
             style={{
               top: 30,
-              height: 50,
               width: '100%',
               paddingHorizontal: 20,
               flexDirection: 'row',
@@ -966,7 +957,9 @@ export default function ProductDescription({navigation, route}) {
                 alignItems: 'center',
                 justifyContent: 'flex-end',
               }}>
-              <Text>Checkout Price : </Text>
+              <Text style={{fontFamily: fonts.SEMIBOLD}}>
+                Checkout Price :{' '}
+              </Text>
               <FontAwesome5 name="rupee-sign" size={13} color="#F05935" />
               <Text style={{fontSize: 18, color: '#F05935', left: 5}}>
                 {(mrp + drc) * qty}
@@ -975,9 +968,6 @@ export default function ProductDescription({navigation, route}) {
             <View
               style={{
                 flexDirection: 'row',
-                borderWidth: 1,
-                borderRadius: 5,
-                borderColor: '#ccc',
               }}>
               <TouchableOpacity
                 onPress={() => {
@@ -986,36 +976,37 @@ export default function ProductDescription({navigation, route}) {
                   }
                 }}
                 style={{
-                  paddingHorizontal: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  backgroundColor: '#35CBC4',
+                  paddingHorizontal: 15,
+                  borderRadius: 5,
+                  elevation: 5,
+                  marginRight: 10,
                 }}>
-                <View
-                  style={{
-                    height: 2,
-                    width: 15,
-                    backgroundColor: 'black',
-                  }}></View>
-                {/* <Text style={{fontSize: 20}}>-</Text> */}
+                <Text style={{fontSize: 25, color: '#fff'}}>-</Text>
               </TouchableOpacity>
               <View
                 style={{
+                  backgroundColor: '#fff',
                   paddingHorizontal: 10,
+                  borderRadius: 5,
+                  elevation: 5,
+                  marginRight: 10,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Text style={{fontSize: 20, color: '#60B245'}}>{qty}</Text>
+                <Text style={{fontSize: 16, color: '#000'}}>{qty}</Text>
               </View>
               <TouchableOpacity
                 onPress={() => {
                   setQty(qty + 1);
                 }}
                 style={{
-                  paddingHorizontal: 15,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  backgroundColor: '#35CBC4',
+                  paddingHorizontal: 10,
+                  borderRadius: 5,
+                  elevation: 5,
                 }}>
-                <Text style={{fontSize: 25, color: '#60B245'}}>+</Text>
+                <Text style={{fontSize: 25, color: '#fff'}}>+</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -1025,63 +1016,46 @@ export default function ProductDescription({navigation, route}) {
               paddingHorizontal: 20,
               top: 60,
               flexDirection: 'row',
-              // alignItems: 'flex-end',
               justifyContent: 'space-between',
             }}>
-            <View>
-              <TouchableOpacity
-                onPressIn={() => {
-                  navigation.navigate('Cart');
-                }}
-                style={{
-                  backgroundColor: '#35CBC4',
-                  paddingVertical: 10,
-                  paddingHorizontal: 30,
-                  borderRadius: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => {}}>
-                <Text style={{color: '#fff'}}>Add to cart</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity
-                onPressIn={() => {
-                  navigation.navigate('Cart');
-                }}
-                style={{
-                  backgroundColor: '#35CBC4',
-                  paddingVertical: 10,
-                  paddingHorizontal: 40,
-                  borderRadius: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-                onPress={() => {}}>
-                <Text style={{color: 'orange'}}>Buy Now</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          {/* <View style={{paddingHorizontal: 20, top: 60}}>
             <TouchableOpacity
               onPressIn={() => {
-                alert('adding into cart');
+                navigation.navigate('Cart');
               }}
               style={{
                 backgroundColor: '#35CBC4',
-                padding: 10,
+                paddingVertical: 10,
+                // paddingHorizontal: 30,
+                width: '45%',
                 borderRadius: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
               onPress={() => {}}>
-              <Text style={{color: '#fff'}}>Buy Now</Text>
+              <Text style={{color: '#fff', fontFamily: fonts.SEMIBOLD}}>
+                Add to cart
+              </Text>
             </TouchableOpacity>
-          </View> */}
-          {/* <View style={{paddingHorizontal: 20, top: 80}}>
-         
-          </View> */}
+
+            <TouchableOpacity
+              onPressIn={() => {
+                navigation.navigate('Cart');
+              }}
+              style={{
+                backgroundColor: 'orange',
+                paddingVertical: 10,
+                // paddingHorizontal: 40,
+                width: '45%',
+                borderRadius: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() => {}}>
+              <Text style={{color: '#fff', fontFamily: fonts.SEMIBOLD}}>
+                Buy Now
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <View
           style={{
@@ -1089,10 +1063,15 @@ export default function ProductDescription({navigation, route}) {
             paddingVertical: 3,
             backgroundColor: '#ccc',
           }}></View>
-        <View style={{marginTop: 5, paddingLeft: 10, backgroundColor: '#fff'}}>
+        <View
+          style={{
+            marginTop: 5,
+            paddingHorizontal: 20,
+            backgroundColor: '#fff',
+          }}>
           <Text
             style={{
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: fonts.BOLD,
               color: '#000',
               fontSize: 18,
             }}>
@@ -1110,8 +1089,7 @@ export default function ProductDescription({navigation, route}) {
                         key={index}
                         onPress={() => {
                           navigation.navigate('ProductDescription', {
-                            data,
-                            // img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
+                            img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
                           });
                         }}
                         style={{
@@ -1136,8 +1114,21 @@ export default function ProductDescription({navigation, route}) {
                           resizeMode="contain"
                         />
                         <Text
-                          style={{fontFamily: 'Poppins-Medium', color: '#000'}}>
-                          {item.title} | {item.productBy} | {item.weight}
+                          style={{
+                            fontFamily: fonts.SEMIBOLD,
+                            color: '#4e4e4e',
+                            alignSelf: 'center',
+                          }}>
+                          {item.title}
+                        </Text>
+                        <Text
+                          style={{
+                            fontFamily: fonts.SEMIBOLD,
+                            // color: '#4e4e4e',
+                            alignSelf: 'center',
+                            fontSize: 12,
+                          }}>
+                          {item.productBy} | {item.weight}
                         </Text>
                       </TouchableOpacity>
                     );
@@ -1145,7 +1136,7 @@ export default function ProductDescription({navigation, route}) {
                 : null}
             </ScrollView>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{flexDirection: 'row', alignSelf: 'flex-end', top: -5}}
             onPress={() => {
               navigation.navigate('Product', {type: 'health'});
@@ -1153,12 +1144,13 @@ export default function ProductDescription({navigation, route}) {
             <Text style={{fontFamily: 'Poppins-Medium', right: 20}}>
               More ...
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={{padding: 20, borderTopWidth: 1, borderColor: '#ccc'}}>
           <Text
             style={{
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: fonts.BOLD,
+              paddingBottom: 10,
               color: '#000',
               fontSize: 18,
             }}>
@@ -1174,10 +1166,15 @@ export default function ProductDescription({navigation, route}) {
             {customerQuestions.map((item, index) => {
               return (
                 <View key={index} style={{paddingVertical: 10}}>
-                  <Text style={{color: 'black', fontSize: 16}}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 16,
+                      fontFamily: fonts.SEMIBOLD,
+                    }}>
                     Q :{item.q}{' '}
                   </Text>
-                  <Text style={{fontSize: 14}}>
+                  <Text style={{fontSize: 14, fontFamily: fonts.REGULAR}}>
                     <Text style={{color: '#000'}}>A : </Text>
                     {item.a}{' '}
                   </Text>

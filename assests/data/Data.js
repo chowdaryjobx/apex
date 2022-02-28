@@ -9,18 +9,20 @@ const data = [
         title: 'Ayurvivek',
         productBy: 'Ayurvivek',
         weight: '400gms',
-        images:[{
-          img: require('../../assests/images/apex/PRODUCTS/book.png'),
-        },
-        {
-          img: require('../../assests/images/apex/PRODUCTS/book.png'),
-        },
-        {
-          img: require('../../assests/images/apex/PRODUCTS/book.png'),
-        },
-        {
-          img: require('../../assests/images/apex/PRODUCTS/book.png'),
-        },]
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 2,
@@ -28,6 +30,20 @@ const data = [
         title: 'Ayurvivek',
         productBy: 'Ayurvivek',
         weight: '400gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 3,
@@ -35,6 +51,20 @@ const data = [
         title: 'Ayurvivek',
         productBy: 'Ayurvivek',
         weight: '400gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 4,
@@ -42,6 +72,20 @@ const data = [
         title: 'Ayurvivek',
         productBy: 'Ayurvivek',
         weight: '400gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 5,
@@ -49,6 +93,20 @@ const data = [
         title: 'Ayurvivek',
         productBy: 'Ayurvivek',
         weight: '400gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
     ],
   },
@@ -62,6 +120,20 @@ const data = [
         title: 'Herboal soap',
         productBy: 'Panchya Gavya',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 2,
@@ -69,6 +141,20 @@ const data = [
         title: 'Herboal soap',
         productBy: 'Panchya Gavya',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 3,
@@ -76,6 +162,20 @@ const data = [
         title: 'Herboal soap',
         productBy: 'Panchya Gavya',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 4,
@@ -83,6 +183,20 @@ const data = [
         title: 'Herboal soap',
         productBy: 'Panchya Gavya',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 5,
@@ -90,6 +204,20 @@ const data = [
         title: 'Herboal soap',
         productBy: 'Panchya Gavya',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 6,
@@ -97,6 +225,20 @@ const data = [
         title: 'Herboal soap',
         productBy: 'Panchya Gavya',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 7,
@@ -104,6 +246,20 @@ const data = [
         title: 'Herboal soap',
         productBy: 'Panchya Gavya',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
     ],
   },
@@ -117,6 +273,20 @@ const data = [
         title: 'Tea',
         productBy: 'Tanzatea',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 2,
@@ -124,6 +294,20 @@ const data = [
         title: 'Tea',
         productBy: 'Tanzatea',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 3,
@@ -131,6 +315,20 @@ const data = [
         title: 'Tea',
         productBy: 'Tanzatea',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 4,
@@ -138,6 +336,20 @@ const data = [
         title: 'Tea',
         productBy: 'Tanzatea',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
     ],
   },
@@ -151,6 +363,20 @@ const data = [
         title: 'Tea',
         productBy: 'Tanzatea',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 2,
@@ -158,6 +384,20 @@ const data = [
         title: 'Tea',
         productBy: 'Tanzatea',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 3,
@@ -165,6 +405,20 @@ const data = [
         title: 'Tea',
         productBy: 'Tanzatea',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
       {
         id: 4,
@@ -172,6 +426,20 @@ const data = [
         title: 'Tea',
         productBy: 'Tanzatea',
         weight: '250gms',
+        images: [
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+          {
+            img: require('../../assests/images/apex/PRODUCTS/book.png'),
+          },
+        ],
       },
     ],
   },

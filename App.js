@@ -4,7 +4,7 @@ import DataContext, { AuthContext } from './src/context/DataContext';
 
 const App = () => {
 
-  const { user } = React.useContext(DataContext)
+  // const { user } = React.useContext(DataContext)
   return (
     <AppScreens />
     // user ? <AppScreens /> : <AuthScreens />

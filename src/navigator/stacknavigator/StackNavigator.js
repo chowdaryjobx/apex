@@ -19,6 +19,8 @@ import {
   SettingsScreen,
   PasswordsScreen,
   HomeScreen,
+  MyOrders,
+  OrderDetails,
   ProductDescription,
   Carousal,
   IdActivationPage,
@@ -45,6 +47,7 @@ import {
   Footer,
   NetworkError,
   PayoutTimeErrorScreen,
+  MyGroup,
 } from '../../screens';
 
 import * as React from 'react';
@@ -72,6 +75,7 @@ export const AppScreens = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
+        {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Product" component={ProductScreen} />
         <Stack.Screen name="Cart" component={CartScreen} />
@@ -90,6 +94,9 @@ export const AppScreens = () => {
         <Stack.Screen name="MenuScreen" component={MenuScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="PasswordsScreen" component={PasswordsScreen} />
+        <Stack.Screen name="MyOrders" component={MyOrders} />
+        <Stack.Screen name="OrderDetails" component={OrderDetails} />
+
         <Stack.Screen
           name="ProductDescription"
           component={ProductDescription}
@@ -97,7 +104,7 @@ export const AppScreens = () => {
         <Stack.Screen name="Carousal" component={Carousal} />
 
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="OtpScreen" component={OtpScreen} />
@@ -148,6 +155,7 @@ export const AppScreens = () => {
           name="PayoutTimeError"
           component={PayoutTimeErrorScreen}
         />
+        <Stack.Screen name="MyGroup" component={MyGroup} />
       </Stack.Navigator>
     </NavigationContainer>
   );

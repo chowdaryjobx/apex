@@ -47,7 +47,6 @@ export const AuthContext = ({children, navigation}) => {
   const [productStatus, setProductStatus] = useState(null);
   const [user, setUser] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  console.log(cartItems);
   const [refresh, setRefresh] = useState(false);
   const [Err, setErr] = useState('');
   // test
@@ -55,9 +54,17 @@ export const AuthContext = ({children, navigation}) => {
     '5kkxMgGdTJqKDljMjJcWhXHDqcBFvJwVGeKTfc2FmfjRCCH5hd36LnlUE5yyPQ3g',
   );
 
+  const fontfamily = 'Quicksand-Bold';
+  const font_title = 'Quicksand-Bold';
+  const font_desc = 'Quicksand-Medium';
 
-  const fontfamily = "Quicksand-Bold";
-
+  const fonts = {
+    BOLD: 'Quicksand-Bold',
+    LIGHT: 'Quicksand-Light',
+    MEDIUM: 'Quicksand-Medium',
+    REGULAR: 'Quicksand-Regular',
+    SEMIBOLD: 'Quicksand-SemiBold',
+  };
 
   // live
   // const [TokenIDN, setTokenIDN] = useState("DljMjJcWhXHMgGdTJqKDqcUE5yyBFvJwVGeKTfc2FmfjRCCH5hd36LnlPQ3g5kkx");
@@ -210,22 +217,6 @@ export const AuthContext = ({children, navigation}) => {
         setCartItems([...cartItems, item]);
         showToastWithGravity('Product added to cart');
       }
-      // cartItems.map(product => {
-      //   if (product.id !== item.id) {
-
-      //     setCartItems([...cartItems, item]);
-      //     console.log(product.id);
-      //   } else {
-      //     console.log('product already added');
-      //   }
-      // });
-      // for (let i = 0; i < cartItems.length; i++) {
-      //   if (cartItems[i].id === item.id) {
-      //     setCartItems([...cartItems, item]);
-      //   } else {
-      //     console.log('item add already');
-      //   }
-      // }
     }
   };
 
@@ -332,7 +323,10 @@ export const AuthContext = ({children, navigation}) => {
         addUpi,
         products,
         brands,
-        fontfamily
+        fontfamily,
+        font_title,
+        font_desc,
+        fonts,
       }}>
       {children}
     </DataContext.Provider>

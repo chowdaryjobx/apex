@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,14 +8,17 @@ import {
   TouchableOpacity,
   Switch,
   TextInput,
+  Dimensions,
 } from 'react-native';
-import {BottomSheet} from 'react-native-elements';
+import {BottomSheet, CheckBox} from 'react-native-elements';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {COLORS, SIZES} from '../../constants';
 import DataContext from '../../context/DataContext';
+
+const HEIGHT = Dimensions.get('window').height;
 
 function CartScreen({navigation}) {
   const {
@@ -27,8 +30,9 @@ function CartScreen({navigation}) {
     cartItems,
     deliverableAddresses,
     companyName,
+    fonts,
   } = React.useContext(DataContext);
-
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const [tip, setTip] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const [
@@ -36,7 +40,7 @@ function CartScreen({navigation}) {
     setCookingInstructionsBottomSheet,
   ] = useState(false);
   const [cookingInstructions, setCookingInstructions] = useState('');
-
+  const [refresh, setRefresh] = useState(false);
   let total = 0;
   let quantity = cartItems.length;
   cartItems.map(item => {
@@ -49,66 +53,238 @@ function CartScreen({navigation}) {
     }
   }
 
+  if (couponValue) {
+    total = total - couponValue;
+  }
+
+  const [couponValue, setCouponValue] = useState(null);
+  const [couponCode, setCouponCode] = useState('NEWBEE');
+
+  const [userCoupon, setUserCoupon] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [coupons, setCoupons] = useState([
+    {
+      coupon: 'ALA300',
+      value: 300,
+      expireDate: '31st MARCH 2022',
+      expireTime: '11:59 PM',
+      selected: false,
+    },
+    {
+      coupon: 'NEW100',
+      value: 100,
+      expireDate: '31st FEB 2022',
+      expireTime: '11:59 PM',
+      selected: false,
+    },
+    {
+      coupon: 'A200',
+      value: 200,
+      expireDate: '31st APRIL 2022',
+      expireTime: '11:59 PM',
+      selected: false,
+    },
+  ]);
+
+  const alterCoupons = index => {
+    coupons.map((item, i) => {
+      if (index === i) {
+        coupons[index].selected = !coupons[index].selected;
+      } else {
+        coupons[i].selected = false;
+      }
+    });
+
+    setRefresh(!refresh);
+  };
+
+  function checkCoupon() {
+    if (userCoupon === couponCode) {
+      setCouponValue(2400);
+      setErrorMessage(null);
+    } else {
+      setErrorMessage('Sorry, This coupon is not available');
+    }
+  }
+
   return (
-    <View style={{flex: 1, backgroundColor: '#ccc'}}>
+    <View style={{flex: 1, backgroundColor: '#F4F4F4'}}>
       <BottomSheet
         isVisible={cookingInstructionsBottomSheet}
         containerStyle={{}}>
-        <View style={{height: 300, backgroundColor: '#fff', padding: 20}}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View>
-              <Text style={{fontSize: 20, fontWeight: '500', color: 'green'}}>
-                Instruct your Chef{' '}
-              </Text>
-              <Text style={{fontSize: 14, color: '#ccc'}}>
-                Ask your chef in your own way.{' '}
-              </Text>
-            </View>
-            <View>
-              <EvilIcons
-                name="chevron-down"
-                size={40}
-                style={{}}
-                onPress={() => {
-                  setCookingInstructionsBottomSheet(
-                    !cookingInstructionsBottomSheet,
-                  );
-                }}
-              />
+        <View
+          style={{
+            height: HEIGHT,
+            backgroundColor: '#fff',
+            justifyContent: 'space-between',
+          }}>
+          <View style={{}}>
+            <ScrollView style={{padding: 20}}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <AntDesign
+                  name="arrowleft"
+                  size={20}
+                  colors="#000"
+                  onPress={() => {
+                    setCookingInstructionsBottomSheet(false);
+                  }}
+                />
+                <Text style={{fontSize: 16, fontFamily: fonts.BOLD, left: 20}}>
+                  Apply Coupon
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 20,
+                  justifyContent: 'space-between',
+                }}>
+                <View
+                  style={{
+                    width: '70%',
+                  }}>
+                  <TextInput
+                    placeholder="Coupon Code"
+                    value={userCoupon}
+                    style={{
+                      width: '100%',
+                      borderWidth: 1,
+                      borderColor: '#e4e4e4',
+                      borderRadius: 5,
+                      paddingLeft: 20,
+                    }}
+                    onChangeText={text => {
+                      setUserCoupon(text);
+                    }}
+                  />
+                  {errorMessage ? (
+                    <Text
+                      style={{
+                        color: 'red',
+                        fontFamily: fonts.SEMIBOLD,
+                        left: 15,
+                      }}>
+                      {errorMessage}
+                    </Text>
+                  ) : null}
+                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    checkCoupon();
+                  }}
+                  style={{width: '20%', justifyContent: 'center'}}>
+                  <Text
+                    style={{
+                      color: '#19BABD',
+                      fontSize: 16,
+                      fontFamily: fonts.SEMIBOLD,
+                    }}>
+                    Apply
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+            <View style={{backgroundColor: '#fff', marginTop: 10}}>
+              {coupons.map((item, index) => {
+                return (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      paddingRight: 20,
+                      paddingBottom: 30,
+                      borderBottomWidth: 1,
+                      borderColor: '#e4e4e4',
+                      paddingTop: 10,
+                    }}>
+                    <View>
+                      <CheckBox
+                        checkedColor="#19BABD"
+                        checked={item.selected}
+                        onPress={() => {
+                          alterCoupons(index);
+                          setCouponValue(item.value);
+                        }}
+                      />
+                    </View>
+
+                    <View style={{paddingRight: 20}}>
+                      <View style={{width: '50%'}}>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontFamily: fonts.BOLD,
+                            borderWidth: 1,
+                            borderColor: item.selected ? '#19BABD' : '#989898',
+                            borderStyle: 'dashed',
+                            paddingHorizontal: 40,
+                            paddingVertical: 10,
+                            borderRadius: 5,
+                            color: item.selected ? '#19BABD' : '#989898',
+                          }}>
+                          {item.coupon}
+                        </Text>
+                      </View>
+                      <View style={{marginTop: 10}}>
+                        <Text style={{color: '#000'}}>
+                          Save Rs. {item.value}
+                        </Text>
+                        <Text style={{color: '#000', top: 10}}>
+                          Rs. 300 off on minimum purchase of Rs.1999. Expires
+                          on:
+                          {item.expireDate} | {item.expireTime}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                );
+              })}
             </View>
           </View>
-          <View>
-            <TextInput
-              placeholderTextColor="#000"
-              style={{color: '#000'}}
-              value={cookingInstructions}
-              onChangeText={text => {
-                setCookingInstructions(text);
-              }}
-              placeholder="Ex: Add some spicy chilly."
-              multiline
-              numberOfLines={4}
+
+          <View
+            style={{
+              alignSelf: 'flex-end',
+              height: '8%',
+              width: '100%',
+              backgroundColor: '#fff',
+              flexDirection: 'row',
+              elevation: 5,
+            }}>
+            <View
               style={{
-                borderWidth: 1,
-                borderColor: '#ccc',
-                top: 10,
-                borderRadius: 5,
-              }}
-            />
-            <TouchableOpacity
-              onPress={() => {}}
-              style={{
-                height: 50,
-                width: '60%',
-                top: 30,
-                borderWidth: 1,
-                borderColor: 'green',
+                height: '100%',
+                width: '50%',
+                backgroundColor: '#fff',
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderRadius: 5,
-                alignSelf: 'center',
               }}>
-              <Text style={{color: 'green', fontSize: 16}}>Submit</Text>
+              <Text style={{fontFamily: fonts.SEMIBOLD, top: -2}}>
+                Maximum Savings
+              </Text>
+              <Text style={{fontFamily: fonts.SEMIBOLD, top: -2}}>
+                Rs.{couponValue}
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setCookingInstructionsBottomSheet(false);
+              }}
+              style={{
+                height: '100%',
+                width: '50%',
+                backgroundColor: '#19BABD',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontFamily: fonts.BOLD,
+                  top: -2,
+                  color: '#fff',
+                }}>
+                Apply
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -123,7 +299,7 @@ function CartScreen({navigation}) {
         style={{
           backgroundColor: '#fff',
           borderBottomWidth: 1,
-          borderBottomColor: '#ccc',
+          borderBottomColor: '#F4F4F4',
           paddingLeft: 10,
           flexDirection: 'row',
           justifyContent: 'flex-start',
@@ -140,15 +316,28 @@ function CartScreen({navigation}) {
             width: 0.8 * SIZES.width,
             paddingHorizontal: 20,
           }}>
-          <Text style={{fontSize: 16, fontWeight: '500'}}>{companyName}</Text>
+          <Text
+            style={{fontSize: 16, fontWeight: '500', fontFamily: fonts.BOLD}}>
+            {companyName}
+          </Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text>{cartItems.length} items, To Pay :</Text>
+            <Text style={{fontFamily: fonts.MEDIUM}}>
+              {cartItems.length} items, To Pay :
+            </Text>
             <FontAwesome
               name="rupee"
               size={14}
               color="black"
               style={{marginLeft: 10}}>
-              <Text style={{color: 'black', fontSize: 15}}> {total}</Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 15,
+                  fontFamily: fonts.SEMIBOLD,
+                }}>
+                {' '}
+                {total}
+              </Text>
             </FontAwesome>
           </View>
         </View>
@@ -159,8 +348,8 @@ function CartScreen({navigation}) {
           style={{
             borderTopWidth: 1,
             borderBottomWidth: 1,
-            borderColor: '#ccc',
-            top: 3,
+            borderColor: '#F4F4F4',
+            marginTop: 5,
             backgroundColor: '#fff',
             paddingHorizontal: 20,
             paddingVertical: 5,
@@ -189,7 +378,13 @@ function CartScreen({navigation}) {
                 alignItems: 'center',
                 padding: 5,
               }}>
-              <Text style={{fontSize: 12, color: '#35CBC4'}}>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: '#35CBC4',
+                  fontFamily: fonts.SEMIBOLD,
+                  top: -2,
+                }}>
                 SELECT ADDRESS
               </Text>
               {user ? (
@@ -208,12 +403,20 @@ function CartScreen({navigation}) {
                 margin: 10,
                 flex: 1,
                 borderWidth: 1,
-                borderColor: '#ccc',
+                borderColor: '#F4F4F4',
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: 5,
               }}>
-              <Text style={{fontSize: 12, color: '#fff'}}>Add New ADDRESS</Text>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: '#fff',
+                  fontFamily: fonts.SEMIBOLD,
+                  top: -2,
+                }}>
+                Add New ADDRESS
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -244,7 +447,7 @@ function CartScreen({navigation}) {
                   backgroundColor: '#fff',
                   flexDirection: 'row',
                   borderBottomWidth: 1,
-                  borderBottomColor: '#ccc',
+                  borderBottomColor: '#F4F4F4',
                 }}>
                 <View style={{flex: 0.4}}>
                   <Image
@@ -259,19 +462,40 @@ function CartScreen({navigation}) {
                 </View>
                 <View style={{flex: 0.6}}>
                   <View style={{}}>
-                    <Text style={{fontSize: 16, fontWeight: '400'}}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: '400',
+                        fontFamily: fonts.BOLD,
+                      }}>
                       {item.title}
+                    </Text>
+                  </View>
+                  <View style={{}}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: '400',
+                        fontFamily: fonts.SEMIBOLD,
+                      }}>
+                      {item.weight}
                     </Text>
                   </View>
                   <View
                     style={{
                       flexDirection: 'row',
                       backgroundColor: '#fff',
+                      justifyContent: 'space-between',
                       top: 15,
                       alignItems: 'center',
                     }}>
                     <FontAwesome name="rupee" size={14} color="black">
-                      <Text style={{color: 'black', fontSize: 14}}>
+                      <Text
+                        style={{
+                          color: 'black',
+                          fontSize: 16,
+                          fontFamily: fonts.SEMIBOLD,
+                        }}>
                         {' '}
                         {item.mrp * item.inCart}
                       </Text>
@@ -283,34 +507,64 @@ function CartScreen({navigation}) {
                           alignItems: 'center',
                           height: 30,
                           width: 100,
-                          elevation: 5,
-                          backgroundColor: '#fff',
-                          borderRadius: 5,
-                          flexDirection: 'row',
-                          justifyContent: 'space-around',
                         }}>
-                        <AntDesign
-                          name="minus"
-                          size={20}
-                          onPress={() => {
-                            if (item.inCart > 0) {
-                              decreaseProducts(index);
-                            }
-                          }}
-                        />
-                        <Text
+                        <View
                           style={{
-                            color: '#2E9E07',
-                            fontSize: 18,
-                            fontWeight: 'bold',
+                            flexDirection: 'row',
                           }}>
-                          {item.inCart}
-                        </Text>
-                        <AntDesign
-                          name="plus"
-                          size={20}
-                          onPress={() => increaseProducts(index)}
-                        />
+                          <TouchableOpacity
+                            onPress={() => {
+                              if (item.inCart > 0) {
+                                decreaseProducts(index);
+                              }
+                            }}
+                            style={{
+                              backgroundColor: '#35CBC4',
+                              paddingHorizontal: 5,
+                              borderRadius: 5,
+                              elevation: 5,
+                              marginRight: 10,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            }}>
+                            <AntDesign name="minus" size={20} color="#fff" />
+                          </TouchableOpacity>
+                          <View
+                            style={{
+                              backgroundColor: '#fff',
+                              paddingHorizontal: 10,
+                              borderRadius: 5,
+                              elevation: 5,
+                              marginRight: 10,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            }}>
+                            <Text style={{fontSize: 16, color: '#000'}}>
+                              {item.inCart}
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => {
+                              increaseProducts(index);
+                            }}
+                            style={{
+                              backgroundColor: '#35CBC4',
+                              paddingHorizontal: 10,
+                              paddingVertical: 5,
+                              borderRadius: 5,
+                              elevation: 5,
+                              marginRight: 10,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            }}>
+                            <AntDesign
+                              style={{}}
+                              name="plus"
+                              size={20}
+                              color="#fff"
+                            />
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     ) : (
                       <TouchableOpacity
@@ -341,34 +595,14 @@ function CartScreen({navigation}) {
                   </View>
                 </View>
               </View>
-              {/* <TouchableOpacity
-                onPress={() => {
-                  setCookingInstructionsBottomSheet(
-                    !cookingInstructionsBottomSheet,
-                  );
-                }}
-                style={{
-                  height: 0.05 * SIZES.height,
-                  width: SIZES.width,
-                  paddingHorizontal: 20,
-                  backgroundColor: '#F0F3F4',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <SimpleLineIcons name="note" size={14} />
-
-                <Text style={{fontSize: 14}}>
-                  {' '}
-                  Add cooking instructions(optional)
-                </Text>
-              </TouchableOpacity> */}
             </View>
           );
         })}
+
         <View
           style={{
-            margintop: 10,
-            height: 0.05 * SIZES.height,
+            marginTop: 15,
+            paddingVertical: 10,
             width: SIZES.width,
             paddingHorizontal: 20,
             backgroundColor: '#fff',
@@ -378,123 +612,27 @@ function CartScreen({navigation}) {
           }}>
           <Image
             style={{
-              height: 20,
-              width: 20,
-              resizeMode: 'stretch',
+              height: 25,
+              width: 25,
+              resizeMode: 'contain',
               borderRadius: 1,
             }}
             source={require('../../assests/extras/offerc.png')}
           />
-          <View style={{flex: 1, paddingLeft: 20, flexDirection: 'row'}}>
-            <Text style={{fontSize: 14}}>APPLY COUPON</Text>
-          </View>
-          <EvilIcons name="chevron-right" size={25} />
+          <TouchableOpacity
+            onPress={() => {
+              setCookingInstructionsBottomSheet(true);
+            }}
+            style={{flex: 1, paddingLeft: 20, flexDirection: 'row'}}>
+            <Text style={{fontSize: 15, fontFamily: fonts.BOLD, top: -3}}>
+              Apply Coupon
+            </Text>
+          </TouchableOpacity>
+          <EvilIcons name="chevron-right" size={50} />
         </View>
-        {/* <View style={{
-                    top: 10,
-                    height: 0.06 * SIZES.height,
-                    width: SIZES.width,
-                    backgroundColor: '#fff',
-                }} >
-                    <View style={{ flex: 1, flexDirection: 'row' }} >
-                        <View style={{ flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' }} >
-                            <Text style={{ color: '#fff', fontSize: 14 }} >Delivery</Text>
-                        </View>
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
-                            <Text style={{ fontSize: 14 }} >Take away</Text>
-                        </View>
-                    </View>
-                </View> */}
-        {/* <View style={{
-                    top: 15,
-                    width: SIZES.width,
-                    paddingHorizontal: 20,
-                    paddingVertical: 20,
-                    backgroundColor: '#fff',
-                    justifyContent: 'space-between'
-                }} >
-                    <View style={{}} >
-                        <Text style={{ fontSize: 16, fontWeight: '500' }} >Please tip your valet</Text>
-                    </View>
-                    <View style={{ paddingVertical: 10 }} >
-                        <Text style={{ color: 'gray' }} >Support your valet and make their day! 100% of your tip will be transfered to valet</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
-                        <TouchableOpacity onPress={() => { setIsEnabled(true); setTip(10) }} style={{
-                            justifyContent: 'center', alignItems: 'center',
-                            borderColor: '#ccc',
-                            borderRadius: 5,
-                            height: 35,
-                            // width: 80,
-                            elevation: 5,
-                            borderWidth: 1,
-                            backgroundColor: '#fff',
-                            paddingHorizontal: 20
-                        }} >
-                            <FontAwesome name="rupee" size={13} color="black" >
-                                <Text style={{ color: 'black', fontSize: 15 }} > 10</Text>
-                            </FontAwesome>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIsEnabled(true); setTip(20) }} style={{
-                            justifyContent: 'center', alignItems: 'center',
-                            borderColor: '#ccc',
-                            borderRadius: 5,
-                            height: 35,
-                            elevation: 5,
-                            borderWidth: 1,
-                            backgroundColor: '#fff',
-                            paddingHorizontal: 20
-                        }} >
-                            <FontAwesome name="rupee" size={13} color="black" >
-                                <Text style={{ color: 'black', fontSize: 15 }} > 20</Text>
-                            </FontAwesome>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { setIsEnabled(true); setTip(50) }} style={{
-                            justifyContent: 'center', alignItems: 'center',
-                            borderColor: '#ccc',
-                            borderRadius: 5,
-                            height: 35,
-                            // width: 80,
-                            elevation: 5,
-                            borderWidth: 1,
-                            backgroundColor: '#fff',
-                            paddingHorizontal: 20
-                        }} >
-                            <FontAwesome name="rupee" size={13} color="black" >
-                                <Text style={{ color: 'black', fontSize: 15 }} > 50</Text>
-                            </FontAwesome>
-                        </TouchableOpacity>
-                        <View style={{
-                            justifyContent: 'center', alignItems: 'center',
-                            borderColor: '#ccc',
-                            borderRadius: 5,
-                            height: 35,
-                            // width: 80,
-                            elevation: 5,
-                            borderWidth: 1,
-                            backgroundColor: '#fff',
-                            paddingHorizontal: 20
-                        }} >
-                            <Text style={{ color: 'black', fontSize: 15 }} > Other</Text>
-                        </View>
-                    </View>
-                    <View style={{ top: 10, alignItems: 'flex-start', flexDirection: 'row', alignItems: 'center' }} >
-                        <Switch
-                            trackColor={{ false: "#767577", true: "#81b0ff" }}
-                            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                            ios_backgroundColor="#3e3e3e"
-                            onValueChange={() => {
-                                setTip(null);
-                                setIsEnabled(!isEnabled)
-                            }}
-                            value={isEnabled}
-                        />
-                        {tip && isEnabled ? <Text style={{ left: 10, color: 'green' }} >Thanks for tipping your valet with  <FontAwesome name="rupee" size={12} color="green" /> {tip}</Text> : null}
-                    </View>
-                </View> */}
         <View
           style={{
-            top: 20,
+            marginTop: 12,
             width: SIZES.width,
             paddingHorizontal: 20,
             paddingVertical: 10,
@@ -502,7 +640,13 @@ function CartScreen({navigation}) {
             justifyContent: 'space-between',
             paddingBottom: 20,
           }}>
-          <Text style={{fontSize: 16, fontWeight: '400', paddingBottom: 5}}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '400',
+              paddingBottom: 5,
+              fontFamily: fonts.BOLD,
+            }}>
             Bill Details
           </Text>
           <View style={{flex: 1, paddingVertical: 5}}>
@@ -512,9 +656,19 @@ function CartScreen({navigation}) {
                 justifyContent: 'space-between',
                 paddingBottom: 2,
               }}>
-              <Text style={{fontSize: 14, paddingBottom: 2}}>Item Total</Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  paddingBottom: 2,
+                  fontFamily: fonts.SEMIBOLD,
+                }}>
+                Item Total
+              </Text>
               <FontAwesome name="rupee" size={14}>
-                <Text style={{fontSize: 14}}> {total}.00</Text>
+                <Text style={{fontSize: 15, fontFamily: fonts.SEMIBOLD}}>
+                  {' '}
+                  {total}.00
+                </Text>
               </FontAwesome>
             </View>
             <View
@@ -523,10 +677,39 @@ function CartScreen({navigation}) {
                 justifyContent: 'space-between',
                 paddingBottom: 2,
               }}>
-              <Text style={{fontSize: 14}}>Delivery Charges</Text>
+              <Text style={{fontSize: 14, fontFamily: fonts.SEMIBOLD}}>
+                Delivery Charges
+              </Text>
               <FontAwesome name="rupee" size={14}>
-                <Text style={{fontSize: 14}}> 0.00</Text>
+                <Text style={{fontSize: 15, fontFamily: fonts.SEMIBOLD}}>
+                  {' '}
+                  0.00
+                </Text>
               </FontAwesome>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingBottom: 2,
+              }}>
+              <Text style={{fontSize: 14, fontFamily: fonts.SEMIBOLD}}>
+                Coupon Discount
+              </Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{color: '#85CDBA'}}>- </Text>
+                <FontAwesome name="rupee" size={14} color="#85CDBA">
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: fonts.SEMIBOLD,
+                      color: '#85CDBA',
+                    }}>
+                    {' '}
+                    {couponValue}.00
+                  </Text>
+                </FontAwesome>
+              </View>
             </View>
             {tip && isEnabled ? (
               <View
@@ -536,8 +719,11 @@ function CartScreen({navigation}) {
                   paddingBottom: 2,
                 }}>
                 <Text style={{fontSize: 14}}>Tip to your valet</Text>
-                <FontAwesome name="rupee" size={14}>
-                  <Text style={{fontSize: 14}}> {tip}.00</Text>
+                <FontAwesome name="rupee" size={15}>
+                  <Text style={{fontSize: 14, fontFamily: fonts.SEMIBOLD}}>
+                    {' '}
+                    {tip}.00
+                  </Text>
                 </FontAwesome>
               </View>
             ) : null}
@@ -547,11 +733,16 @@ function CartScreen({navigation}) {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 borderBottomWidth: 1,
-                borderColor: '#ccc',
+                borderColor: '#F4F4F4',
               }}>
-              <Text style={{fontSize: 14}}>Taxes</Text>
+              <Text style={{fontSize: 14, fontFamily: fonts.SEMIBOLD}}>
+                Taxes
+              </Text>
               <FontAwesome name="rupee" size={14}>
-                <Text style={{fontSize: 14}}> 0.00</Text>
+                <Text style={{fontSize: 15, fontFamily: fonts.SEMIBOLD}}>
+                  {' '}
+                  0.00
+                </Text>
               </FontAwesome>
             </View>
             <View
@@ -561,9 +752,18 @@ function CartScreen({navigation}) {
                 justifyContent: 'space-between',
                 paddingBottom: 10,
               }}>
-              <Text style={{fontSize: 18, color: '#000'}}>Grand Total</Text>
+              <Text
+                style={{fontSize: 18, color: '#000', fontFamily: fonts.BOLD}}>
+                Grand Total
+              </Text>
               <FontAwesome name="rupee" size={16} color="#000">
-                <Text style={{color: 'black', fontSize: 18, color: '#000'}}>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 18,
+                    color: '#000',
+                    fontFamily: fonts.BOLD,
+                  }}>
                   {' '}
                   {total}.00
                 </Text>
@@ -571,7 +771,7 @@ function CartScreen({navigation}) {
             </View>
           </View>
         </View>
-        <View style={{paddingHorizontal: 20, paddingVertical: 30}}>
+        {/* <View style={{paddingHorizontal: 20, paddingVertical: 30}}>
           <Text
             style={{
               fontSize: 22,
@@ -584,7 +784,7 @@ function CartScreen({navigation}) {
           <Text style={{fontSize: 14, fontStyle: 'italic', color: 'gray'}}>
             your almost there to get your product.
           </Text>
-        </View>
+        </View> */}
       </ScrollView>
       <View
         style={{
@@ -599,13 +799,27 @@ function CartScreen({navigation}) {
             paddingLeft: 20,
             justifyContent: 'center',
           }}>
-          <FontAwesome name="rupee" size={14} color="#2E9E07">
-            <Text style={{color: 'black', fontSize: 16, color: '#2E9E07'}}>
+          <FontAwesome name="rupee" size={15} color="#2E9E07">
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 18,
+                color: '#2E9E07',
+                fontFamily: fonts.SEMIBOLD,
+              }}>
               {' '}
               {total}.00
             </Text>
           </FontAwesome>
-          <Text style={{fontSize: 14, color: '#2E9E07'}}>View Detail Bill</Text>
+          <Text
+            style={{
+              fontSize: 14,
+              color: '#2E9E07',
+              fontFamily: fonts.SEMIBOLD,
+              top: -2,
+            }}>
+            View Detail Bill
+          </Text>
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -620,7 +834,15 @@ function CartScreen({navigation}) {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 16, color: '#fff'}}>Proceed To Pay</Text>
+          <Text
+            style={{
+              fontSize: 16,
+              color: '#fff',
+              fontFamily: fonts.BOLD,
+              top: -2,
+            }}>
+            Proceed To Pay
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

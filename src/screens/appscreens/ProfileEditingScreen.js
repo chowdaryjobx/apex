@@ -285,14 +285,18 @@ function ProfileEditingScreen({navigation}) {
                 borderRadius: 130 / 2,
                 elevation: 10,
               }}>
-              <Image
-                source={{
-                  uri: profilePic
-                    ? `data:image/jpeg;base64,${profilePic}`
-                    : userData.profilePic,
-                }}
-                style={{height: '100%', width: '100%', borderRadius: 130 / 2}}
-              />
+              {profilePic ? (
+                <Image
+                  source={{uri: `data:image/jpeg;base64,${profilePic}`}}
+                  style={{height: '100%', width: '100%', borderRadius: 130 / 2}}
+                />
+              ) : (
+                <Image
+                  source={userData.profilePic}
+                  style={{height: '100%', width: '100%', borderRadius: 130 / 2}}
+                />
+              )}
+
               <TouchableOpacity
                 onPress={() => {
                   openCamera();

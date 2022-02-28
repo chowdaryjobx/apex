@@ -1,6 +1,6 @@
 import LoginScreen from './authscreens/LoginScreen';
 import SignUpScreen from './authscreens/SignUpScreen';
-import SplashScreen from './authscreens/SplashScreen';
+// import SplashScreen from './authscreens/SplashScreen';
 import OtpScreen from './authscreens/OtpScreen';
 import ResetPassword from './authscreens/ResetPassword';
 
@@ -20,6 +20,9 @@ import ProfileEditingScreen from './appscreens/ProfileEditingScreen';
 import PaymentSuccessfulScreen from './appscreens/PaymentSuccessfulScreen';
 import OrderSummaryScreen from './appscreens/OrderSummaryScreen';
 import MenuScreen from './appscreens/MenuScreen';
+import MyOrders from './appscreens/MyOrders';
+import OrderDetails from './appscreens/OrderDetails';
+
 
 import SettingsScreen from './appscreens/SettingsScreen';
 import PasswordsScreen from './appscreens/PasswordsScreen';
@@ -49,9 +52,12 @@ import FundsTransferScreen from './businessScreens/FundsTransferScreen';
 import BankToBankTransferScreen from './businessScreens/BankToBankTransferScreen';
 import BankToBankTransferConfirmScreen from './businessScreens/BankToBankTransferConfirmScreen';
 import CeilingUpgradationScreen from './businessScreens/CeilingUpgradationScreen';
+import MyGroup from './businessScreens/MyGroup';
 
 
 import Footer from './global/Footer';
+import SplashScreen from './global/SplashScreen';
+
 
 import NetworkError from './ErrorScreen/NetworkError';
 import PayoutTimeErrorScreen from './ErrorScreen/PayoutTimeErrorScreen';
@@ -81,6 +87,8 @@ export {
     SettingsScreen,
     PasswordsScreen,
     ProductDescription,
+    MyOrders,
+    OrderDetails,
     Carousal,
 
     BusinessMenu,
@@ -104,9 +112,10 @@ export {
     BankToBankTransferScreen,
     BankToBankTransferConfirmScreen,
     CeilingUpgradationScreen,
+    MyGroup,
 
     Footer,
-
+    // SplashScreen,
 
     NetworkError,
     PayoutTimeErrorScreen

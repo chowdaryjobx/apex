@@ -129,7 +129,7 @@ function MenuScreen({navigation}) {
             </View>
             <View
               style={{height: '100%', width: '60%', justifyContent: 'center'}}>
-              <Text style={{fontSize: 18}}>Login</Text>
+              <Text style={{fontSize: 18,color:'#000'}}>Login</Text>
               <Text style={{fontSize: 14, color: '#9c9c9c'}}>
                 Login to your account
               </Text>
@@ -178,7 +178,7 @@ function MenuScreen({navigation}) {
             </View>
             <View
               style={{height: '100%', width: '60%', justifyContent: 'center'}}>
-              <Text style={{fontSize: 18}}>Register</Text>
+              <Text style={{fontSize: 18,color:'#000'}}>Register</Text>
               <Text style={{fontSize: 14, color: '#9c9c9c'}}>
                 Register for a new account
               </Text>

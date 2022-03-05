@@ -102,6 +102,108 @@ function MyGroup({navigation}) {
     fonts,
   } = React.useContext(DataContext);
 
+  function Radio() {
+    return (
+      <View
+        style={{
+          height: 20,
+          width: 20,
+          borderRadius: 10,
+          borderColor: '#000',
+          borderWidth: 1,
+          backgroundColor: '#fff',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View
+          style={{
+            height: 15,
+            width: 15,
+            borderRadius: 8,
+            backgroundColor: '#000',
+          }}></View>
+      </View>
+    );
+  }
+
+  function HomeScreen() {
+    return (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {data.map((item, index) => {
+          if (item.team === null) {
+            return (
+              <View
+                key={index}
+                style={{
+                  padding: 10,
+                  paddingVertical: 30,
+                  backgroundColor: 'lightblue',
+                  marginHorizontal: 20,
+                  marginTop: 10,
+                }}>
+                <Text>HomeScreen - {item.id}</Text>
+                <Radio />
+              </View>
+            );
+          }
+        })}
+      </ScrollView>
+    );
+  }
+  function SettingsScreen() {
+    return (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {data.map((item, index) => {
+          if (item.team === 'a') {
+            return (
+              <View
+                key={index}
+                style={{
+                  padding: 10,
+                  paddingVertical: 30,
+                  backgroundColor: 'lightblue',
+                }}>
+                <Text>HomeScreen - {item.id}</Text>
+                <Radio />
+              </View>
+            );
+          }
+        })}
+      </ScrollView>
+    );
+  }
+  function Settings() {
+    return (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {data.map((item, index) => {
+          if (item.team === 'b') {
+            return (
+              <View
+                key={index}
+                style={{
+                  padding: 10,
+                  paddingVertical: 30,
+                  backgroundColor: 'lightblue',
+                }}>
+                <Text>HomeScreen - {item.id}</Text>
+              </View>
+            );
+          }
+        })}
+      </ScrollView>
+    );
+  }
+
+  function MyTabs() {
+    return (
+      <Tab.Navigator>
+        <Tab.Screen name="UnSet" component={HomeScreen} />
+        <Tab.Screen name="Alpha" component={SettingsScreen} />
+        <Tab.Screen name="Beta" component={Settings} />
+      </Tab.Navigator>
+    );
+  }
+
   return (
     <View style={{flex: 1}}>
       <LinearGradient
@@ -162,77 +264,3 @@ function MyGroup({navigation}) {
 }
 
 export default MyGroup;
-
-function HomeScreen() {
-  return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      {data.map((item, index) => {
-        if (item.team === null) {
-          return (
-            <View
-              key={index}
-              style={{
-                padding: 10,
-                paddingVertical: 30,
-                backgroundColor: 'lightblue',
-              }}>
-              <Text>HomeScreen - {item.id}</Text>
-            </View>
-          );
-        }
-      })}
-    </ScrollView>
-  );
-}
-function SettingsScreen() {
-  return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      {data.map((item, index) => {
-        if (item.team === 'a') {
-          return (
-            <View
-              key={index}
-              style={{
-                padding: 10,
-                paddingVertical: 30,
-                backgroundColor: 'lightblue',
-              }}>
-              <Text>HomeScreen - {item.id}</Text>
-            </View>
-          );
-        }
-      })}
-    </ScrollView>
-  );
-}
-function Settings() {
-  return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      {data.map((item, index) => {
-        if (item.team === 'b') {
-          return (
-            <View
-              key={index}
-              style={{
-                padding: 10,
-                paddingVertical: 30,
-                backgroundColor: 'lightblue',
-              }}>
-              <Text>HomeScreen - {item.id}</Text>
-            </View>
-          );
-        }
-      })}
-    </ScrollView>
-  );
-}
-
-function MyTabs() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="UnSet" component={HomeScreen} />
-      <Tab.Screen name="Alpha" component={SettingsScreen} />
-      <Tab.Screen name="Beta" component={Settings} />
-    </Tab.Navigator>
-  );
-}

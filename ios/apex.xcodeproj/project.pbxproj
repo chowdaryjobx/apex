@@ -96,6 +96,24 @@
 		9E9F89D857814E1ABE801484 /* Quicksand-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C0B365D0BFF46B6A28A0223 /* Quicksand-Medium.ttf */; };
 		9283407C8BCD4E67B2765F69 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F26B879E9AA2493EBF555BF2 /* Quicksand-Regular.ttf */; };
 		C32A6780E8F2475FBC8B72E7 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 409175148A5644C58013EFC7 /* Quicksand-SemiBold.ttf */; };
+		441914E6A23649B1913A2894 /* Amidic-Regular.svg in Resources */ = {isa = PBXBuildFile; fileRef = 92566F55094547AA83CA6C58 /* Amidic-Regular.svg */; };
+		194F5B81F72B4B6591C93268 /* Amidic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C93BDF3AAC04444298B309D7 /* Amidic-Regular.ttf */; };
+		3851878968B049ED9D1F0EC4 /* RisingSun-Black.woff in Resources */ = {isa = PBXBuildFile; fileRef = D8C69DFE7C3C4E5D921DCCAC /* RisingSun-Black.woff */; };
+		B4AF3C41412B432E8F78C71E /* RisingSun-BlackItalic.woff in Resources */ = {isa = PBXBuildFile; fileRef = 31BE90CA561B4379BBEE4312 /* RisingSun-BlackItalic.woff */; };
+		A2F26EEE6A5A4C1186B341B9 /* RisingSun-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = 7FAEA091D4A54912A3D5E099 /* RisingSun-Bold.woff */; };
+		18C9D9358EAA450C893BF1D8 /* RisingSun-BoldItalic.woff in Resources */ = {isa = PBXBuildFile; fileRef = 4C18D2C4294242E2AB73C4A2 /* RisingSun-BoldItalic.woff */; };
+		DA7711F3E7564ADAB2EF468C /* RisingSun-DemiBold.woff in Resources */ = {isa = PBXBuildFile; fileRef = C23AA2FB6E104FF98FA438BA /* RisingSun-DemiBold.woff */; };
+		5AB4C1A15F6A4E53A95C7C30 /* RisingSun-DemiBoldItalic.woff in Resources */ = {isa = PBXBuildFile; fileRef = AB979FF5E71B44169C72486B /* RisingSun-DemiBoldItalic.woff */; };
+		6FD6CF1BC18F4B1D9910F9C6 /* RisingSun-Hairline.woff in Resources */ = {isa = PBXBuildFile; fileRef = EEF82718ABC146E88E0D3DD9 /* RisingSun-Hairline.woff */; };
+		56C43B2BFE064594A44E4696 /* RisingSun-HairlineItalic.woff in Resources */ = {isa = PBXBuildFile; fileRef = 39E9C5EAFDE74DB292632E1E /* RisingSun-HairlineItalic.woff */; };
+		E68276AE16BE433F858B2AB2 /* RisingSun-Heavy.woff in Resources */ = {isa = PBXBuildFile; fileRef = D0E4F7E482724788A4EFA3B2 /* RisingSun-Heavy.woff */; };
+		587594FB184E4BFC8894E0BE /* RisingSun-HeavyItalic.woff in Resources */ = {isa = PBXBuildFile; fileRef = E534207A82BB4D50A8F64011 /* RisingSun-HeavyItalic.woff */; };
+		EA8D1B9A20AE4730BD2A9751 /* RisingSun-Italic.woff in Resources */ = {isa = PBXBuildFile; fileRef = 0ECF5379181F4320949DE8E8 /* RisingSun-Italic.woff */; };
+		8F8803A5E99E420B8B5BACFD /* RisingSun-Light.woff in Resources */ = {isa = PBXBuildFile; fileRef = 8A5573D7FE1F4A6AB86BE0C0 /* RisingSun-Light.woff */; };
+		C2260584CE13454FAE09A552 /* RisingSun-LightItalic.woff in Resources */ = {isa = PBXBuildFile; fileRef = DF2D2FBBD9B74DED83C9CF81 /* RisingSun-LightItalic.woff */; };
+		E7A097D7E627423F82590886 /* RisingSun-Regular.woff in Resources */ = {isa = PBXBuildFile; fileRef = 0AC8F8B05BD74345B38D3217 /* RisingSun-Regular.woff */; };
+		90F34D8D87F14299A1919778 /* Amidic-Regular.woff in Resources */ = {isa = PBXBuildFile; fileRef = 94952596DB534080B92E183E /* Amidic-Regular.woff */; };
+		FEC627217CB641C6A5255C92 /* Amidic-Regular.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = 1C3D28BA70D64EDFB26C1C14 /* Amidic-Regular.woff2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -204,6 +222,24 @@
 		2C0B365D0BFF46B6A28A0223 /* Quicksand-Medium.ttf */ = {isa = PBXFileReference; name = "Quicksand-Medium.ttf"; path = "../src/assests/fonts/static/Quicksand-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F26B879E9AA2493EBF555BF2 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; name = "Quicksand-Regular.ttf"; path = "../src/assests/fonts/static/Quicksand-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		409175148A5644C58013EFC7 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; name = "Quicksand-SemiBold.ttf"; path = "../src/assests/fonts/static/Quicksand-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		92566F55094547AA83CA6C58 /* Amidic-Regular.svg */ = {isa = PBXFileReference; name = "Amidic-Regular.svg"; path = "../src/assests/fonts/web/Amidic-Regular.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C93BDF3AAC04444298B309D7 /* Amidic-Regular.ttf */ = {isa = PBXFileReference; name = "Amidic-Regular.ttf"; path = "../src/assests/fonts/Amidic-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D8C69DFE7C3C4E5D921DCCAC /* RisingSun-Black.woff */ = {isa = PBXFileReference; name = "RisingSun-Black.woff"; path = "../src/assests/fonts/RisingSun-Black.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		31BE90CA561B4379BBEE4312 /* RisingSun-BlackItalic.woff */ = {isa = PBXFileReference; name = "RisingSun-BlackItalic.woff"; path = "../src/assests/fonts/RisingSun-BlackItalic.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7FAEA091D4A54912A3D5E099 /* RisingSun-Bold.woff */ = {isa = PBXFileReference; name = "RisingSun-Bold.woff"; path = "../src/assests/fonts/RisingSun-Bold.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4C18D2C4294242E2AB73C4A2 /* RisingSun-BoldItalic.woff */ = {isa = PBXFileReference; name = "RisingSun-BoldItalic.woff"; path = "../src/assests/fonts/RisingSun-BoldItalic.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C23AA2FB6E104FF98FA438BA /* RisingSun-DemiBold.woff */ = {isa = PBXFileReference; name = "RisingSun-DemiBold.woff"; path = "../src/assests/fonts/RisingSun-DemiBold.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AB979FF5E71B44169C72486B /* RisingSun-DemiBoldItalic.woff */ = {isa = PBXFileReference; name = "RisingSun-DemiBoldItalic.woff"; path = "../src/assests/fonts/RisingSun-DemiBoldItalic.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EEF82718ABC146E88E0D3DD9 /* RisingSun-Hairline.woff */ = {isa = PBXFileReference; name = "RisingSun-Hairline.woff"; path = "../src/assests/fonts/RisingSun-Hairline.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		39E9C5EAFDE74DB292632E1E /* RisingSun-HairlineItalic.woff */ = {isa = PBXFileReference; name = "RisingSun-HairlineItalic.woff"; path = "../src/assests/fonts/RisingSun-HairlineItalic.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D0E4F7E482724788A4EFA3B2 /* RisingSun-Heavy.woff */ = {isa = PBXFileReference; name = "RisingSun-Heavy.woff"; path = "../src/assests/fonts/RisingSun-Heavy.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E534207A82BB4D50A8F64011 /* RisingSun-HeavyItalic.woff */ = {isa = PBXFileReference; name = "RisingSun-HeavyItalic.woff"; path = "../src/assests/fonts/RisingSun-HeavyItalic.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0ECF5379181F4320949DE8E8 /* RisingSun-Italic.woff */ = {isa = PBXFileReference; name = "RisingSun-Italic.woff"; path = "../src/assests/fonts/RisingSun-Italic.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8A5573D7FE1F4A6AB86BE0C0 /* RisingSun-Light.woff */ = {isa = PBXFileReference; name = "RisingSun-Light.woff"; path = "../src/assests/fonts/RisingSun-Light.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DF2D2FBBD9B74DED83C9CF81 /* RisingSun-LightItalic.woff */ = {isa = PBXFileReference; name = "RisingSun-LightItalic.woff"; path = "../src/assests/fonts/RisingSun-LightItalic.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0AC8F8B05BD74345B38D3217 /* RisingSun-Regular.woff */ = {isa = PBXFileReference; name = "RisingSun-Regular.woff"; path = "../src/assests/fonts/RisingSun-Regular.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		94952596DB534080B92E183E /* Amidic-Regular.woff */ = {isa = PBXFileReference; name = "Amidic-Regular.woff"; path = "../src/assests/fonts/web/Amidic-Regular.woff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1C3D28BA70D64EDFB26C1C14 /* Amidic-Regular.woff2 */ = {isa = PBXFileReference; name = "Amidic-Regular.woff2"; path = "../src/assests/fonts/web/Amidic-Regular.woff2"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,6 +416,24 @@
 				2C0B365D0BFF46B6A28A0223 /* Quicksand-Medium.ttf */,
 				F26B879E9AA2493EBF555BF2 /* Quicksand-Regular.ttf */,
 				409175148A5644C58013EFC7 /* Quicksand-SemiBold.ttf */,
+				92566F55094547AA83CA6C58 /* Amidic-Regular.svg */,
+				C93BDF3AAC04444298B309D7 /* Amidic-Regular.ttf */,
+				D8C69DFE7C3C4E5D921DCCAC /* RisingSun-Black.woff */,
+				31BE90CA561B4379BBEE4312 /* RisingSun-BlackItalic.woff */,
+				7FAEA091D4A54912A3D5E099 /* RisingSun-Bold.woff */,
+				4C18D2C4294242E2AB73C4A2 /* RisingSun-BoldItalic.woff */,
+				C23AA2FB6E104FF98FA438BA /* RisingSun-DemiBold.woff */,
+				AB979FF5E71B44169C72486B /* RisingSun-DemiBoldItalic.woff */,
+				EEF82718ABC146E88E0D3DD9 /* RisingSun-Hairline.woff */,
+				39E9C5EAFDE74DB292632E1E /* RisingSun-HairlineItalic.woff */,
+				D0E4F7E482724788A4EFA3B2 /* RisingSun-Heavy.woff */,
+				E534207A82BB4D50A8F64011 /* RisingSun-HeavyItalic.woff */,
+				0ECF5379181F4320949DE8E8 /* RisingSun-Italic.woff */,
+				8A5573D7FE1F4A6AB86BE0C0 /* RisingSun-Light.woff */,
+				DF2D2FBBD9B74DED83C9CF81 /* RisingSun-LightItalic.woff */,
+				0AC8F8B05BD74345B38D3217 /* RisingSun-Regular.woff */,
+				94952596DB534080B92E183E /* Amidic-Regular.woff */,
+				1C3D28BA70D64EDFB26C1C14 /* Amidic-Regular.woff2 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -559,6 +613,24 @@
 				9E9F89D857814E1ABE801484 /* Quicksand-Medium.ttf in Resources */,
 				9283407C8BCD4E67B2765F69 /* Quicksand-Regular.ttf in Resources */,
 				C32A6780E8F2475FBC8B72E7 /* Quicksand-SemiBold.ttf in Resources */,
+				441914E6A23649B1913A2894 /* Amidic-Regular.svg in Resources */,
+				194F5B81F72B4B6591C93268 /* Amidic-Regular.ttf in Resources */,
+				3851878968B049ED9D1F0EC4 /* RisingSun-Black.woff in Resources */,
+				B4AF3C41412B432E8F78C71E /* RisingSun-BlackItalic.woff in Resources */,
+				A2F26EEE6A5A4C1186B341B9 /* RisingSun-Bold.woff in Resources */,
+				18C9D9358EAA450C893BF1D8 /* RisingSun-BoldItalic.woff in Resources */,
+				DA7711F3E7564ADAB2EF468C /* RisingSun-DemiBold.woff in Resources */,
+				5AB4C1A15F6A4E53A95C7C30 /* RisingSun-DemiBoldItalic.woff in Resources */,
+				6FD6CF1BC18F4B1D9910F9C6 /* RisingSun-Hairline.woff in Resources */,
+				56C43B2BFE064594A44E4696 /* RisingSun-HairlineItalic.woff in Resources */,
+				E68276AE16BE433F858B2AB2 /* RisingSun-Heavy.woff in Resources */,
+				587594FB184E4BFC8894E0BE /* RisingSun-HeavyItalic.woff in Resources */,
+				EA8D1B9A20AE4730BD2A9751 /* RisingSun-Italic.woff in Resources */,
+				8F8803A5E99E420B8B5BACFD /* RisingSun-Light.woff in Resources */,
+				C2260584CE13454FAE09A552 /* RisingSun-LightItalic.woff in Resources */,
+				E7A097D7E627423F82590886 /* RisingSun-Regular.woff in Resources */,
+				90F34D8D87F14299A1919778 /* Amidic-Regular.woff in Resources */,
+				FEC627217CB641C6A5255C92 /* Amidic-Regular.woff2 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

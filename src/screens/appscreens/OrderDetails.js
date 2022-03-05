@@ -8,6 +8,7 @@ import {
   LayoutAnimation,
   UIManager,
   Button,
+  ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -98,76 +99,80 @@ function OrderDetails({navigation, route}) {
           </View>
         </View>
       </LinearGradient>
-      <View
-        style={{
-          backgroundColor: '#fff',
-        }}>
-        <View style={{padding: 20, borderBottomWidth: 1, borderColor: '#ccc'}}>
-          <Text style={{fontFamily: fonts.BOLD}}>OrderID : {Item.orderno}</Text>
-        </View>
-      </View>
-      <View
-        style={{
-          backgroundColor: '#fff',
-          height: 150,
-          flexDirection: 'row',
-        }}>
+      <ScrollView contentContainerStyle={{paddingBottom: 10}}>
         <View
           style={{
-            padding: 20,
-            height: '100%',
-            width: '40%',
-            // backgroundColor: 'lightblue',
+            backgroundColor: '#fff',
           }}>
-          <Image
-            resizeMode="contain"
-            style={{height: '100%', width: '100%'}}
-            source={{uri: Item.img}}
-          />
-        </View>
-        <View
-          style={{
-            padding: 20,
-            height: '100%',
-            width: '60%',
-            justifyContent: 'center',
-
-            // backgroundColor: 'blue',
-          }}>
-          <Text style={{fontFamily: fonts.BOLD, fontSize: 15}}>
-            {Item.title}
-          </Text>
-        </View>
-      </View>
-      <TouchableOpacity
-        onPress={() => {
-          alert('Product detail screen');
-        }}
-        style={{
-          padding: 20,
-          backgroundColor: '#fff',
-          marginTop: 10,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <Text>View Details</Text>
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Entypo name="chevron-small-right" size={25} />
-        </View>
-      </TouchableOpacity>
-      <View
-        style={{
-          paddingVertical: 20,
-          height: 300,
-          width: '100%',
-          backgroundColor: '#fff',
-        }}>
-        <View style={styles.statusContainer}>
-          <View style={styles.line}>
-            <View style={[styles.activeLine,{marginTop}]}></View>
-            {/* <View style={[styles.activeLine, {marginTop}]} /> */}
+          <View
+            style={{padding: 20, borderBottomWidth: 1, borderColor: '#ccc'}}>
+            <Text style={{fontFamily: fonts.BOLD}}>
+              OrderID : {Item.orderno}
+            </Text>
           </View>
-          {/* {status.map((status, index) => (
+        </View>
+        <View
+          style={{
+            backgroundColor: '#fff',
+            height: 150,
+            flexDirection: 'row',
+          }}>
+          <View
+            style={{
+              padding: 20,
+              height: '100%',
+              width: '40%',
+              // backgroundColor: 'lightblue',
+            }}>
+            <Image
+              resizeMode="contain"
+              style={{height: '100%', width: '100%'}}
+              source={{uri: Item.img}}
+            />
+          </View>
+          <View
+            style={{
+              padding: 20,
+              height: '100%',
+              width: '60%',
+              justifyContent: 'center',
+
+              // backgroundColor: 'blue',
+            }}>
+            <Text style={{fontFamily: fonts.BOLD, fontSize: 15}}>
+              {Item.title}
+            </Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            alert('Product detail screen');
+          }}
+          style={{
+            padding: 20,
+            backgroundColor: '#fff',
+            marginTop: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <Text>View Details</Text>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Entypo name="chevron-small-right" size={25} />
+          </View>
+        </TouchableOpacity>
+        <View
+          style={{
+            paddingVertical: 20,
+            height: 300,
+            width: '100%',
+            backgroundColor: '#fff',
+          }}>
+          <View style={styles.statusContainer}>
+            <View style={styles.line}>
+              <View style={[styles.activeLine, {marginTop}]}></View>
+              {/* <View style={[styles.activeLine, {marginTop}]} /> */}
+            </View>
+            {/* {status.map((status, index) => (
             <View style={[styles.dot]} key={index}>
               <View
                 style={[
@@ -179,34 +184,35 @@ function OrderDetails({navigation, route}) {
               />
             </View>
           ))} */}
-          <View style={styles.labelContainer}>
-            {/* {status.map((status, index) => (
-              <Text
-                key={index}
-                numberOfLines={1}
-                style={[
-                  index >= 0 == 0 ? {top: 20} : {top: 0},
-                  styles.label,
-                  {fontFamily: fonts.BOLD},
-                ]}>
-                {status}
-              </Text>
-            ))} */}
+            <View style={styles.labelContainer}>
+              {status.map((status, index) => (
+                <Text
+                  key={index}
+                  numberOfLines={1}
+                  style={[
+                    index >= 0 == 0 ? {top: 20} : {top: 0},
+                    styles.label,
+                    {fontFamily: fonts.BOLD},
+                  ]}>
+                  {status}
+                </Text>
+              ))}
+            </View>
           </View>
+          {/* <View style={styles.btns}>
+            <Button
+              title="prev"
+              onPress={() => setActiveIndex(activeIndex - 1)}
+              disabled={activeIndex <= 0}
+            />
+            <Button
+              title="next"
+              onPress={() => setActiveIndex(activeIndex + 1)}
+              disabled={activeIndex >= status.length - 1}
+            />
+          </View> */}
         </View>
-        <View style={styles.btns}>
-          <Button
-            title="prev"
-            onPress={() => setActiveIndex(activeIndex - 1)}
-            disabled={activeIndex <= 0}
-          />
-          <Button
-            title="next"
-            onPress={() => setActiveIndex(activeIndex + 1)}
-            disabled={activeIndex >= status.length - 1}
-          />
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }

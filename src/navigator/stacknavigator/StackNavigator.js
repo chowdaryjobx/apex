@@ -44,10 +44,12 @@ import {
   BankToBankTransferScreen,
   BankToBankTransferConfirmScreen,
   CeilingUpgradationScreen,
+  // MyBusinessScreen,
   Footer,
   NetworkError,
   PayoutTimeErrorScreen,
   MyGroup,
+  MyEarnings,
 } from '../../screens';
 
 import * as React from 'react';
@@ -122,6 +124,9 @@ export const AppScreens = () => {
         <Stack.Screen name="TeamBusiness" component={TeamBusinessScreen} />
         <Stack.Screen name="TeamMemberData" component={TeamMemberDataScreen} />
         <Stack.Screen name="Payout" component={PayoutScreen} />
+        <Stack.Screen name="MyEarnings" component={MyEarnings} />
+        {/* <Stack.Screen name="MyBusinessScreen" component={MyBusinessScreen} /> */}
+
         <Stack.Screen name="PaymentInfo" component={PaymentInformationScreen} />
         <Stack.Screen
           name="PaymentInfoLog"

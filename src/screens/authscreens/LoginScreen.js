@@ -245,6 +245,7 @@ const LoginScreen = ({navigation}) => {
                 borderBottomRightRadius: 50,
               }}>
               <TextInput
+                style={{color: '#000'}}
                 placeholder="User ID"
                 value={userId.toString()}
                 onChangeText={text => {
@@ -280,6 +281,7 @@ const LoginScreen = ({navigation}) => {
                 borderBottomRightRadius: 50,
               }}>
               <TextInput
+                style={{color: '#000'}}
                 secureTextEntry={passwordShown}
                 placeholder="Password"
                 value={password}

@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -111,228 +112,249 @@ const ProfileScreen = ({navigation}) => {
             />
           </View>
         </View>
-        <View
-          style={{
-            paddingHorizontal: 20,
-            paddingTop: 10,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            top: 20,
-            borderBottomWidth: 1,
-            borderBottomColor: '#e5e5e5',
-            paddingBottom: 30,
-          }}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('ProfileEditing');
-            }}
-            style={{
-              // padding:15,
-              height: (WIDTH * 20) / 100,
-              width: (WIDTH * 20) / 100,
-              backgroundColor: '#fff',
-              borderRadius: 10,
-              elevation: 8,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Image
-              style={{height: 30, width: 30}}
-              source={require('../../assests/icons/boss.png')}
-            />
-            <Text
-              style={{
-                fontFamily: fonts.BOLD,
-                fontSize: 12,
-                top: 5,
-                color: '#8F8F8F',
-              }}>
-              Profile
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('MyOrders');
-            }}
-            style={{
-              height: (WIDTH * 20) / 100,
-              width: (WIDTH * 20) / 100,
-              backgroundColor: '#fff',
-              borderRadius: 10,
-              elevation: 8,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Image
-              resizeMode="contain"
-              style={{height: 30, width: 30}}
-              source={require('../../assests/icons/order.png')}
-            />
-            <Text
-              style={{
-                fontFamily: fonts.BOLD,
-                fontSize: 12,
-                top: 5,
-                color: '#8F8F8F',
-              }}>
-              My Orders
-            </Text>
-          </TouchableOpacity>
+        <ScrollView
+          contentContainerStyle={{paddingBottom: 40}}
+          showsVerticalScrollIndicator={false}>
           <View
             style={{
-              height: (WIDTH * 20) / 100,
-              width: (WIDTH * 20) / 100,
-              backgroundColor: '#fff',
-              borderRadius: 10,
-              elevation: 8,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <MaterialIcons name="favorite" size={30} color="#E85858" />
-            <Text
-              style={{
-                fontFamily: fonts.BOLD,
-                fontSize: 12,
-                top: 5,
-                color: '#8F8F8F',
-              }}>
-              Favourites
-            </Text>
-          </View>
-          <View
-            style={{
-              height: (WIDTH * 20) / 100,
-              width: (WIDTH * 20) / 100,
-              backgroundColor: '#fff',
-              borderRadius: 10,
-              elevation: 8,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Image
-              resizeMode="contain"
-              style={{height: 30, width: 30}}
-              source={require('../../assests/icons/wallet.png')}
-            />
-            <Text
-              style={{
-                fontFamily: fonts.BOLD,
-                fontSize: 12,
-                top: 5,
-                color: '#8F8F8F',
-              }}>
-              My Wallet
-            </Text>
-          </View>
-        </View>
-        <View style={{paddingHorizontal: 20, paddingTop: 30}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
-                backgroundColor: '#fff',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Image
-                style={{height: 30, width: 30}}
-                source={require('../../assests/icons/megaphone.png')}
-              />
-            </View>
-            <Text style={{left: 10, color: '#8F8F8F'}}>Refer & Earn</Text>
-          </View>
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
-                backgroundColor: '#fff',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Image
-                style={{height: 30, width: 30}}
-                source={require('../../assests/icons/compliant.png')}
-              />
-            </View>
-            <Text style={{left: 10, color: '#8F8F8F'}}>Privacy Policy</Text>
-          </View>
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
-                backgroundColor: '#fff',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Image
-                style={{height: 30, width: 30}}
-                source={require('../../assests/icons/terms-and-conditions.png')}
-              />
-            </View>
-            <Text style={{left: 10, color: '#8F8F8F'}}>Terms & Conditions</Text>
-          </View>
-          <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
-            <View
-              style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
-                backgroundColor: '#fff',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Image
-                style={{height: 30, width: 30}}
-                source={require('../../assests/icons/call.png')}
-              />
-            </View>
-            <Text style={{left: 10, color: '#8F8F8F'}}>Contact Us</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            paddingHorizontal: 20,
-            top: 20,
-          }}>
-          <TouchableOpacity
-            onPress={() => {
-              logOut();
-              navigation.goBack();
-            }}
-            style={{
-              borderTopWidth: 1,
-              borderColor: '#e5e5e5',
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: 10,
+              paddingHorizontal: 20,
               paddingTop: 10,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              top: 20,
+              borderBottomWidth: 1,
+              borderBottomColor: '#e5e5e5',
+              paddingBottom: 30,
             }}>
-            <View
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ProfileEditing');
+              }}
               style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
+                // padding:15,
+                height: (WIDTH * 20) / 100,
+                width: (WIDTH * 20) / 100,
                 backgroundColor: '#fff',
+                borderRadius: 10,
+                elevation: 8,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
               <Image
                 style={{height: 30, width: 30}}
-                source={require('../../assests/icons/logout.png')}
+                source={require('../../assests/icons/boss.png')}
               />
+              <Text
+                style={{
+                  fontFamily: fonts.BOLD,
+                  fontSize: 12,
+                  top: 5,
+                  color: '#8F8F8F',
+                }}>
+                Profile
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('MyOrders');
+              }}
+              style={{
+                height: (WIDTH * 20) / 100,
+                width: (WIDTH * 20) / 100,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                elevation: 8,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                resizeMode="contain"
+                style={{height: 30, width: 30}}
+                source={require('../../assests/icons/order.png')}
+              />
+              <Text
+                style={{
+                  fontFamily: fonts.BOLD,
+                  fontSize: 12,
+                  top: 5,
+                  color: '#8F8F8F',
+                }}>
+                My Orders
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('FavouriteOrders');
+              }}
+              style={{
+                height: (WIDTH * 20) / 100,
+                width: (WIDTH * 20) / 100,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                elevation: 8,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <MaterialIcons name="favorite" size={30} color="#E85858" />
+              <Text
+                style={{
+                  fontFamily: fonts.BOLD,
+                  fontSize: 12,
+                  top: 5,
+                  color: '#8F8F8F',
+                }}>
+                Favourites
+              </Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                height: (WIDTH * 20) / 100,
+                width: (WIDTH * 20) / 100,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                elevation: 8,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                resizeMode="contain"
+                style={{height: 30, width: 30}}
+                source={require('../../assests/icons/wallet.png')}
+              />
+              <Text
+                style={{
+                  fontFamily: fonts.BOLD,
+                  fontSize: 12,
+                  top: 5,
+                  color: '#8F8F8F',
+                }}>
+                My Wallet
+              </Text>
             </View>
-            <Text style={{left: 10, color: '#8F8F8F'}}>Logout</Text>
-          </TouchableOpacity>
-        </View>
+          </View>
+          <View style={{paddingHorizontal: 20, paddingTop: 30}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View
+                style={{
+                  height: 40,
+                  width: 40,
+                  borderRadius: 20,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{height: 30, width: 30}}
+                  source={require('../../assests/icons/megaphone.png')}
+                />
+              </View>
+              <Text style={{left: 10, color: '#8F8F8F'}}>Refer & Earn</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 10,
+              }}>
+              <View
+                style={{
+                  height: 40,
+                  width: 40,
+                  borderRadius: 20,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{height: 30, width: 30}}
+                  source={require('../../assests/icons/compliant.png')}
+                />
+              </View>
+              <Text style={{left: 10, color: '#8F8F8F'}}>Privacy Policy</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 10,
+              }}>
+              <View
+                style={{
+                  height: 40,
+                  width: 40,
+                  borderRadius: 20,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{height: 30, width: 30}}
+                  source={require('../../assests/icons/terms-and-conditions.png')}
+                />
+              </View>
+              <Text style={{left: 10, color: '#8F8F8F'}}>
+                Terms & Conditions
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 10,
+              }}>
+              <View
+                style={{
+                  height: 40,
+                  width: 40,
+                  borderRadius: 20,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{height: 30, width: 30}}
+                  source={require('../../assests/icons/call.png')}
+                />
+              </View>
+              <Text style={{left: 10, color: '#8F8F8F'}}>Contact Us</Text>
+            </View>
+          </View>
+          <View
+            style={{
+              paddingHorizontal: 20,
+              top: 20,
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                logOut();
+                navigation.goBack();
+              }}
+              style={{
+                borderTopWidth: 1,
+                borderColor: '#e5e5e5',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 10,
+                paddingTop: 10,
+              }}>
+              <View
+                style={{
+                  height: 40,
+                  width: 40,
+                  borderRadius: 20,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  style={{height: 30, width: 30}}
+                  source={require('../../assests/icons/logout.png')}
+                />
+              </View>
+              <Text style={{left: 10, color: '#8F8F8F'}}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </>
     </View>
   );

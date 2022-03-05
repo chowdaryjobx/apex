@@ -23,13 +23,10 @@ import MenuScreen from './appscreens/MenuScreen';
 import MyOrders from './appscreens/MyOrders';
 import OrderDetails from './appscreens/OrderDetails';
 
-
 import SettingsScreen from './appscreens/SettingsScreen';
 import PasswordsScreen from './appscreens/PasswordsScreen';
 import ProductDescription from './appscreens/ProductDescription';
 import Carousal from './appscreens/Carousal';
-
-
 
 import IdActivationPage from './businessScreens/IdActivationPage';
 import IdConfirmationScreen from './businessScreens/IdConfirmationScreen';
@@ -52,72 +49,72 @@ import FundsTransferScreen from './businessScreens/FundsTransferScreen';
 import BankToBankTransferScreen from './businessScreens/BankToBankTransferScreen';
 import BankToBankTransferConfirmScreen from './businessScreens/BankToBankTransferConfirmScreen';
 import CeilingUpgradationScreen from './businessScreens/CeilingUpgradationScreen';
+import MyBusinessScreen from './businessScreens/MyBusinessScreen';
 import MyGroup from './businessScreens/MyGroup';
+import MyEarnings from './businessScreens/MyEarnings';
 
 
 import Footer from './global/Footer';
 import SplashScreen from './global/SplashScreen';
 
-
 import NetworkError from './ErrorScreen/NetworkError';
 import PayoutTimeErrorScreen from './ErrorScreen/PayoutTimeErrorScreen';
 
 export {
-    LoginScreen,
-    SignUpScreen,
-    ResetPassword,
-    HomeScreen,
-    SearchScreen,
-    OffersScreen,
-    DineInScreen,
-    ProductScreen,
-    CartScreen,
-    AddressScreen,
-    SplashScreen,
-    ProfileScreen,
-    PaymentScreen,
-    OtpScreen,
-    PreviousOrdersScreen,
-    FavouriteOrdersScreen,
-    AddressBookScreen,
-    ProfileEditingScreen,
-    PaymentSuccessfulScreen,
-    OrderSummaryScreen,
-    MenuScreen,
-    SettingsScreen,
-    PasswordsScreen,
-    ProductDescription,
-    MyOrders,
-    OrderDetails,
-    Carousal,
+  LoginScreen,
+  SignUpScreen,
+  ResetPassword,
+  HomeScreen,
+  SearchScreen,
+  OffersScreen,
+  DineInScreen,
+  ProductScreen,
+  CartScreen,
+  AddressScreen,
+  SplashScreen,
+  ProfileScreen,
+  PaymentScreen,
+  OtpScreen,
+  PreviousOrdersScreen,
+  FavouriteOrdersScreen,
+  AddressBookScreen,
+  ProfileEditingScreen,
+  PaymentSuccessfulScreen,
+  OrderSummaryScreen,
+  MenuScreen,
+  SettingsScreen,
+  PasswordsScreen,
+  ProductDescription,
+  MyOrders,
+  OrderDetails,
+  Carousal,
+  BusinessMenu,
+  BusinessScreen,
+  IdConfirmationScreen,
+  IdActivationPage,
+  WalletReportScreen,
+  WalletsScreen,
+  BankDetailsScreen,
+  PanCardScreen,
+  DailySalesScreen,
+  TeamAtAGlanceScreen,
+  TeamBusinessScreen,
+  TeamMemberDataScreen,
+  PayoutScreen,
+  PaymentInformationScreen,
+  PaymentInformationLogScreen,
+  DetailPaymentInformationScreen,
+  SuccessPaymentScreen,
+  FundsTransferScreen,
+  BankToBankTransferScreen,
+  BankToBankTransferConfirmScreen,
+  CeilingUpgradationScreen,
+  // MyBusinessScreen,
+  MyGroup,
+  MyEarnings,
+  Footer,
+  // SplashScreen,
 
-    BusinessMenu,
-    BusinessScreen,
-    IdConfirmationScreen,
-    IdActivationPage,
-    WalletReportScreen,
-    WalletsScreen,
-    BankDetailsScreen,
-    PanCardScreen,
-    DailySalesScreen,
-    TeamAtAGlanceScreen,
-    TeamBusinessScreen,
-    TeamMemberDataScreen,
-    PayoutScreen,
-    PaymentInformationScreen,
-    PaymentInformationLogScreen,
-    DetailPaymentInformationScreen,
-    SuccessPaymentScreen,
-    FundsTransferScreen,
-    BankToBankTransferScreen,
-    BankToBankTransferConfirmScreen,
-    CeilingUpgradationScreen,
-    MyGroup,
-
-    Footer,
-    // SplashScreen,
-
-    NetworkError,
-    PayoutTimeErrorScreen
-
+  NetworkError,
+  PayoutTimeErrorScreen,
 };

@@ -28,6 +28,12 @@ function CartScreen({navigation}) {
     decreaseProducts,
     removeProduct,
     cartItems,
+    guestCartItems,
+    addToGuestCart,
+    guestIncreaseProducts,
+    guestDecreaseProducts,
+    guestRemoveProduct,
+    // emptyCart,
     deliverableAddresses,
     companyName,
     fonts,
@@ -42,14 +48,28 @@ function CartScreen({navigation}) {
   const [cookingInstructions, setCookingInstructions] = useState('');
   const [refresh, setRefresh] = useState(false);
   let total = 0;
-  let quantity = cartItems.length;
-  cartItems.map(item => {
-    total += item.inCart * item.mrp;
-  });
+  let quantity = 0;
+  if (user) {
+    quantity = cartItems.length;
+    cartItems.map(item => {
+      total += item.inCart * item.mrp;
+    });
 
-  if (tip !== null) {
-    {
-      total += tip;
+    if (tip !== null) {
+      {
+        total += tip;
+      }
+    }
+  } else {
+    quantity = guestCartItems.length;
+    guestCartItems.map(item => {
+      total += item.inCart * item.mrp;
+    });
+
+    if (tip !== null) {
+      {
+        total += tip;
+      }
     }
   }
 
@@ -188,6 +208,7 @@ function CartScreen({navigation}) {
               {coupons.map((item, index) => {
                 return (
                   <View
+                    key={index}
                     style={{
                       flexDirection: 'row',
                       paddingRight: 20,
@@ -322,7 +343,7 @@ function CartScreen({navigation}) {
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={{fontFamily: fonts.MEDIUM}}>
-              {cartItems.length} items, To Pay :
+              {user ? cartItems.length : guestCartItems.length} items, To Pay :
             </Text>
             <FontAwesome
               name="rupee"
@@ -421,7 +442,20 @@ function CartScreen({navigation}) {
           </View>
         </View>
 
-        {cartItems.length == 0 ? (
+        {user ? (
+          cartItems.length == 0 ? (
+            <View
+              style={{
+                padding: 20,
+                width: '100%',
+                backgroundColor: '#fff',
+                top: 10,
+                bottom: 10,
+              }}>
+              <Text style={{color: 'gray'}}>Please add items to cart</Text>
+            </View>
+          ) : null
+        ) : guestCartItems.length === 0 ? (
           <View
             style={{
               padding: 20,
@@ -434,170 +468,343 @@ function CartScreen({navigation}) {
           </View>
         ) : null}
 
-        {cartItems.map((item, index) => {
-          return (
-            <View key={index}>
-              <View
-                style={{
-                  top: 5,
-                  height: 0.15 * SIZES.height,
-                  width: SIZES.width,
-                  paddingHorizontal: 30,
-                  paddingVertical: 10,
-                  backgroundColor: '#fff',
-                  flexDirection: 'row',
-                  borderBottomWidth: 1,
-                  borderBottomColor: '#F4F4F4',
-                }}>
-                <View style={{flex: 0.4}}>
-                  <Image
-                    style={{
-                      height: '100%',
-                      width: '60%',
-                      resizeMode: 'stretch',
-                      borderRadius: 1,
-                    }}
-                    source={item.img}
-                  />
-                </View>
-                <View style={{flex: 0.6}}>
-                  <View style={{}}>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: '400',
-                        fontFamily: fonts.BOLD,
-                      }}>
-                      {item.title}
-                    </Text>
-                  </View>
-                  <View style={{}}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontWeight: '400',
-                        fontFamily: fonts.SEMIBOLD,
-                      }}>
-                      {item.weight}
-                    </Text>
-                  </View>
+        {user
+          ? cartItems.map((item, index) => {
+              return (
+                <View key={index}>
                   <View
                     style={{
-                      flexDirection: 'row',
+                      top: 5,
+                      height: 0.15 * SIZES.height,
+                      width: SIZES.width,
+                      paddingHorizontal: 30,
+                      paddingVertical: 10,
                       backgroundColor: '#fff',
-                      justifyContent: 'space-between',
-                      top: 15,
-                      alignItems: 'center',
+                      flexDirection: 'row',
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#F4F4F4',
                     }}>
-                    <FontAwesome name="rupee" size={14} color="black">
-                      <Text
+                    <View style={{flex: 0.4}}>
+                      <Image
                         style={{
-                          color: 'black',
-                          fontSize: 16,
-                          fontFamily: fonts.SEMIBOLD,
-                        }}>
-                        {' '}
-                        {item.mrp * item.inCart}
-                      </Text>
-                    </FontAwesome>
-                    {quantity > 0 ? (
-                      <View
-                        style={{
-                          marginLeft: 20,
-                          alignItems: 'center',
-                          height: 30,
-                          width: 100,
-                        }}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                          }}>
-                          <TouchableOpacity
-                            onPress={() => {
-                              if (item.inCart > 0) {
-                                decreaseProducts(index);
-                              }
-                            }}
-                            style={{
-                              backgroundColor: '#35CBC4',
-                              paddingHorizontal: 5,
-                              borderRadius: 5,
-                              elevation: 5,
-                              marginRight: 10,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <AntDesign name="minus" size={20} color="#fff" />
-                          </TouchableOpacity>
-                          <View
-                            style={{
-                              backgroundColor: '#fff',
-                              paddingHorizontal: 10,
-                              borderRadius: 5,
-                              elevation: 5,
-                              marginRight: 10,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: 16, color: '#000'}}>
-                              {item.inCart}
-                            </Text>
-                          </View>
-                          <TouchableOpacity
-                            onPress={() => {
-                              increaseProducts(index);
-                            }}
-                            style={{
-                              backgroundColor: '#35CBC4',
-                              paddingHorizontal: 10,
-                              paddingVertical: 5,
-                              borderRadius: 5,
-                              elevation: 5,
-                              marginRight: 10,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <AntDesign
-                              style={{}}
-                              name="plus"
-                              size={20}
-                              color="#fff"
-                            />
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    ) : (
-                      <TouchableOpacity
-                        onPress={() => {
-                          addToCart(item);
+                          height: '100%',
+                          width: '60%',
+                          resizeMode: 'stretch',
+                          borderRadius: 1,
                         }}
-                        style={{
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          bottom: 15,
-                          alignSelf: 'center',
-                          height: 30,
-                          width: 80,
-                          elevation: 2,
-                          backgroundColor: '#fff',
-                          borderRadius: 5,
-                        }}>
+                        source={item.img}
+                      />
+                    </View>
+                    <View style={{flex: 0.6}}>
+                      <View style={{}}>
                         <Text
                           style={{
-                            color: '#2E9E07',
-                            fontSize: 18,
-                            fontWeight: 'bold',
+                            fontSize: 16,
+                            fontWeight: '400',
+                            fontFamily: fonts.BOLD,
                           }}>
-                          Add
+                          {item.title}
                         </Text>
-                      </TouchableOpacity>
-                    )}
+                      </View>
+                      <View style={{}}>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontWeight: '400',
+                            fontFamily: fonts.SEMIBOLD,
+                          }}>
+                          {item.weight}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          backgroundColor: '#fff',
+                          justifyContent: 'space-between',
+                          top: 15,
+                          alignItems: 'center',
+                        }}>
+                        <FontAwesome name="rupee" size={14} color="black">
+                          <Text
+                            style={{
+                              color: 'black',
+                              fontSize: 16,
+                              fontFamily: fonts.SEMIBOLD,
+                            }}>
+                            {' '}
+                            {item.mrp * item.inCart}
+                          </Text>
+                        </FontAwesome>
+                        {quantity > 0 ? (
+                          <View
+                            style={{
+                              marginLeft: 20,
+                              alignItems: 'center',
+                              height: 30,
+                              width: 100,
+                            }}>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                              }}>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  if (item.inCart > 0) {
+                                    guestDecreaseProducts(index);
+                                  }
+                                }}
+                                style={{
+                                  backgroundColor: '#35CBC4',
+                                  paddingHorizontal: 5,
+                                  borderRadius: 5,
+                                  elevation: 5,
+                                  marginRight: 10,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                }}>
+                                <AntDesign
+                                  name="minus"
+                                  size={20}
+                                  color="#fff"
+                                />
+                              </TouchableOpacity>
+                              <View
+                                style={{
+                                  backgroundColor: '#fff',
+                                  paddingHorizontal: 10,
+                                  borderRadius: 5,
+                                  elevation: 5,
+                                  marginRight: 10,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                }}>
+                                <Text style={{fontSize: 16, color: '#000'}}>
+                                  {item.inCart}
+                                </Text>
+                              </View>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  guestIncreaseProducts(index);
+                                }}
+                                style={{
+                                  backgroundColor: '#35CBC4',
+                                  paddingHorizontal: 10,
+                                  paddingVertical: 5,
+                                  borderRadius: 5,
+                                  elevation: 5,
+                                  marginRight: 10,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                }}>
+                                <AntDesign
+                                  style={{}}
+                                  name="plus"
+                                  size={20}
+                                  color="#fff"
+                                />
+                              </TouchableOpacity>
+                            </View>
+                          </View>
+                        ) : (
+                          <TouchableOpacity
+                            onPress={() => {
+                              addToCart(item);
+                            }}
+                            style={{
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              bottom: 15,
+                              alignSelf: 'center',
+                              height: 30,
+                              width: 80,
+                              elevation: 2,
+                              backgroundColor: '#fff',
+                              borderRadius: 5,
+                            }}>
+                            <Text
+                              style={{
+                                color: '#2E9E07',
+                                fontSize: 18,
+                                fontWeight: 'bold',
+                              }}>
+                              Add
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </View>
-          );
-        })}
+              );
+            })
+          : guestCartItems.map((item, index) => {
+              return (
+                <View key={index}>
+                  <View
+                    style={{
+                      top: 5,
+                      height: 0.15 * SIZES.height,
+                      width: SIZES.width,
+                      paddingHorizontal: 30,
+                      paddingVertical: 10,
+                      backgroundColor: '#fff',
+                      flexDirection: 'row',
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#F4F4F4',
+                    }}>
+                    <View style={{flex: 0.4}}>
+                      <Image
+                        style={{
+                          height: '100%',
+                          width: '60%',
+                          resizeMode: 'stretch',
+                          borderRadius: 1,
+                        }}
+                        source={item.img}
+                      />
+                    </View>
+                    <View style={{flex: 0.6}}>
+                      <View style={{}}>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontWeight: '400',
+                            fontFamily: fonts.BOLD,
+                          }}>
+                          {item.title}
+                        </Text>
+                      </View>
+                      <View style={{}}>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontWeight: '400',
+                            fontFamily: fonts.SEMIBOLD,
+                          }}>
+                          {item.weight}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          backgroundColor: '#fff',
+                          justifyContent: 'space-between',
+                          top: 15,
+                          alignItems: 'center',
+                        }}>
+                        <FontAwesome name="rupee" size={14} color="black">
+                          <Text
+                            style={{
+                              color: 'black',
+                              fontSize: 16,
+                              fontFamily: fonts.SEMIBOLD,
+                            }}>
+                            {' '}
+                            {item.mrp * item.inCart}
+                          </Text>
+                        </FontAwesome>
+                        {quantity > 0 ? (
+                          <View
+                            style={{
+                              marginLeft: 20,
+                              alignItems: 'center',
+                              height: 30,
+                              width: 100,
+                            }}>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                              }}>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  if (item.inCart > 0) {
+                                    decreaseProducts(index);
+                                  }
+                                }}
+                                style={{
+                                  backgroundColor: '#35CBC4',
+                                  paddingHorizontal: 5,
+                                  borderRadius: 5,
+                                  elevation: 5,
+                                  marginRight: 10,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                }}>
+                                <AntDesign
+                                  name="minus"
+                                  size={20}
+                                  color="#fff"
+                                />
+                              </TouchableOpacity>
+                              <View
+                                style={{
+                                  backgroundColor: '#fff',
+                                  paddingHorizontal: 10,
+                                  borderRadius: 5,
+                                  elevation: 5,
+                                  marginRight: 10,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                }}>
+                                <Text style={{fontSize: 16, color: '#000'}}>
+                                  {item.inCart}
+                                </Text>
+                              </View>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  increaseProducts(index);
+                                }}
+                                style={{
+                                  backgroundColor: '#35CBC4',
+                                  paddingHorizontal: 10,
+                                  paddingVertical: 5,
+                                  borderRadius: 5,
+                                  elevation: 5,
+                                  marginRight: 10,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                }}>
+                                <AntDesign
+                                  style={{}}
+                                  name="plus"
+                                  size={20}
+                                  color="#fff"
+                                />
+                              </TouchableOpacity>
+                            </View>
+                          </View>
+                        ) : (
+                          <TouchableOpacity
+                            onPress={() => {
+                              addToCart(item);
+                            }}
+                            style={{
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              bottom: 15,
+                              alignSelf: 'center',
+                              height: 30,
+                              width: 80,
+                              elevation: 2,
+                              backgroundColor: '#fff',
+                              borderRadius: 5,
+                            }}>
+                            <Text
+                              style={{
+                                color: '#2E9E07',
+                                fontSize: 18,
+                                fontWeight: 'bold',
+                              }}>
+                              Add
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              );
+            })}
 
         <View
           style={{

@@ -137,6 +137,23 @@
 		<string>Quicksand-Medium.ttf</string>
 		<string>Quicksand-Regular.ttf</string>
 		<string>Quicksand-SemiBold.ttf</string>
+		<string>Amidic-Regular.ttf</string>
+		<string>RisingSun-Black.woff</string>
+		<string>RisingSun-BlackItalic.woff</string>
+		<string>RisingSun-Bold.woff</string>
+		<string>RisingSun-BoldItalic.woff</string>
+		<string>RisingSun-DemiBold.woff</string>
+		<string>RisingSun-DemiBoldItalic.woff</string>
+		<string>RisingSun-Hairline.woff</string>
+		<string>RisingSun-HairlineItalic.woff</string>
+		<string>RisingSun-Heavy.woff</string>
+		<string>RisingSun-HeavyItalic.woff</string>
+		<string>RisingSun-Italic.woff</string>
+		<string>RisingSun-Light.woff</string>
+		<string>RisingSun-LightItalic.woff</string>
+		<string>RisingSun-Regular.woff</string>
+		<string>Amidic-Regular.woff</string>
+		<string>Amidic-Regular.woff2</string>
 	</array>
 </dict>
 </plist>

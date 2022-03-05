@@ -11,6 +11,7 @@ import {
   FlatList,
   Animated,
   StyleSheet,
+  RefreshControl,
   // Share,
   ToastAndroid,
 } from 'react-native';
@@ -36,34 +37,38 @@ const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 import axios from 'axios';
 
-const bag1 = require('../../../assests/images/bag1.jpg');
-const bag2 = require('../../../assests/images/bag2.jpg');
 const DEVICE_WIDTH = Dimensions.get('window').width;
 function HomeScreen({navigation}) {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const {width, height} = Dimensions.get('screen');
   const [isNetworkConnected, setIsNetworkConnected] = useState(null);
+  const [Pagerefreshing, setPagerefreshing] = React.useState(false);
 
   const {
     user,
     cartItems,
+    guestCartItems,
+    addToGuestCart,
+    // guestIncreaseProducts,
+    // guestDecreaseProducts,
+    // guestRemoveProduct,
+    // emptyCart,
     userData,
     productStatus,
     companyName,
     url,
     api,
+    alaapi,
     products,
     addToCart,
     brands,
     font_desc,
     fonts,
   } = React.useContext(DataContext);
-
   const [SplashScreen, setSplashScreen] = useState(true);
-
-  const [timer, setTimer] = useState(3);
-
-  console.log(timer);
+  const [timer, setTimer] = useState(2);
+  const [animations, setAnimations] = useState(new Animated.Value(HEIGHT));
+  const [anim, setAnim] = useState(new Animated.Value(1));
   useEffect(() => {
     if (timer > 0) {
       setTimeout(() => {
@@ -74,52 +79,71 @@ function HomeScreen({navigation}) {
     }
   }, [timer]);
 
+  const [timer1, setTimer1] = useState(3);
+
+  useEffect(() => {
+    if (timer1 > 0) {
+      setTimeout(() => {
+        setTimer1(timer1 - 1);
+      }, 500);
+    } else if (timer1 == 0) {
+      // setSplashScreen(false);
+    }
+  }, [timer1]);
+
+  useEffect(() => {
+    animate();
+  }, []);
+
+  const animate = () => {
+    Animated.timing(animations, {
+      toValue: HEIGHT / 3,
+      duration: 1500,
+      useNativeDriver: true,
+    }).start(() => {
+      animate1();
+    });
+  };
+
+  const animate1 = () => {
+    Animated.timing(anim, {
+      toValue: 1.5,
+      duration: 1500,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const trans = {
+    transform: [{translateY: animations}, {scale: anim}],
+  };
+
   const [wallet, setWallet] = useState(null);
   const [business, setBusiness] = useState(null);
   const [activeImage, setActiveImage] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [categories, setCategories] = useState([
-    {
-      id: 1,
-      name: 'Health',
-      img: require('../../../assests/icons/health.png'),
-    },
-    {
-      id: 2,
-      name: 'FMCG',
-      img: require('../../../assests/icons/fmcg.png'),
-    },
-    {
-      id: 3,
-      name: 'Electronics',
-      img: require('../../../assests/icons/electronics.png'),
-    },
-    {
-      id: 4,
-      name: 'Mobiles',
-      img: require('../../../assests/icons/mobiles.png'),
-    },
-    {
-      id: 5,
-      name: 'Garments',
-      img: require('../../../assests/icons/garments.png'),
-    },
-    {
-      id: 6,
-      name: 'Appliances',
-      img: require('../../../assests/icons/appliances.png'),
-    },
-    {
-      id: 7,
-      name: 'Books',
-      img: require('../../../assests/icons/books.png'),
-    },
-    {
-      id: 8,
-      name: 'Toys',
-      img: require('../../../assests/icons/toys.png'),
-    },
-  ]);
+  const [categories, setCategories] = useState(null);
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  function getCategories() {
+    axios
+      .post(alaapi + url.Categories, {
+        TokenIDN:
+          'lUEjMjRCCH5TcWhdTJqKDlBFvJwVAmKTfc2FmfjhXHDqc5kkxMgGdyPQ3g78Ln5y',
+      })
+      .then(res => {
+        if (res.data[0].Status === 'Success') {
+          setCategories(res.data[0].Categories);
+        } else if (res.data[0].Status === 'Failure') {
+          setErrorMessage(res.data[0].Response);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   const [brands1, setBrands1] = useState([
     {img: require('../../assests/extras/ala_logo.png')},
@@ -128,6 +152,17 @@ function HomeScreen({navigation}) {
     {img: require('../../../assests/images/brands/brand3.png')},
     {img: require('../../../assests/images/brands/brand2.png')},
   ]);
+
+  const onpagerefresh = () => {
+    setPagerefreshing(true);
+    // NetInfo.fetch().then(state => {
+    //   if (state.isConnected) {
+    //     // navigation.goBack();
+    //   }
+    // });
+    getCategories();
+    setPagerefreshing(false);
+  };
 
   const [latestOffers, setLatestOffers] = useState(products);
 
@@ -175,14 +210,6 @@ function HomeScreen({navigation}) {
         });
     }
   }, [user]);
-
-  const images = [
-    require('../../../assests/images/bag11.jpg'),
-    require('../../../assests/images/bag12.jpg'),
-    require('../../../assests/images/bag13.jpg'),
-    require('../../../assests/images/bag14.jpg'),
-    require('../../../assests/images/bag15.jpg'),
-  ];
 
   let total = 0;
   cartItems.map(item => {
@@ -340,7 +367,8 @@ function HomeScreen({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('WalletReport', {type: 'MYBANK'});
+                navigation.navigate('AtAGlance', {type: 'A'});
+                // navigation.navigate('WalletReport', {type: 'MYBANK'});
               }}
               style={{
                 paddingLeft: 5,
@@ -363,7 +391,7 @@ function HomeScreen({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('WalletReport', {type: 'MYBANK'});
+                navigation.navigate('AtAGlance', {type: 'B'});
               }}
               style={{
                 paddingLeft: 5,
@@ -385,7 +413,7 @@ function HomeScreen({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                alert('Your Earnings');
+                navigation.navigate('MyEarnings');
               }}
               style={{
                 paddingLeft: 5,
@@ -432,6 +460,26 @@ function HomeScreen({navigation}) {
               />
               <Text style={{fontSize: 12}}>My Group</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('DailySales');
+              }}
+              style={{
+                paddingLeft: 5,
+                height: '80%',
+                width: 90,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                marginLeft: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                source={require('../../assests/icons/mybusiness.png')}
+                style={{height: 30, width: 30}}
+              />
+              <Text style={{fontSize: 12}}>Daily Sales</Text>
+            </TouchableOpacity>
           </ScrollView>
         </View>
       </View>
@@ -451,11 +499,45 @@ function HomeScreen({navigation}) {
 
   if (SplashScreen) {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Image
-          style={{height: 200, width: 200}}
-          source={require('../../../src/assests/extras/ala_logo.png')}
-        />
+      <View style={{flex: 1, alignItems: 'center'}}>
+        <Animated.View
+          style={[
+            {
+              height: 150,
+              width: 150,
+              borderRadius: 75,
+            },
+            trans,
+          ]}>
+          <Image
+            style={{height: 150, width: 150}}
+            source={require('../../../src/assests/extras/ala_logo.png')}
+          />
+          {timer1 === 0 ? (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontSize: 25,
+                  marginTop: 20,
+                  top: 3,
+                  color: '#1F5DAB',
+                  fontFamily: 'Amidic-Regular',
+                }}>
+                ALA
+              </Text>
+              <Text
+                style={{
+                  fontSize: 22,
+                  marginTop: 20,
+                  color: '#000',
+                  left: 10,
+                  fontFamily: 'RisingSun-Black',
+                }}>
+                Market
+              </Text>
+            </View>
+          ) : null}
+        </Animated.View>
       </View>
     );
   } else {
@@ -530,15 +612,22 @@ function HomeScreen({navigation}) {
                     }}>
                     Ramesh
                   </Text>
-                  <Text
-                    style={{
-                      marginLeft: 10,
-                      color: '#fff',
-                      fontSize: 12,
-                      fontFamily: fonts.BOLD,
-                    }}>
-                    Designation
-                  </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      alert('upgrade designation');
+                    }}
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text
+                      style={{
+                        marginLeft: 10,
+                        color: '#fff',
+                        fontSize: 12,
+                        fontFamily: fonts.BOLD,
+                      }}>
+                      Designation
+                    </Text>
+                    <EvilIcons name="arrow-up" size={25} style={{left: 5}} />
+                  </TouchableOpacity>
                 </View>
               ) : null}
               {!user ? (
@@ -563,7 +652,16 @@ function HomeScreen({navigation}) {
                 style={{flexDirection: 'row', left: -10}}>
                 <EvilIcons name="cart" size={35} color="#fff" />
                 <View style={{position: 'absolute', left: 20, top: -10}}>
-                  <Badge value={cartItems.length} status="success" />
+                  <Badge
+                    value={
+                      user
+                        ? cartItems.length
+                        : guestCartItems
+                        ? guestCartItems.length
+                        : 0
+                    }
+                    status="success"
+                  />
                 </View>
               </TouchableOpacity>
             </View>
@@ -610,7 +708,14 @@ function HomeScreen({navigation}) {
 
         {/*================End Of Header  ================= */}
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={Pagerefreshing}
+              onRefresh={onpagerefresh}
+            />
+          }
+          showsVerticalScrollIndicator={false}>
           <View
             style={{
               justifyContent: 'center',
@@ -627,48 +732,52 @@ function HomeScreen({navigation}) {
               contentContainerStyle={{
                 justifyContent: 'center',
               }}>
-              {categories.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => {
-                      navigation.navigate('Product', {brand: 'ala'});
-                    }}
-                    style={{
-                      width: 70,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginLeft: 10,
-                    }}>
-                    <View
-                      style={{
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        backgroundColor: '#fff',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        // borderWidth: 1,
-                        borderColor: '#ccc',
-                        backgroundColor: '#35CBC4',
-                      }}>
-                      <Image
-                        source={item.img}
-                        style={{height: 30, width: 30}}
-                        resizeMode="contain"
-                      />
-                    </View>
-                    <Text
-                      style={{
-                        fontSize: 11,
-                        color: '#4E4E4E',
-                        fontFamily: fonts.BOLD,
-                      }}>
-                      {item.name}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+              {categories
+                ? categories.map((item, index) => {
+                    return (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => {
+                          navigation.navigate('Product', {brand: 'ala'});
+                        }}
+                        style={{
+                          width: 70,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          marginLeft: 10,
+                        }}>
+                        <View
+                          style={{
+                            height: 40,
+                            width: 40,
+                            borderRadius: 20,
+                            backgroundColor: '#fff',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            // borderWidth: 1,
+                            borderColor: '#ccc',
+                            backgroundColor: '#35CBC4',
+                          }}>
+                          <Image
+                            source={{
+                              uri: `data:image/jpeg;base64,${item.CategoryImage}`,
+                            }}
+                            style={{height: 30, width: 30}}
+                            resizeMode="contain"
+                          />
+                        </View>
+                        <Text
+                          style={{
+                            fontSize: 11,
+                            color: '#4E4E4E',
+                            fontFamily: fonts.BOLD,
+                          }}>
+                          {item.CategoryName}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })
+                : null}
             </ScrollView>
           </View>
           <View style={{height: 300, width: '100%'}}>
@@ -780,6 +889,7 @@ function HomeScreen({navigation}) {
                               fontFamily: font_desc,
                               top: 10,
                               fontSize: 13,
+                              color: '#A3A3A3',
                             }}>
                             {item.description}
                           </Text>
@@ -888,7 +998,11 @@ function HomeScreen({navigation}) {
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={() => {
-                            addToCart(item);
+                            if (user) {
+                              addToCart(item);
+                            } else {
+                              addToGuestCart(item);
+                            }
                           }}
                           style={{
                             paddingHorizontal: 20,
@@ -909,6 +1023,7 @@ function HomeScreen({navigation}) {
                         </TouchableOpacity>
                         <MaterialIcons
                           size={30}
+                          color="#8D8D8D"
                           name="favorite-border"
                           onPress={() => {
                             alert('adding into favourite');
@@ -916,7 +1031,7 @@ function HomeScreen({navigation}) {
                         />
                         <AntDesign
                           size={30}
-                          color="#"
+                          color="#8D8D8D"
                           name="sharealt"
                           onPress={() => {
                             onShare(item.img);

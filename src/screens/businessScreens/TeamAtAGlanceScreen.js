@@ -12,6 +12,7 @@ import {COLORS, SIZES} from '../../constants';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -32,6 +33,7 @@ function TeamAtAGlanceScreen({navigation, route}) {
     api,
     url,
     companyName,
+    fonts,
   } = React.useContext(DataContext);
 
   if (!user) {
@@ -39,6 +41,7 @@ function TeamAtAGlanceScreen({navigation, route}) {
   }
 
   const [business, setBusiness] = useState(null);
+  console.log(business);
   const [errorMessage, setErrorMessage] = useState(null);
   const [Pagerefreshing, setPagerefreshing] = React.useState(false);
 
@@ -146,7 +149,12 @@ function TeamAtAGlanceScreen({navigation, route}) {
                 alignItems: 'center',
                 paddingLeft: 10,
               }}>
-              <Text style={{color: COLORS.white, fontSize: 18}}>
+              <Text
+                style={{
+                  color: COLORS.white,
+                  fontSize: 18,
+                  fontFamily: fonts.SEMIBOLD,
+                }}>
                 {companyName}{' '}
               </Text>
             </View>
@@ -168,10 +176,51 @@ function TeamAtAGlanceScreen({navigation, route}) {
               paddingHorizontal: 30,
               paddingBottom: 30,
             }}>
-            <Text style={{marginTop: 20, fontSize: 18, fontWeight: 'bold'}}>
-              {business.Heading}{' '}
-              {business.TeamBusiness + '/' + business.TeamCount}{' '}
-            </Text>
+            {business.Heading === 'A Team - ' ? (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <MaterialCommunityIcons
+                  name="alpha"
+                  size={30}
+                  color="#4B9B2C"
+                  style={{top: 10}}
+                />
+                <Text
+                  style={{
+                    marginTop: 20,
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    // color: '#4B9B2C',
+                    fontFamily: fonts.SEMIBOLD,
+                  }}>
+                  Team -{' '}
+                </Text>
+                <Text style={{marginTop: 20, fontSize: 18, fontWeight: 'bold'}}>
+                  {business.TeamBusiness + '/' + business.TeamCount}{' '}
+                </Text>
+              </View>
+            ) : business.Heading === 'B Team - ' ? (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <MaterialCommunityIcons
+                  name="beta"
+                  size={30}
+                  color="#F9475D"
+                  style={{top: 10}}
+                />
+                <Text
+                  style={{
+                    marginTop: 20,
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    // color: '#4B9B2C',
+                    fontFamily: fonts.SEMIBOLD,
+                  }}>
+                  Team -{' '}
+                </Text>
+                <Text style={{marginTop: 20, fontSize: 18, fontWeight: 'bold'}}>
+                  {business.TeamBusiness + '/' + business.TeamCount}{' '}
+                </Text>
+              </View>
+            ) : null}
 
             <View
               style={{
@@ -199,7 +248,9 @@ function TeamAtAGlanceScreen({navigation, route}) {
                     paddingHorizontal: 20,
                     paddingVertical: 15,
                   }}>
-                  <Text style={{color: '#7c7c7c'}}>My Team</Text>
+                  <Text style={{color: '#7c7c7c', fontFamily: fonts.SEMIBOLD}}>
+                    My Team
+                  </Text>
 
                   <View
                     style={{
@@ -213,6 +264,7 @@ function TeamAtAGlanceScreen({navigation, route}) {
                         fontSize: 25,
                         fontWeight: 'bold',
                         alignSelf: 'center',
+                        fontFamily: fonts.SEMIBOLD,
                       }}>
                       {business ? business.MyTeam : null}
                     </Text>
@@ -240,7 +292,9 @@ function TeamAtAGlanceScreen({navigation, route}) {
                     paddingHorizontal: 20,
                     paddingVertical: 15,
                   }}>
-                  <Text style={{color: '#7c7c7c'}}>My Directs</Text>
+                  <Text style={{color: '#7c7c7c', fontFamily: fonts.SEMIBOLD}}>
+                    My Directs
+                  </Text>
 
                   <View
                     style={{
@@ -281,7 +335,9 @@ function TeamAtAGlanceScreen({navigation, route}) {
                     paddingHorizontal: 20,
                     paddingVertical: 15,
                   }}>
-                  <Text style={{color: '#7c7c7c'}}>Activations</Text>
+                  <Text style={{color: '#7c7c7c', fontFamily: fonts.SEMIBOLD}}>
+                    Business Users
+                  </Text>
 
                   <View
                     style={{
@@ -322,7 +378,9 @@ function TeamAtAGlanceScreen({navigation, route}) {
                     paddingHorizontal: 20,
                     paddingVertical: 15,
                   }}>
-                  <Text style={{color: '#7c7c7c'}}>Bronze</Text>
+                  <Text style={{color: '#7c7c7c', fontFamily: fonts.SEMIBOLD}}>
+                    Area Franchise
+                  </Text>
 
                   <View
                     style={{
@@ -363,7 +421,9 @@ function TeamAtAGlanceScreen({navigation, route}) {
                     paddingHorizontal: 20,
                     paddingVertical: 15,
                   }}>
-                  <Text style={{color: '#7c7c7c'}}>Silver</Text>
+                  <Text style={{color: '#7c7c7c', fontFamily: fonts.SEMIBOLD}}>
+                    District Franchise
+                  </Text>
 
                   <View
                     style={{
@@ -379,47 +439,6 @@ function TeamAtAGlanceScreen({navigation, route}) {
                         alignSelf: 'center',
                       }}>
                       {business ? business.Silver : null}
-                    </Text>
-                  </View>
-                </View>
-                <View>
-                  <EvilIcons name="chevron-right" size={40} color="#000" />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  let data = {ReportNo: 5};
-                  submit(data);
-                }}
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  borderBottomWidth: 1,
-                  borderBottomColor: '#ccc',
-                }}>
-                <View
-                  style={{
-                    borderRadius: 10,
-                    paddingHorizontal: 20,
-                    paddingVertical: 15,
-                  }}>
-                  <Text style={{color: '#7c7c7c'}}>Gold</Text>
-
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginTop: -5,
-                    }}>
-                    <Text
-                      style={{
-                        color: 'black',
-                        fontSize: 25,
-                        fontWeight: 'bold',
-                        alignSelf: 'center',
-                      }}>
-                      {business ? business.Gold : null}
                     </Text>
                   </View>
                 </View>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -126,91 +126,93 @@ function MyOrders({navigation}) {
           </View>
         </View>
       </LinearGradient>
-      <View
-        style={{
-          height: '100%',
-          width: '100%',
-          backgroundColor: '#fff',
-          paddingHorizontal: 20,
-        }}>
-        {myorders.map((item, i) => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('OrderDetails', {item});
-              }}
-              key={i}
-              style={{
-                flexDirection: 'row',
-                paddingVertical: 10,
-                backgroundColor: '#fff',
-                borderBottomWidth: 1,
-                borderColor: '#ccc',
-              }}>
-              <View
+      <ScrollView contentContainerStyle={{paddingBottom:30}} >
+        <View
+          style={{
+            height: '100%',
+            width: '100%',
+            backgroundColor: '#fff',
+            paddingHorizontal: 20,
+          }}>
+          {myorders.map((item, i) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('OrderDetails', {item});
+                }}
+                key={i}
                 style={{
-                  width: '30%',
-                  height: 100,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  flexDirection: 'row',
+                  paddingVertical: 10,
+                  backgroundColor: '#fff',
+                  borderBottomWidth: 1,
+                  borderColor: '#ccc',
                 }}>
-                <Image
-                  resizeMode="contain"
-                  style={{height: '80%', width: '80%'}}
-                  source={{uri: item.img}}
-                />
-              </View>
-              <View
-                style={{
-                  width: '60%',
-                  paddingHorizontal: 10,
-                  justifyContent: 'center',
-                }}>
-                <Text
+                <View
                   style={{
-                    color: item.status === 'Arriving' ? 'green' : '#000',
-                    fontFamily: fonts.SEMIBOLD,
+                    width: '30%',
+                    height: 100,
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}>
-                  {item.title}
-                </Text>
-                {item.status === 'Delivered' ? (
-                  <Text
-                    style={{
-                      color: item.status === 'Arriving' ? 'green' : '#B7B7B7',
-                      fontFamily: fonts.SEMIBOLD,
-                      top: 10,
-                    }}>
-                    Delivered on {item.deliveryDate}
-                  </Text>
-                ) : item.status === 'Arriving' ? (
+                  <Image
+                    resizeMode="contain"
+                    style={{height: '80%', width: '80%'}}
+                    source={{uri: item.img}}
+                  />
+                </View>
+                <View
+                  style={{
+                    width: '60%',
+                    paddingHorizontal: 10,
+                    justifyContent: 'center',
+                  }}>
                   <Text
                     style={{
                       color: item.status === 'Arriving' ? 'green' : '#000',
                       fontFamily: fonts.SEMIBOLD,
                     }}>
-                    Arriving on {item.deliveryDate}
+                    {item.title}
                   </Text>
-                ) : item.status === 'Cancelled' ? (
-                  <>
+                  {item.status === 'Delivered' ? (
+                    <Text
+                      style={{
+                        color: item.status === 'Arriving' ? 'green' : '#B7B7B7',
+                        fontFamily: fonts.SEMIBOLD,
+                        top: 10,
+                      }}>
+                      Delivered on {item.deliveryDate}
+                    </Text>
+                  ) : item.status === 'Arriving' ? (
                     <Text
                       style={{
                         color: item.status === 'Arriving' ? 'green' : '#000',
-                        fontFamily: fonts.REGULAR,
-                        color: '#B7B7B7',
-                        top: 10,
+                        fontFamily: fonts.SEMIBOLD,
                       }}>
-                      Cancelled on {item.cancelledDate}
+                      Arriving on {item.deliveryDate}
                     </Text>
-                  </>
-                ) : null}
-              </View>
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Entypo name="chevron-small-right" size={25} />
-              </View>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+                  ) : item.status === 'Cancelled' ? (
+                    <>
+                      <Text
+                        style={{
+                          color: item.status === 'Arriving' ? 'green' : '#000',
+                          fontFamily: fonts.REGULAR,
+                          color: '#B7B7B7',
+                          top: 10,
+                        }}>
+                        Cancelled on {item.cancelledDate}
+                      </Text>
+                    </>
+                  ) : null}
+                </View>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Entypo name="chevron-small-right" size={25} />
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </ScrollView>
     </View>
   );
 }

@@ -60,6 +60,13 @@ export const AuthContext = ({children, navigation}) => {
     '5kkxMgGdTJqKDljMjJcWhXHDqcBFvJwVGeKTfc2FmfjRCCH5hd36LnlUE5yyPQ3g',
   );
 
+
+  const [ALATokenIDN, setALATokenIDN] = useState(
+    'lUEjMjRCCH5TcWhdTJqKDlBFvJwVAmKTfc2FmfjhXHDqc5kkxMgGdyPQ3g78Ln5y',
+  );
+
+ 
+
   useEffect(() => {
     if (guestCartItems.length > 0) {
       let obj = guestCartItems;
@@ -368,6 +375,7 @@ export const AuthContext = ({children, navigation}) => {
         appVersion,
         companyName,
         TokenIDN,
+        ALATokenIDN,
         user,
         userData,
         authUser,

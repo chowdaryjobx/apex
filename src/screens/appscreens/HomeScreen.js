@@ -53,6 +53,7 @@ function HomeScreen({navigation}) {
     // guestDecreaseProducts,
     // guestRemoveProduct,
     // emptyCart,
+    ALATokenIDN,
     userData,
     productStatus,
     companyName,
@@ -130,8 +131,7 @@ function HomeScreen({navigation}) {
   function getCategories() {
     axios
       .post(alaapi + url.Categories, {
-        TokenIDN:
-          'lUEjMjRCCH5TcWhdTJqKDlBFvJwVAmKTfc2FmfjhXHDqc5kkxMgGdyPQ3g78Ln5y',
+        TokenIDN: ALATokenIDN
       })
       .then(res => {
         if (res.data[0].Status === 'Success') {

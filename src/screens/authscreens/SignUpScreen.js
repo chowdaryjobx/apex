@@ -6,22 +6,29 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  Image,
 } from 'react-native';
 import {CheckBox, Icon} from 'react-native-elements';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import DataContext from '../../context/DataContext';
+import {fonts} from 'react-native-elements/dist/config';
 
 const SignUpScreen = ({navigation}) => {
-  const {companyName} = React.useContext(DataContext);
+  const {companyName, fonts} = React.useContext(DataContext);
 
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const [check, setCheck] = useState(false);
   const [userID, setUserID] = useState(null);
+  const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState(null);
   const [referalCode, setReferalCode] = useState(null);
+  const [mentor, setMentorAvailable] = useState({
+    available: false,
+    notavailable: false,
+  });
 
   const {height, width} = Dimensions.get('window');
   const SIZES = {height, width};
@@ -34,13 +41,83 @@ const SignUpScreen = ({navigation}) => {
   };
 
   function submit() {
-    let data = {
-      userID,
-      email,
-      phoneNumber,
-      referalCode,
-    };
-    // axios.post('http://192.168.0.123:3000/ala/api/registration', data).then((res) => { console.log(JSON.stringify(res)) })
+    if (userName === null || userName === undefined || userName === '') {
+      alert('Enter User Name');
+      return;
+    }
+
+    if (
+      phoneNumber === null ||
+      phoneNumber === undefined ||
+      phoneNumber === ''
+    ) {
+      alert('Enter Mobile Number');
+      return;
+    }
+
+    if (mentor.available === false && mentor.notavailable === false) {
+      alert('Select Whether you have mentor or not');
+    }
+
+    if (mentor.available) {
+      let data = {
+        userName,
+        email,
+        phoneNumber,
+        referalCode,
+      };
+      // axios.post('http://192.168.0.123:3000/ala/api/registration', data).then((res) => { console.log(JSON.stringify(res)) })
+    }
+  }
+
+  function referalCheck() {
+    axios.post(api + url.ReferralCheck);
+  }
+
+  function RadioSelected() {
+    return (
+      <View
+        style={{
+          height: 15,
+          width: 15,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: '#000',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <View
+          style={{
+            height: 10,
+            width: 10,
+            borderRadius: 10,
+            backgroundColor: '#000',
+          }}></View>
+      </View>
+    );
+  }
+
+  function RadioUnSelected() {
+    return (
+      <View
+        style={{
+          height: 15,
+          width: 15,
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: '#000',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        {/* <View
+          style={{
+            height: 10,
+            width: 10,
+            borderRadius: 10,
+            backgroundColor: '#000',
+          }}></View> */}
+      </View>
+    );
   }
 
   return (
@@ -125,7 +202,7 @@ const SignUpScreen = ({navigation}) => {
       <View style={{height: '100%', width: '100%', position: 'absolute'}}>
         <View
           style={{
-            height: '30%',
+            height: '20%',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
@@ -163,9 +240,12 @@ const SignUpScreen = ({navigation}) => {
                 borderBottomRightRadius: 50,
               }}>
               <TextInput
-                placeholder="User ID"
+                style={{fontFamily: fonts.SEMIBOLD, color: '#000'}}
+                placeholderTextColor="#e5e5e5"
+                placeholder="User Name"
+                value={userName}
                 onChangeText={text => {
-                  setUserID(text);
+                  setUserName(text);
                 }}
               />
             </View>
@@ -197,6 +277,7 @@ const SignUpScreen = ({navigation}) => {
                 borderBottomRightRadius: 50,
               }}>
               <TextInput
+                style={{fontFamily: fonts.SEMIBOLD, color: '#ccc'}}
                 placeholder="Email Address"
                 onChangeText={text => {
                   setEmail(text);
@@ -231,6 +312,7 @@ const SignUpScreen = ({navigation}) => {
                 borderBottomRightRadius: 50,
               }}>
               <TextInput
+                style={{fontFamily: fonts.SEMIBOLD, color: '#ccc'}}
                 placeholder="Mobile Number"
                 onChangeText={text => {
                   setPhoneNumber(text);
@@ -238,44 +320,119 @@ const SignUpScreen = ({navigation}) => {
               />
             </View>
           </View>
+
           <View
             style={{
               height: 50,
               width: '80%',
               marginTop: 20,
-              backgroundColor: '#fff',
-              borderRadius: 50,
-              flexDirection: 'row',
+              // flexDirection: 'row',
             }}>
-            <View
-              style={{
-                height: '100%',
-                width: '20%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderTopLeftRadius: 50,
-                borderBottomLeftRadius: 50,
-              }}>
-              <MaterialCommunityIcons
-                name="account-arrow-right"
-                color="black"
-                size={25}
-              />
-            </View>
-            <View
-              style={{
-                flex: 1,
-                borderTopRightRadius: 50,
-                borderBottomRightRadius: 50,
-              }}>
-              <TextInput
-                placeholder="Have a referal code ? (Optional)"
-                onChangeText={text => {
-                  setReferalCode(text);
-                }}
-              />
+            <Text style={{fontSize: 16, fontFamily: fonts.BOLD}}>
+              Have Mentor Id
+            </Text>
+            <View style={{flexDirection: 'row', top: 10}}>
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                  style={{flexDirection: 'row'}}
+                  onPress={() => {
+                    setMentorAvailable({
+                      available: true,
+                      notavailable: false,
+                    });
+                  }}>
+                  {mentor.available ? <RadioSelected /> : <RadioUnSelected />}
+                  <Text style={{left: 10}}>Yes</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{flexDirection: 'row', marginLeft: 50}}>
+                <TouchableOpacity
+                  style={{flexDirection: 'row'}}
+                  onPress={() => {
+                    setMentorAvailable({
+                      available: false,
+                      notavailable: true,
+                    });
+                  }}>
+                  {mentor.notavailable ? (
+                    <RadioSelected />
+                  ) : (
+                    <RadioUnSelected />
+                  )}
+                  <Text style={{left: 10}}>No</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
+          {mentor.available ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                // backgroundColor: 'blue',
+                width: '80%',
+              }}>
+              <View
+                style={{
+                  height: 50,
+                  width: '100%',
+                  marginTop: 20,
+                  backgroundColor: '#fff',
+                  borderRadius: 50,
+                  flexDirection: 'row',
+                }}>
+                <View
+                  style={{
+                    height: '100%',
+                    width: '20%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderTopLeftRadius: 50,
+                    borderBottomLeftRadius: 50,
+                  }}>
+                  <MaterialCommunityIcons
+                    name="account-arrow-right"
+                    color="black"
+                    size={25}
+                  />
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    borderTopRightRadius: 50,
+                    borderBottomRightRadius: 50,
+                  }}>
+                  <TextInput
+                    placeholder="Mentor ID ? (Optional)"
+                    value={referalCode}
+                    onChangeText={text => {
+                      setReferalCode(text);
+                    }}
+                  />
+                </View>
+              </View>
+              {/* <TouchableOpacity
+                style={{
+                  height: 50,
+                  width: '25%',
+                  marginTop: 20,
+                  borderRadius: 10,
+                  backgroundColor: '#009CF3',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: fonts.SEMIBOLD,
+                    color: '#fff',
+                  }}>
+                  Verify
+                </Text>
+              </TouchableOpacity> */}
+            </View>
+          ) : null}
           <View style={{flexDirection: 'row', width: '80%', marginTop: 20}}>
             <View style={{justifyContent: 'flex-start'}}>
               <CheckBox

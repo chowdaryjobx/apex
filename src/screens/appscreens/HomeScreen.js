@@ -12,7 +12,6 @@ import {
   Animated,
   StyleSheet,
   RefreshControl,
-  // Share,
   ToastAndroid,
 } from 'react-native';
 import {COLORS, SIZES} from '../../constants';
@@ -30,8 +29,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import NetInfo from '@react-native-community/netinfo';
 import DataContext from '../../context/DataContext';
 
-// import Video from 'react-native-video';
-
 import {Avatar, Badge, Icon, withBadge} from 'react-native-elements';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -39,37 +36,48 @@ import axios from 'axios';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 function HomeScreen({navigation}) {
-  const scrollX = React.useRef(new Animated.Value(0)).current;
-  const {width, height} = Dimensions.get('screen');
-  const [isNetworkConnected, setIsNetworkConnected] = useState(null);
-  const [Pagerefreshing, setPagerefreshing] = React.useState(false);
-
   const {
     user,
     cartItems,
-    guestCartItems,
+    // guestCartItems,
     addToGuestCart,
-    // guestIncreaseProducts,
-    // guestDecreaseProducts,
-    // guestRemoveProduct,
-    // emptyCart,
-    ALATokenIDN,
+    TokenIDN,
+    TokenID,
     userData,
     productStatus,
     companyName,
     url,
     api,
-    alaapi,
     products,
-    addToCart,
-    brands,
+
+    // brands,
     font_desc,
     fonts,
   } = React.useContext(DataContext);
+
+  const scrollX = React.useRef(new Animated.Value(0)).current;
+  const {width, height} = Dimensions.get('screen');
+  const [isNetworkConnected, setIsNetworkConnected] = useState(null);
+  const [Pagerefreshing, setPagerefreshing] = React.useState(false);
+
   const [SplashScreen, setSplashScreen] = useState(true);
   const [timer, setTimer] = useState(2);
   const [animations, setAnimations] = useState(new Animated.Value(HEIGHT));
   const [anim, setAnim] = useState(new Animated.Value(1));
+  const trans = {
+    transform: [{translateY: animations}, {scale: anim}],
+  };
+
+  const [wallet, setWallet] = useState(null);
+  const [business, setBusiness] = useState(null);
+  const [activeImage, setActiveImage] = useState(0);
+  const [latestProudcts, setLatestProducts] = useState(null);
+  const [categoryProducts, setCategoryProducts] = useState(null);
+  const [businessUser, setBusinessUser] = useState(null);
+  const [brands, setBrands] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [categories, setCategories] = useState(null);
+
   useEffect(() => {
     if (timer > 0) {
       setTimeout(() => {
@@ -114,24 +122,64 @@ function HomeScreen({navigation}) {
     }).start();
   };
 
-  const trans = {
-    transform: [{translateY: animations}, {scale: anim}],
-  };
-
-  const [wallet, setWallet] = useState(null);
-  const [business, setBusiness] = useState(null);
-  const [activeImage, setActiveImage] = useState(0);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [categories, setCategories] = useState(null);
-
   useEffect(() => {
     getCategories();
+    HomeProducts();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      homeBusiness();
+    }
+  }, [user]);
+
+  function HomeProducts() {
+    axios
+      .post(api + url.HomeProducts, {
+        TokenIDN: TokenIDN,
+        TokenID: user ? user.TokenId : 'N.A.',
+      })
+      .then(res => {
+        if (res.data[0].Status === 'Success') {
+          // console.log(res.data[0].CategoryProducts);
+          setLatestProducts(res.data[0].LatestProducts);
+          setCategoryProducts(res.data[0].CategoryProducts);
+          setBrands(res.data[0].Brands);
+        } else if (res.data[0].Status === 'Failure') {
+          console.log('failed' + res.data[0].Response);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  function addToCart(ProductNo) {
+    let params = {
+      InputType: 'ADD',
+      TokenID: user.TokenId,
+      ProductNo: ProductNo,
+      Quantity: '1',
+    };
+
+    axios
+      .post(api + url.CartItemsAddorMinus, params)
+      .then(res => {
+        if (res.data[0].Status === 'Success') {
+          homeBusiness();
+        } else if (res.data[0].Status === 'Failure') {
+          alert('could not able to add product to cart');
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   function getCategories() {
     axios
-      .post(alaapi + url.Categories, {
-        TokenIDN: ALATokenIDN
+      .post(api + url.Categories, {
+        TokenIDN: TokenIDN,
       })
       .then(res => {
         if (res.data[0].Status === 'Success') {
@@ -145,26 +193,28 @@ function HomeScreen({navigation}) {
       });
   }
 
-  const [brands1, setBrands1] = useState([
-    {img: require('../../assests/extras/ala_logo.png')},
-    {img: require('../../../assests/images/brands/john&frankie.png')},
-    {img: require('../../../assests/images/brands/panchyagavya.png')},
-    {img: require('../../../assests/images/brands/brand3.png')},
-    {img: require('../../../assests/images/brands/brand2.png')},
-  ]);
+  function homeBusiness() {
+    axios
+      .post(api + url.HomeBusiness, {
+        TokenID: user.TokenId,
+      })
+      .then(res => {
+        if (res.data[0].Status === 'Success') {
+          setBusinessUser(res.data[0]);
+        } else if (res.data[0].Status === 'Failure') {
+          setErrorMessage(res.data[0].Response);
+        }
+      })
+      .catch(err => {
+        setErrorMessage(err.message);
+      });
+  }
 
   const onpagerefresh = () => {
     setPagerefreshing(true);
-    // NetInfo.fetch().then(state => {
-    //   if (state.isConnected) {
-    //     // navigation.goBack();
-    //   }
-    // });
     getCategories();
     setPagerefreshing(false);
   };
-
-  const [latestOffers, setLatestOffers] = useState(products);
 
   useEffect(() => {
     if (user !== null) {
@@ -333,7 +383,7 @@ function HomeScreen({navigation}) {
                 }}>
                 <FontAwesome name="rupee" size={12} />
                 <Text style={{fontSize: 12}}>
-                  {wallet ? wallet.Commission : null}
+                  {businessUser ? businessUser.CommssionWallBalance : null}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -361,7 +411,7 @@ function HomeScreen({navigation}) {
                 <FontAwesome name="rupee" size={12} />
                 <Text style={{fontSize: 12}}>
                   {' '}
-                  {wallet ? wallet.MyBank : null}
+                  {businessUser ? businessUser.MyBankBalance : null}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -385,7 +435,7 @@ function HomeScreen({navigation}) {
               <View style={{flexDirection: 'row'}}>
                 <MaterialCommunityIcons name="alpha" size={20} color="#000" />
                 <Text style={{fontSize: 12}}>
-                  : {business ? business.ATeamBusiness : null}
+                  : {businessUser ? businessUser.AlphaSC : null}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -407,7 +457,7 @@ function HomeScreen({navigation}) {
               <View style={{flexDirection: 'row'}}>
                 <MaterialCommunityIcons name="beta" size={20} color="#000" />
                 <Text style={{fontSize: 12}}>
-                  : {business ? business.BTeamBusiness : null}
+                  : {businessUser ? businessUser.BetaSC : null}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -435,7 +485,7 @@ function HomeScreen({navigation}) {
                 <FontAwesome name="rupee" size={12} />
                 <Text style={{fontSize: 12}}>
                   {' '}
-                  {wallet ? wallet.MyBank : null}
+                  {businessUser ? businessUser.TotalEarning : null}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -610,7 +660,7 @@ function HomeScreen({navigation}) {
                       fontSize: 14,
                       fontFamily: fonts.BOLD,
                     }}>
-                    Ramesh
+                    {businessUser ? businessUser.Name : null}
                   </Text>
                   <TouchableOpacity
                     onPress={() => {
@@ -624,9 +674,11 @@ function HomeScreen({navigation}) {
                         fontSize: 12,
                         fontFamily: fonts.BOLD,
                       }}>
-                      Designation
+                      {businessUser ? businessUser.Designation : null}
                     </Text>
-                    <EvilIcons name="arrow-up" size={25} style={{left: 5}} />
+                    {businessUser && businessUser.FranchiseeUpgradeBtnStatus ? (
+                      <EvilIcons name="arrow-up" size={25} Fstyle={{left: 5}} />
+                    ) : null}
                   </TouchableOpacity>
                 </View>
               ) : null}
@@ -654,11 +706,7 @@ function HomeScreen({navigation}) {
                 <View style={{position: 'absolute', left: 20, top: -10}}>
                   <Badge
                     value={
-                      user
-                        ? cartItems.length
-                        : guestCartItems
-                        ? guestCartItems.length
-                        : 0
+                      user && businessUser ? businessUser.CartItemsCount : 0
                     }
                     status="success"
                   />
@@ -791,676 +839,285 @@ function HomeScreen({navigation}) {
                 backgroundColor: '#fff',
                 alignItems: 'center',
               }}>
-              {latestOffers.map((item, index) => {
-                return (
-                  <View
-                    key={index}
-                    style={{
-                      // left: 10,
-                      height: '90%',
-                      width: WIDTH,
-                      backgroundColor: '#fff',
-                      // padding: 10,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Image
-                      source={require('../../assests/banners/banner_background.jpg')}
-                      style={{height: '100%', width: '100%'}}
-                    />
-                    <View
-                      style={{
-                        height: '90%',
-                        width: '95%',
-                        padding: 10,
-                        borderRadius: 10,
-                        // paddingVertical:10,
-                        // paddingHorizontal:10,
-                        backgroundColor: '#fff',
-
-                        position: 'absolute',
-                      }}>
+              {latestProudcts
+                ? latestProudcts.map((item, index) => {
+                    return (
                       <View
+                        key={index}
                         style={{
-                          height: '10%',
-                          width: '100%',
-                          justifyContent: 'space-between',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                        }}>
-                        <Text
-                          style={{
-                            fontFamily: fonts.BOLD,
-                            color: '#35CBC4',
-                            fontSize: 16,
-                            top: -5,
-                          }}>
-                          Latest Product
-                        </Text>
-
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            fontFamily: fonts.BOLD,
-                            top: -5,
-                          }}>
-                          {item.productBy}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          height: '70%',
-                          width: '100%',
-                          flexDirection: 'row',
-                        }}>
-                        <View
-                          style={{
-                            height: '100%',
-                            width: '30%',
-                            // backgroundColor: 'green',
-                            // justifyContent: 'center',
-                            // alignItems: 'center',
-                            justifyContent: 'center',
-                          }}>
-                          <Image
-                            resizeMode="cover"
-                            source={item.img}
-                            style={{height: '80%', width: '90%'}}
-                          />
-                        </View>
-                        <View
-                          style={{
-                            top: 15,
-                            height: '100%',
-                            width: '70%',
-                            // backgroundColor: 'yellow',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 18,
-                              fontFamily: fonts.BOLD,
-                              top: 5,
-                              color: '#4e4e4e',
-                            }}>
-                            {item.title}
-                          </Text>
-                          <Text
-                            style={{
-                              fontFamily: font_desc,
-                              top: 10,
-                              fontSize: 13,
-                              color: '#A3A3A3',
-                            }}>
-                            {item.description}
-                          </Text>
-                          <View style={{flexDirection: 'row', top: 20}}>
-                            <View style={{}}>
-                              <View
-                                style={{
-                                  flexDirection: 'row',
-                                  // justifyContent: 'center',
-                                  // alignItems: 'center',
-                                }}>
-                                <Text
-                                  style={{
-                                    fontFamily: fonts.SEMIBOLD,
-                                    fontSize: 16,
-                                  }}>
-                                  DRC :
-                                </Text>
-                                <FontAwesome
-                                  name="rupee"
-                                  size={13}
-                                  style={{left: 5, top: 7}}
-                                  color="#F05935"
-                                />
-                                <Text
-                                  style={{
-                                    fontSize: 18,
-                                    left: 10,
-                                    fontFamily: fonts.BOLD,
-                                    color: '#F05935',
-                                  }}>
-                                  {item.drc}
-                                </Text>
-                              </View>
-                            </View>
-                            <View
-                              style={{
-                                left: 40,
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                              }}>
-                              <Text
-                                style={{
-                                  fontFamily: fonts.SEMIBOLD,
-                                  fontSize: 16,
-                                }}>
-                                M.R.P :
-                              </Text>
-                              <View
-                                style={{
-                                  flexDirection: 'row',
-                                  // justifyContent: 'center',
-                                  // alignItems: 'center',
-                                }}>
-                                <FontAwesome
-                                  name="rupee"
-                                  size={13}
-                                  style={{left: 5, top: 7}}
-                                  color="#F05935"
-                                />
-                                <Text
-                                  style={{
-                                    fontSize: 18,
-                                    left: 10,
-                                    fontFamily: fonts.BOLD,
-                                    color: '#F05935',
-                                  }}>
-                                  {item.mrp}
-                                </Text>
-                              </View>
-                            </View>
-                          </View>
-                        </View>
-                      </View>
-                      <View
-                        style={{
-                          height: '20%',
-                          width: '100%',
-                          flexDirection: 'row',
-                          // backgroundColor: 'blue',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}>
-                        <TouchableOpacity
-                          onPress={() => {
-                            navigation.navigate('ProductDescription', {
-                              img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-                            });
-                          }}
-                          style={{
-                            paddingHorizontal: 30,
-                            borderWidth: 1,
-                            paddingVertical: 5,
-                            borderColor: '#35CBC4',
-                            borderRadius: 5,
-                            backgroundColor: '#35CBC4',
-                          }}>
-                          <Text
-                            style={{
-                              color: '#fff',
-                              fontFamily: fonts.BOLD,
-                              top: -3,
-                            }}>
-                            View
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => {
-                            if (user) {
-                              addToCart(item);
-                            } else {
-                              addToGuestCart(item);
-                            }
-                          }}
-                          style={{
-                            paddingHorizontal: 20,
-                            borderWidth: 1,
-                            paddingVertical: 5,
-                            borderColor: '#35CBC4',
-                            borderRadius: 5,
-                            backgroundColor: '#35CBC4',
-                          }}>
-                          <Text
-                            style={{
-                              color: '#fff',
-                              fontFamily: fonts.BOLD,
-                              top: -3,
-                            }}>
-                            Add to Cart
-                          </Text>
-                        </TouchableOpacity>
-                        <MaterialIcons
-                          size={30}
-                          color="#8D8D8D"
-                          name="favorite-border"
-                          onPress={() => {
-                            alert('adding into favourite');
-                          }}
-                        />
-                        <AntDesign
-                          size={30}
-                          color="#8D8D8D"
-                          name="sharealt"
-                          onPress={() => {
-                            onShare(item.img);
-                          }}
-                        />
-                      </View>
-                    </View>
-                  </View>
-                );
-              })}
-            </ScrollView>
-            <View
-              style={{
-                flexDirection: 'row',
-                // backgroundColor: '#fff',
-                bottom: 15,
-                position: 'absolute',
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}>
-              {latestOffers.map((e, index) => {
-                return (
-                  <View
-                    key={index}
-                    style={{
-                      height: 10,
-                      width: 10,
-                      borderRadius: 5,
-                      backgroundColor: activeImage === index ? '#000' : '#ccc',
-                      marginHorizontal: 4,
-                    }}></View>
-                );
-              })}
-            </View>
-          </View>
-
-          <View
-            style={{
-              marginTop: 5,
-              paddingHorizontal: 15,
-              backgroundColor: '#fff',
-              borderTopWidth: 1,
-              borderColor: '#ccc',
-            }}>
-            <Text
-              style={{
-                fontFamily: fonts.BOLD,
-                color: '#35CBC4',
-                fontSize: 18,
-              }}>
-              Products
-            </Text>
-            <View style={{height: 220}}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{}}>
-                {brands[0].products.map((item, index) => {
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      onPress={() => {
-                        navigation.navigate('ProductDescription', {
-                          img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-                        });
-                      }}
-                      style={{
-                        padding: 5,
-                        elevation: 0,
-                        margin: 5,
-                        flex: 1,
-                        backgroundColor: 'white',
-                        borderRadius: 15,
-                        // borderWidth: 1,
-                        borderColor: '#e5e5e5',
-                        height: '90%',
-                        width: 150,
-                      }}>
-                      <Image
-                        style={{borderRadius: 5, height: '80%', width: '100%'}}
-                        source={item.img}
-                        resizeMode="contain"
-                      />
-                      <Text
-                        style={{
-                          fontFamily: fonts.SEMIBOLD,
-                          color: '#4e4e4e',
-                          alignSelf: 'center',
-                        }}>
-                        {item.title}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: fonts.SEMIBOLD,
-                          color: '#4e4e4e',
-                          alignSelf: 'center',
-                          fontSize: 12,
-                        }}>
-                        {item.productBy} | {item.weight}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Product', {brand: 'tanza'});
-                  }}
-                  style={{
-                    padding: 5,
-                    elevation: 0,
-                    margin: 5,
-                    flex: 1,
-                    borderRadius: 15,
-                    borderColor: '#e5e5e5',
-                    height: '90%',
-                    width: 150,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: 130,
-                      width: 130,
-                      borderRadius: 130 / 2,
-                      // paddingHorizontal: 20,
-                      backgroundColor: '#fff',
-                      // borderRadius: 5,
-                      flexDirection: 'row',
-                      backgroundColor: 'lightblue',
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: fonts.BOLD,
-                        color: '#fff',
-                        fontSize: 14,
-                        left: -5,
-                      }}>
-                      View All
-                    </Text>
-                    <AntDesign name="arrowright" size={20} color="#fff" />
-                  </View>
-                </TouchableOpacity>
-              </ScrollView>
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: 5,
-              paddingHorizontal: 15,
-              backgroundColor: '#fff',
-              borderTopWidth: 1,
-              borderColor: '#ccc',
-            }}>
-            <Text
-              style={{
-                fontFamily: fonts.BOLD,
-                color: '#35CBC4',
-                fontSize: 18,
-              }}>
-              FMCG
-            </Text>
-            <View style={{height: 220}}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{}}>
-                {brands[2].products.map((item, index) => {
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      onPress={() => {
-                        navigation.navigate('ProductDescription', {
-                          img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-                        });
-                      }}
-                      style={{
-                        padding: 5,
-                        elevation: 0,
-                        margin: 5,
-                        flex: 1,
-                        backgroundColor: 'white',
-                        borderRadius: 15,
-                        // borderWidth: 1,
-                        borderColor: '#e5e5e5',
-                        height: '90%',
-                        width: 150,
-                      }}>
-                      <Image
-                        style={{borderRadius: 5, height: '80%', width: '100%'}}
-                        source={item.img}
-                        resizeMode="contain"
-                      />
-                      <Text
-                        style={{
-                          fontFamily: fonts.SEMIBOLD,
-                          color: '#4e4e4e',
-                          alignSelf: 'center',
-                        }}>
-                        {item.title}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: fonts.SEMIBOLD,
-                          // color: '#4e4e4e',
-                          alignSelf: 'center',
-                          fontSize: 12,
-                        }}>
-                        {item.productBy} | {item.weight}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Product', {brand: 'tanza'});
-                  }}
-                  style={{
-                    padding: 5,
-                    elevation: 0,
-                    margin: 5,
-                    flex: 1,
-                    borderRadius: 15,
-                    borderColor: '#e5e5e5',
-                    height: '90%',
-                    width: 150,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: 130,
-                      width: 130,
-                      borderRadius: 130 / 2,
-                      // paddingHorizontal: 20,
-                      backgroundColor: '#fff',
-                      // borderRadius: 5,
-                      flexDirection: 'row',
-                      backgroundColor: 'lightblue',
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: fonts.BOLD,
-                        color: '#fff',
-                        fontSize: 14,
-                        left: -5,
-                      }}>
-                      View All
-                    </Text>
-                    <AntDesign name="arrowright" size={20} color="#fff" />
-                  </View>
-                </TouchableOpacity>
-              </ScrollView>
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: 5,
-              paddingHorizontal: 15,
-              backgroundColor: '#fff',
-              borderTopWidth: 1,
-              borderColor: '#ccc',
-            }}>
-            <Text
-              style={{
-                fontFamily: fonts.BOLD,
-                color: '#35CBC4',
-                fontSize: 18,
-              }}>
-              Health
-            </Text>
-            <View style={{height: 220}}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{}}>
-                {latestOffers.map((item, index) => {
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      onPress={() => {
-                        navigation.navigate('ProductDescription', {
-                          img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-                        });
-                      }}
-                      style={{
-                        padding: 5,
-                        elevation: 0,
-                        margin: 5,
-                        flex: 1,
-                        backgroundColor: 'white',
-                        borderRadius: 15,
-                        // borderWidth: 1,
-                        borderColor: '#e5e5e5',
-                        height: '90%',
-                        width: 150,
-                      }}>
-                      <Image
-                        style={{borderRadius: 5, height: '80%', width: '100%'}}
-                        source={item.img}
-                        resizeMode="contain"
-                      />
-                      <Text
-                        style={{
-                          fontFamily: fonts.SEMIBOLD,
-                          color: '#4e4e4e',
-                          alignSelf: 'center',
-                        }}>
-                        {item.title}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: fonts.SEMIBOLD,
-                          // color: '#4e4e4e',
-                          alignSelf: 'center',
-                          fontSize: 12,
-                        }}>
-                        {item.productBy} | {item.weight}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Product', {brand: 'tanza'});
-                  }}
-                  style={{
-                    padding: 5,
-                    elevation: 0,
-                    margin: 5,
-                    flex: 1,
-                    borderRadius: 15,
-                    borderColor: '#e5e5e5',
-                    height: '90%',
-                    width: 150,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: 130,
-                      width: 130,
-                      borderRadius: 130 / 2,
-                      // paddingHorizontal: 20,
-                      backgroundColor: '#fff',
-                      // borderRadius: 5,
-                      flexDirection: 'row',
-                      backgroundColor: 'lightblue',
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: fonts.BOLD,
-                        color: '#fff',
-                        fontSize: 14,
-                        left: -5,
-                      }}>
-                      View All
-                    </Text>
-                    <AntDesign name="arrowright" size={20} color="#fff" />
-                  </View>
-                </TouchableOpacity>
-              </ScrollView>
-            </View>
-          </View>
-          <View style={{height: 300, width: '100%'}}>
-            <ScrollView
-              onScroll={({nativeEvent}) => onchange(nativeEvent)}
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              pagingEnabled
-              contentContainerStyle={{
-                height: 300,
-                backgroundColor: '#fff',
-                alignItems: 'center',
-              }}>
-              {brands1.map((item, index) => {
-                return (
-                  <View
-                    key={index}
-                    style={{
-                      // left: 10,
-                      height: '90%',
-                      width: WIDTH,
-                      backgroundColor: '#fff',
-                      // padding: 10,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Image
-                      source={require('../../assests/banners/banner_background1.jpg')}
-                      style={{height: '100%', width: '100%'}}
-                    />
-                    <View
-                      style={{
-                        height: '90%',
-                        width: '95%',
-                        padding: 10,
-                        borderRadius: 10,
-                        backgroundColor: '#fff',
-                        position: 'absolute',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                      <View
-                        style={{
-                          height: 150,
-                          width: 150,
+                          // left: 10,
+                          height: '90%',
+                          width: WIDTH,
+                          backgroundColor: '#fff',
+                          // padding: 10,
                           justifyContent: 'center',
                           alignItems: 'center',
                         }}>
                         <Image
-                          resizeMode="contain"
-                          source={item.img}
+                          source={require('../../assests/banners/banner_background.jpg')}
                           style={{height: '100%', width: '100%'}}
                         />
+                        <View
+                          style={{
+                            height: '90%',
+                            width: '95%',
+                            padding: 10,
+                            borderRadius: 10,
+                            // paddingVertical:10,
+                            // paddingHorizontal:10,
+                            backgroundColor: '#fff',
+
+                            position: 'absolute',
+                          }}>
+                          <View
+                            style={{
+                              height: '10%',
+                              width: '100%',
+                              justifyContent: 'space-between',
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                            }}>
+                            <Text
+                              style={{
+                                fontFamily: fonts.BOLD,
+                                color: '#35CBC4',
+                                fontSize: 16,
+                                top: -5,
+                              }}>
+                              Latest Product
+                            </Text>
+
+                            <Text
+                              style={{
+                                fontSize: 14,
+                                fontFamily: fonts.BOLD,
+                                top: -5,
+                              }}>
+                              {item.BrandName}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              height: '70%',
+                              width: '100%',
+                              flexDirection: 'row',
+                            }}>
+                            <View
+                              style={{
+                                height: '100%',
+                                width: '30%',
+                                // backgroundColor: 'green',
+                                // justifyContent: 'center',
+                                // alignItems: 'center',
+                                justifyContent: 'center',
+                              }}>
+                              <Image
+                                resizeMode="cover"
+                                source={{
+                                  uri: `data:image/jpeg;base64,${item.ProductImage}`,
+                                }}
+                                style={{height: '80%', width: '90%'}}
+                              />
+                            </View>
+                            <View
+                              style={{
+                                top: 15,
+                                height: '100%',
+                                width: '70%',
+                                // backgroundColor: 'yellow',
+                              }}>
+                              <Text
+                                style={{
+                                  fontSize: 18,
+                                  fontFamily: fonts.BOLD,
+                                  top: 5,
+                                  color: '#4e4e4e',
+                                }}>
+                                {item.ProductName}
+                              </Text>
+
+                              <Text
+                                style={{
+                                  fontFamily: font_desc,
+                                  top: 10,
+                                  fontSize: 13,
+                                  color: '#A3A3A3',
+                                }}>
+                                {item.Description.substring(0, 90)} ...
+                              </Text>
+                              <View
+                                style={{
+                                  flexDirection: 'row',
+                                  top: 20,
+                                  // backgroundColor: 'blue',
+                                  justifyContent: 'space-between',
+                                }}>
+                                {user &&
+                                businessUser &&
+                                businessUser.FooterMenuStatus === 'Yes' ? (
+                                  <View
+                                  // style={{justifyContent: 'space-between'}}
+                                  >
+                                    <View
+                                      style={{
+                                        flexDirection: 'row',
+                                        // justifyContent: 'center',
+                                        // alignItems: 'center',
+                                      }}>
+                                      <Text
+                                        style={{
+                                          fontFamily: fonts.SEMIBOLD,
+                                          fontSize: 16,
+                                        }}>
+                                        DRC :
+                                      </Text>
+                                      <FontAwesome
+                                        name="rupee"
+                                        size={13}
+                                        style={{left: 5, top: 7}}
+                                        color="#F05935"
+                                      />
+                                      <Text
+                                        style={{
+                                          fontSize: 18,
+                                          left: 10,
+                                          fontFamily: fonts.BOLD,
+                                          color: '#F05935',
+                                        }}>
+                                        {item.DRC}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                ) : null}
+                                <View
+                                  style={{
+                                    // left: 40,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    paddingRight: 10,
+                                  }}>
+                                  <Text
+                                    style={{
+                                      fontFamily: fonts.SEMIBOLD,
+                                      fontSize: 16,
+                                    }}>
+                                    M.R.P :
+                                  </Text>
+                                  <View
+                                    style={{
+                                      flexDirection: 'row',
+                                      // justifyContent: 'center',
+                                      // alignItems: 'center',
+                                    }}>
+                                    <FontAwesome
+                                      name="rupee"
+                                      size={13}
+                                      style={{left: 5, top: 7}}
+                                      color="#F05935"
+                                    />
+                                    <Text
+                                      style={{
+                                        fontSize: 18,
+                                        left: 10,
+                                        fontFamily: fonts.BOLD,
+                                        color: '#F05935',
+                                      }}>
+                                      {item.MRP}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                            </View>
+                          </View>
+                          <View
+                            style={{
+                              height: '20%',
+                              width: '100%',
+                              flexDirection: 'row',
+                              // backgroundColor: 'blue',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                            }}>
+                            <TouchableOpacity
+                              onPress={() => {
+                                navigation.navigate('ProductDescription', {
+                                  ProductNo: item.ProductNo,
+                                });
+                              }}
+                              style={{
+                                paddingHorizontal: 30,
+                                borderWidth: 1,
+                                paddingVertical: 5,
+                                borderColor: '#35CBC4',
+                                borderRadius: 5,
+                                backgroundColor: '#35CBC4',
+                              }}>
+                              <Text
+                                style={{
+                                  color: '#fff',
+                                  fontFamily: fonts.BOLD,
+                                  top: -3,
+                                }}>
+                                View
+                              </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              onPress={() => {
+                                if (user) {
+                                  addToCart(item.ProductNo);
+                                } else {
+                                  navigation.navigate('MenuScreen');
+                                }
+                              }}
+                              style={{
+                                paddingHorizontal: 20,
+                                borderWidth: 1,
+                                paddingVertical: 5,
+                                borderColor: '#35CBC4',
+                                borderRadius: 5,
+                                backgroundColor: '#35CBC4',
+                              }}>
+                              <Text
+                                style={{
+                                  color: '#fff',
+                                  fontFamily: fonts.BOLD,
+                                  top: -3,
+                                }}>
+                                Add to Cart
+                              </Text>
+                            </TouchableOpacity>
+                            {item.FavouriteBtnStatus === 'Yes' ? (
+                              <MaterialIcons
+                                size={30}
+                                color={
+                                  item.FavouriteStatus === 'Yes'
+                                    ? 'red'
+                                    : '#8D8D8D'
+                                }
+                                name={
+                                  item.FavouriteStatus === 'Yes'
+                                    ? 'favorite'
+                                    : 'favorite-border'
+                                }
+                                onPress={() => {
+                                  alert('adding into favourite');
+                                }}
+                              />
+                            ) : null}
+                            <AntDesign
+                              size={30}
+                              color="#8D8D8D"
+                              name="sharealt"
+                              onPress={() => {
+                                onShare(item.img);
+                              }}
+                            />
+                          </View>
+                        </View>
                       </View>
-                    </View>
-                  </View>
-                );
-              })}
+                    );
+                  })
+                : null}
             </ScrollView>
             <View
               style={{
@@ -1471,137 +1128,262 @@ function HomeScreen({navigation}) {
                 justifyContent: 'center',
                 alignSelf: 'center',
               }}>
-              {brands1.map((e, index) => {
-                return (
-                  <View
-                    key={index}
-                    style={{
-                      height: 10,
-                      width: 10,
-                      borderRadius: 5,
-                      backgroundColor: activeImage === index ? '#000' : '#ccc',
-                      marginHorizontal: 4,
-                    }}></View>
-                );
-              })}
+              {latestProudcts
+                ? latestProudcts.map((e, index) => {
+                    return (
+                      <View
+                        key={index}
+                        style={{
+                          height: 10,
+                          width: 10,
+                          borderRadius: 5,
+                          backgroundColor:
+                            activeImage === index ? '#000' : '#ccc',
+                          marginHorizontal: 4,
+                        }}></View>
+                    );
+                  })
+                : null}
             </View>
           </View>
-          <View
-            style={{
-              marginTop: 5,
-              paddingHorizontal: 15,
-              backgroundColor: '#fff',
-              borderTopWidth: 1,
-              borderColor: '#ccc',
-              marginBottom: 20,
-            }}>
-            <Text
-              style={{
-                fontFamily: fonts.BOLD,
-                color: '#35CBC4',
-                fontSize: 18,
-              }}>
-              Health
-            </Text>
-            <View style={{height: 220}}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{}}>
-                {latestOffers.map((item, index) => {
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      onPress={() => {
-                        navigation.navigate('ProductDescription', {
-                          img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
-                        });
-                      }}
-                      style={{
-                        padding: 5,
-                        elevation: 0,
-                        margin: 5,
-                        flex: 1,
-                        backgroundColor: 'white',
-                        borderRadius: 15,
-                        // borderWidth: 1,
-                        borderColor: '#e5e5e5',
-                        height: '90%',
-                        width: 150,
-                      }}>
-                      <Image
-                        style={{borderRadius: 5, height: '80%', width: '100%'}}
-                        source={item.img}
-                        resizeMode="contain"
-                      />
-                      <Text
-                        style={{
-                          fontFamily: fonts.SEMIBOLD,
-                          color: '#4e4e4e',
-                          alignSelf: 'center',
-                        }}>
-                        {item.title}
-                      </Text>
-                      <Text
-                        style={{
-                          fontFamily: fonts.SEMIBOLD,
-                          // color: '#4e4e4e',
-                          alignSelf: 'center',
-                          fontSize: 12,
-                        }}>
-                        {item.productBy} | {item.weight}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
 
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Product', {brand: 'tanza'});
-                  }}
-                  style={{
-                    padding: 5,
-                    elevation: 0,
-                    margin: 5,
-                    flex: 1,
-                    borderRadius: 15,
-                    borderColor: '#e5e5e5',
-                    height: '90%',
-                    width: 150,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}>
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      height: 130,
-                      width: 130,
-                      borderRadius: 130 / 2,
-                      // paddingHorizontal: 20,
-                      backgroundColor: '#fff',
-                      // borderRadius: 5,
-                      flexDirection: 'row',
-                      backgroundColor: 'lightblue',
-                    }}>
-                    <Text
+          {categoryProducts
+            ? categoryProducts.map((item, index) => {
+                return (
+                  <>
+                    <View
+                      key={index}
                       style={{
-                        fontFamily: fonts.BOLD,
-                        color: '#fff',
-                        fontSize: 14,
-                        left: -5,
+                        marginTop: 5,
+                        paddingHorizontal: 15,
+                        backgroundColor: '#fff',
+                        borderTopWidth: 1,
+                        borderColor: '#ccc',
                       }}>
-                      View All
-                    </Text>
-                    <AntDesign name="arrowright" size={20} color="#fff" />
-                  </View>
-                </TouchableOpacity>
-              </ScrollView>
-            </View>
-          </View>
+                      <Text
+                        style={{
+                          fontFamily: fonts.BOLD,
+                          color: '#35CBC4',
+                          fontSize: 18,
+                        }}>
+                        {item.CategoryName}
+                      </Text>
+                      <View style={{height: 220}}>
+                        <ScrollView
+                          horizontal
+                          showsHorizontalScrollIndicator={false}
+                          contentContainerStyle={{}}>
+                          {categoryProducts[index].Products.map(
+                            (item, index) => {
+                              return (
+                                <TouchableOpacity
+                                  key={index}
+                                  onPress={() => {
+                                    navigation.navigate('ProductDescription', {
+                                      img: require('../../../assests/images/apex/HEALTH/alpiste.png'),
+                                    });
+                                  }}
+                                  style={{
+                                    padding: 5,
+                                    elevation: 0,
+                                    margin: 5,
+                                    flex: 1,
+                                    backgroundColor: 'white',
+                                    borderRadius: 15,
+                                    borderColor: '#e5e5e5',
+                                    height: '90%',
+                                    width: 150,
+                                  }}>
+                                  <Image
+                                    style={{
+                                      borderRadius: 5,
+                                      height: '80%',
+                                      width: '100%',
+                                    }}
+                                    source={{
+                                      uri: `data:image/jpeg;base64,${item.ProductImage}}`,
+                                    }}
+                                    resizeMode="contain"
+                                  />
+                                  <Text
+                                    style={{
+                                      fontFamily: fonts.SEMIBOLD,
+                                      color: '#4e4e4e',
+                                      alignSelf: 'center',
+                                    }}>
+                                    {item.ProductName}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      fontFamily: fonts.SEMIBOLD,
+                                      color: '#4e4e4e',
+                                      alignSelf: 'center',
+                                      fontSize: 12,
+                                    }}>
+                                    {item.PackingType} | {item.Volume}
+                                  </Text>
+                                </TouchableOpacity>
+                              );
+                            },
+                          )}
+                          {item.ViewAllBtnStatus === 'Yes' ? (
+                            <TouchableOpacity
+                              onPress={() => {
+                                navigation.navigate('Product', {
+                                  brand: 'tanza',
+                                });
+                              }}
+                              style={{
+                                padding: 5,
+                                elevation: 0,
+                                margin: 5,
+                                flex: 1,
+                                borderRadius: 15,
+                                borderColor: '#e5e5e5',
+                                height: '90%',
+                                width: 150,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                              }}>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  height: 130,
+                                  width: 130,
+                                  borderRadius: 130 / 2,
+                                  // paddingHorizontal: 20,
+                                  backgroundColor: '#fff',
+                                  // borderRadius: 5,
+                                  flexDirection: 'row',
+                                  backgroundColor: 'lightblue',
+                                }}>
+                                <Text
+                                  style={{
+                                    fontFamily: fonts.BOLD,
+                                    color: '#fff',
+                                    fontSize: 14,
+                                    left: -5,
+                                  }}>
+                                  View All
+                                </Text>
+                                <AntDesign
+                                  name="arrowright"
+                                  size={20}
+                                  color="#fff"
+                                />
+                              </View>
+                            </TouchableOpacity>
+                          ) : null}
+                        </ScrollView>
+                      </View>
+                    </View>
+
+                    {index % 3 === 0 ? (
+                      <View style={{height: 300, width: '100%'}}>
+                        <ScrollView
+                          onScroll={({nativeEvent}) => onchange(nativeEvent)}
+                          showsHorizontalScrollIndicator={false}
+                          horizontal
+                          pagingEnabled
+                          contentContainerStyle={{
+                            height: 300,
+                            backgroundColor: '#fff',
+                            alignItems: 'center',
+                          }}>
+                          {brands
+                            ? brands.map((item, index) => {
+                                return (
+                                  <View
+                                    key={index}
+                                    style={{
+                                      // left: 10,
+                                      height: '90%',
+                                      width: WIDTH,
+                                      backgroundColor: '#fff',
+                                      // padding: 10,
+                                      justifyContent: 'center',
+                                      alignItems: 'center',
+                                    }}>
+                                    <Image
+                                      // source={{
+                                      //   uri: `data:image/jpeg;base64,${item.BrandImage}`,
+                                      // }}
+                                      source={require('../../assests/banners/banner_background1.jpg')}
+                                      style={{height: '100%', width: '100%'}}
+                                    />
+                                    <View
+                                      style={{
+                                        height: '90%',
+                                        width: '95%',
+                                        padding: 10,
+                                        borderRadius: 10,
+                                        backgroundColor: '#fff',
+                                        position: 'absolute',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                      }}>
+                                      <View
+                                        style={{
+                                          height: 150,
+                                          width: 150,
+                                          justifyContent: 'center',
+                                          alignItems: 'center',
+                                        }}>
+                                        <Image
+                                          resizeMode="contain"
+                                          source={{
+                                            uri: `data:image/jpeg;base64,${item.BrandImage}`,
+                                          }}
+                                          style={{
+                                            height: '100%',
+                                            width: '100%',
+                                          }}
+                                        />
+                                      </View>
+                                    </View>
+                                  </View>
+                                );
+                              })
+                            : null}
+                        </ScrollView>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            // backgroundColor: '#fff',
+                            bottom: 15,
+                            position: 'absolute',
+                            justifyContent: 'center',
+                            alignSelf: 'center',
+                          }}>
+                          {brands
+                            ? brands.map((e, index) => {
+                                return (
+                                  <View
+                                    key={index}
+                                    style={{
+                                      height: 10,
+                                      width: 10,
+                                      borderRadius: 5,
+                                      backgroundColor:
+                                        activeImage === index ? '#000' : '#ccc',
+                                      marginHorizontal: 4,
+                                    }}></View>
+                                );
+                              })
+                            : null}
+                        </View>
+                      </View>
+                    ) : null}
+                  </>
+                );
+              })
+            : null}
         </ScrollView>
-        {user ? <Footer /> : null}
+        {user && businessUser && businessUser.FooterMenuStatus === 'Yes' ? (
+          <Footer />
+        ) : null}
       </View>
     );
   }

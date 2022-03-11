@@ -19,7 +19,7 @@ export default function AddressBookScreen({navigation}) {
                 // navigation.navigate('Address')
                  }} style={{ flexDirection: 'row', padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' }} >
                 <AntDesign name="plus" size={25} color="#F25816" />
-                <Text style={{ paddingLeft: 10 }} >Add Address</Text>
+                <Text style={{ paddingLeft: 10 }} >Add Address1</Text>
             </TouchableOpacity>
             <ScrollView style={{ flex: 0.93, padding: 10 }}>
                 {/* <View style={{ width: '100%', flexDirection: 'row', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' }} >

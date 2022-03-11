@@ -10,8 +10,7 @@ const DataContext = React.createContext();
 
 export const AuthContext = ({children, navigation}) => {
   const liveapi = '';
-  const api = 'http://testapi.arafahmarket.in/api/';
-  const alaapi = 'http://testapi.alamarket.net/api/';
+  const api = 'http://testapi.alamarket.net/api/';
 
   let appVersion = pkg.version;
   const url = {
@@ -44,53 +43,56 @@ export const AuthContext = ({children, navigation}) => {
 
     // =================== ALA MARKET =============
     Categories: 'Categories',
+    HomeProducts: 'HomeProducts',
+    CartItemsAddorMinus: 'CartItemsAddorMinus',
+    HomeBusiness: 'HomeBusiness',
+    ViewProduct: 'ViewProduct',
+    ShippingAddress: 'ShippingAddress',
+    ViewCart:'ViewCart',
   };
 
   const [companyName, setCompanyName] = useState('Ala Market');
   const [isNetworkAvailable, setIsNetworkAvailable] = useState(false);
   const [productStatus, setProductStatus] = useState(null);
   const [user, setUser] = useState(false);
+
   const [cartItems, setCartItems] = useState([]);
-  const [guestCartItems, setGuestCartItems] = useState([]);
-  console.log(guestCartItems);
+  // const [guestCartItems, setGuestCartItems] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [Err, setErr] = useState('');
-  // test
+
   const [TokenIDN, setTokenIDN] = useState(
-    '5kkxMgGdTJqKDljMjJcWhXHDqcBFvJwVGeKTfc2FmfjRCCH5hd36LnlUE5yyPQ3g',
-  );
-
-
-  const [ALATokenIDN, setALATokenIDN] = useState(
     'lUEjMjRCCH5TcWhdTJqKDlBFvJwVAmKTfc2FmfjhXHDqc5kkxMgGdyPQ3g78Ln5y',
   );
 
- 
+  const [TokenID, setTokenID] = useState(
+    'afqRk2ElERRc7B4PQ8QnvEwRlaJP8WyhjpRcjLWx8XpR5qKJ2lywLmJGV1CRNXqx',
+  );
 
-  useEffect(() => {
-    if (guestCartItems.length > 0) {
-      let obj = guestCartItems;
-      AsyncStorage.setItem('guestCartItems', JSON.stringify(obj));
-      console.log('stored');
-    }
-  }, [guestCartItems]);
+  // useEffect(() => {
+  //   if (guestCartItems.length > 0) {
+  //     let obj = guestCartItems;
+  //     AsyncStorage.setItem('guestCartItems', JSON.stringify(obj));
+  //     console.log('stored');
+  //   }
+  // }, [guestCartItems]);
 
-  useEffect(() => {
-    getGuestCartItems();
-    console.log('retrieved');
-  }, []);
+  // useEffect(() => {
+  //   getGuestCartItems();
+  //   console.log('retrieved');
+  // }, []);
 
-  const getGuestCartItems = async () => {
-    let data = await AsyncStorage.getItem('guestCartItems');
-    let parsed = JSON.parse(data);
-    console.log('parsed' + parsed);
-    if (parsed === null) {
-      setGuestCartItems([]);
-      return;
-    } else {
-      setGuestCartItems(parsed);
-    }
-  };
+  // const getGuestCartItems = async () => {
+  //   let data = await AsyncStorage.getItem('guestCartItems');
+  //   let parsed = JSON.parse(data);
+  //   console.log('parsed' + parsed);
+  //   if (parsed === null) {
+  //     setGuestCartItems([]);
+  //     return;
+  //   } else {
+  //     setGuestCartItems(parsed);
+  //   }
+  // };
 
   const fontfamily = 'Quicksand-Bold';
   const font_title = 'Quicksand-Bold';
@@ -135,11 +137,13 @@ export const AuthContext = ({children, navigation}) => {
   }, [refresh]);
 
   const getData = async () => {
+    console.log('called');
     try {
       const value = await AsyncStorage.getItem('LOGGEDUSER');
       if (value !== null) {
         let data = JSON.parse(value);
-        authUser(data);
+        console.log(data);
+        setUser(data);
       } else {
         console.log('No data found');
       }
@@ -258,42 +262,41 @@ export const AuthContext = ({children, navigation}) => {
     }
   };
 
-  const addToGuestCart = item => {
-    console.log(item);
-    item = {...item, inCart: item.inCart + 1};
-    if (guestCartItems.length === 0) {
-      setGuestCartItems([...guestCartItems, item]);
-    } else {
-      let flag = 0;
-      for (let i = 0; i < guestCartItems.length; i++) {
-        if (guestCartItems[i].id === item.id) {
-          flag = 'found';
-          showToastWithGravity('Product already added to cart');
-        } else {
-          flag = 'notfound';
-        }
-      }
-      if (flag === 'notfound') {
-        setGuestCartItems([...guestCartItems, item]);
-        showToastWithGravity('Product added to cart');
-      }
-    }
-  };
+  // const addToGuestCart = item => {
+  //   item = {...item, inCart: 1};
+  //   if (guestCartItems.length === 0) {
+  //     setGuestCartItems([...guestCartItems, item]);
+  //   } else {
+  //     let flag = 0;
+  //     for (let i = 0; i < guestCartItems.length; i++) {
+  //       if (guestCartItems[i].id === item.id) {
+  //         flag = 'found';
+  //         showToastWithGravity('Product already added to cart');
+  //       } else {
+  //         flag = 'notfound';
+  //       }
+  //     }
+  //     if (flag === 'notfound') {
+  //       setGuestCartItems([...guestCartItems, item]);
+  //       showToastWithGravity('Product added to cart');
+  //     }
+  //   }
+  // };
 
-  const guestIncreaseProducts = index => {
-    guestCartItems[index].inCart = guestCartItems[index].inCart + 1;
-    setRefresh(!refresh);
-  };
-  const guestDecreaseProducts = index => {
-    if (guestCartItems[index].quantity == 0) {
-    }
-    guestCartItems[index].inCart = guestCartItems[index].inCart - 1;
-    setRefresh(!refresh);
-  };
-  const guestRemoveProduct = index => {
-    guestCartItems.splice(index, 1);
-    setRefresh(!refresh);
-  };
+  // const guestIncreaseProducts = index => {
+  //   guestCartItems[index].inCart = guestCartItems[index].inCart + 1;
+  //   setRefresh(!refresh);
+  // };
+  // const guestDecreaseProducts = index => {
+  //   if (guestCartItems[index].quantity == 0) {
+  //   }
+  //   guestCartItems[index].inCart = guestCartItems[index].inCart - 1;
+  //   setRefresh(!refresh);
+  // };
+  // const guestRemoveProduct = index => {
+  //   guestCartItems.splice(index, 1);
+  //   setRefresh(!refresh);
+  // };
 
   const increaseProducts = index => {
     cartItems[index].inCart = cartItems[index].inCart + 1;
@@ -375,23 +378,22 @@ export const AuthContext = ({children, navigation}) => {
         appVersion,
         companyName,
         TokenIDN,
-        ALATokenIDN,
+        // TokenID,
         user,
         userData,
         authUser,
         api,
-        alaapi,
         url,
         logOut,
         Err,
         productState,
         productStatus,
         cartItems,
-        guestCartItems,
-        addToGuestCart,
-        guestIncreaseProducts,
-        guestDecreaseProducts,
-        guestRemoveProduct,
+        // guestCartItems,
+        // addToGuestCart,
+        // guestIncreaseProducts,
+        // guestDecreaseProducts,
+        // guestRemoveProduct,
         emptyCart,
         user,
         addToCart,

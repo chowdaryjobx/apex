@@ -29,19 +29,19 @@ const LoginScreen = ({navigation}) => {
   const {height, width} = Dimensions.get('window');
   const SIZES = {height, width};
 
-  const [userId, setUserId] = useState(9360736095);
-  const [password, setPassword] = useState('arafah');
+  const [userId, setUserId] = useState(9393910169);
+  const [password, setPassword] = useState('alamarket');
   const [isLoading, setIsLoading] = useState(null);
   const [passwordShown, setPasswordShown] = useState(true);
   const [userIdError, setUserIdError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-
+  console.log(errorMessage);
   const storeData = async user => {
     try {
       await AsyncStorage.setItem('LOGGEDUSER', JSON.stringify(user));
     } catch (e) {
-      setErrMessage(e.message);
+      setErrorMessage(e.message);
     }
   };
 
@@ -54,23 +54,23 @@ const LoginScreen = ({navigation}) => {
         // navigation.goBack();
         navigation.navigate('Home');
       } else {
-        setErrMessage('No data found');
+        setErrorMessage('No data found');
       }
     } catch (e) {
-      setErrMessage(e.message);
+      setErrorMessage(e.message);
     }
   };
 
   const submit = () => {
-    if (userId !== null) {
-      var regex = /^[6-9][0-9]{9}$/;
-      if (!regex.test(userId)) {
-        setUserIdError('invalid mobile');
-        return;
-      } else {
-        setUserIdError(null);
-      }
-    }
+    // if (userId !== null) {
+    //   var regex = /^[6-9][0-9]{9}$/;
+    //   if (!regex.test(userId)) {
+    //     setUserIdError('Invalid mobile');
+    //     return;
+    //   } else {
+    //     setUserIdError(null);
+    //   }
+    // }
 
     if (userId === null) {
       setUserIdError('Enter Valid Mobile Number');
@@ -88,14 +88,15 @@ const LoginScreen = ({navigation}) => {
         .then(res => {
           let data = res.data;
           if (data[0].Status === 'Success') {
-            setIsLoading(false);
+            console.log('data' + data);
             setErrorMessage(null);
+            setIsLoading(false);
             let user = {
               TokenId: data[0].Response,
             };
             storeData(user).then(() => {
-              setIsLoading(false);
               getData();
+              setIsLoading(false);
             });
           } else if (data[0].Status === 'Failure') {
             setIsLoading(false);
@@ -107,14 +108,6 @@ const LoginScreen = ({navigation}) => {
           setErrorMessage(err.message);
         });
     }
-  };
-
-  const COLORS = {
-    primary: '#19BABD',
-    secondary: '#1F5DAB',
-    blue: 'blue',
-    white: '#ffff',
-    black: '#000',
   };
 
   return (
